@@ -1,0 +1,21 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{if hasmath}} {{insert head_katex.html }}     {{end}}
+  {{if hascode}} {{insert head_highlight.html }}   {{end}}
+  {{insert style.html}}
+  {{isdef title}} <title>{{fill title}}</title>  {{end}}
+  <!-- end custom head snippets -->
+  <meta name="google-site-verification" content="83wzCvn1Z2WBAj5oNN1RlvnWS5Xb5MmekUS2wgld9sg" />
+</head>
+{{insert body_layout.html}}
+
+<!-- Content appended here -->

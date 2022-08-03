@@ -1,0 +1,28 @@
+<body class="layout--single">
+  {{ insert masthead.html }}
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/assets/portrait.jpg" alt="Me" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Marco Bonici</h3>
+            <p class="author__bio" itemprop="description">PostDoctoral Researcher at INAF-IASF Milano. Cosmologist working in the field of the large-scale-structure of the Universe.
+	    JuliaLang enthusiast.</p>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+                <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Milano, Italy</span></li>
+              <li><a href="https://twitter.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+              <li><a href="https://github.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+              <li><a href="mailto:marco.bonici@inaf.it" rel="nofollow noopener noreferrer"><i class="fa fa-envelope" aria-hidden="true"></i> Email</a></li>
+              <!-- <i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li> -->
+              <!-- <i class="fa-brands fa-orcid"></i> -->
+            </ul>
+          </div>
+        </div>
+      </div>
