@@ -5,11 +5,11 @@
 * [ORCID iD: 0000-0002-8430-126X](https://orcid.org/0000-0002-8430-126X)
 
 ### Peer reviewed
-- N. Hamaus, M. Aubert, A. Pisani, S. Contarini, G. Verza, M. -C. Cousinou, S. Escoffier, A. Hawken, G. Lavaux, G. Pollina, B. D. Wandelt, J. Weller, **M. Bonici**, et al., [Euclid: Forecasts from redshift-space distortions and the Alcock-Paczynski test with cosmic voids, A&A (2022)](https://www.aanda.org/articles/aa/full_html/2022/02/aa42073-21/aa42073-21.html)
-- S. Davini , I. Risso, M. Scodeggio , L. Paganin, S. Caprioli, **M. Bonici**, A. Caminata, S. Di Domizio, G. Testera, S. Tosi, B. Valerio, M. Fumana, P. Franzetti, [A proposal for relative in-flight flux self-calibrations for spectro-photometric surveys, PASP (2021)](https://iopscience.iop.org/article/10.1088/1538-3873/ac102e)
-- **Marco Bonici**, Nicola Maggiore, [Constraints on interacting dynamical dark energy and a new test for  $\Lambda$CDM, Eur. Phys. J. C (2019)](https://link.springer.com/article/10.1140/epjc/s10052-019-7198-1)
-- Nicola Alchera, **Marco Bonici**, Roberta Cardinale, Alba Domi, Nicola Maggiore, Chiara Righi, Silvano Tosi, [Analysis of the angular dependence of time delay in gravitational lensing, Symmetry (2018)](https://www.mdpi.com/2073-8994/10/7/246)
-- Nicola Alchera, **Marco Bonici**, Nicola Maggiore, [Towards a new proposal for the time delay in gravitational lensing, Symmetry (2017)](https://www.mdpi.com/2073-8994/9/10/202)
+5. N. Hamaus, M. Aubert, A. Pisani, S. Contarini, G. Verza, M. -C. Cousinou, S. Escoffier, A. Hawken, G. Lavaux, G. Pollina, B. D. Wandelt, J. Weller, **M. Bonici**, et al., [Euclid: Forecasts from redshift-space distortions and the Alcock-Paczynski test with cosmic voids, A&A (2022)](https://www.aanda.org/articles/aa/full_html/2022/02/aa42073-21/aa42073-21.html)
+4. S. Davini , I. Risso, M. Scodeggio , L. Paganin, S. Caprioli, **M. Bonici**, A. Caminata, S. Di Domizio, G. Testera, S. Tosi, B. Valerio, M. Fumana, P. Franzetti, [A proposal for relative in-flight flux self-calibrations for spectro-photometric surveys, PASP (2021)](https://iopscience.iop.org/article/10.1088/1538-3873/ac102e)
+3. **Marco Bonici**, Nicola Maggiore, [Constraints on interacting dynamical dark energy and a new test for  $\Lambda$CDM, Eur. Phys. J. C (2019)](https://link.springer.com/article/10.1140/epjc/s10052-019-7198-1)
+2. Nicola Alchera, **Marco Bonici**, Roberta Cardinale, Alba Domi, Nicola Maggiore, Chiara Righi, Silvano Tosi, [Analysis of the angular dependence of time delay in gravitational lensing, Symmetry (2018)](https://www.mdpi.com/2073-8994/10/7/246)
+1. Nicola Alchera, **Marco Bonici**, Nicola Maggiore, [Towards a new proposal for the time delay in gravitational lensing, Symmetry (2017)](https://www.mdpi.com/2073-8994/9/10/202)
 
 ### Pre-prints
 - **M. Bonici**, C. Carbone, P. Vielzeuf, L. Paganin, V. Cardone, N. Hamaus, A. Pisani, A.J. Hawken, A. Kovacs, S. Nadathur, S. Contarini, G. Verza, I. Tutusaus, F. Marulli, L. Moscardini, M. Aubert, C. Giocoli, A. Pourtsidou, S. Camera, S. Escoffier, A. Caminata, M. Martinelli, M. Pallavicini, et al., [Euclid: Forecasts from the void-lensing cross-correlation](https://arxiv.org/abs/2206.14211)
