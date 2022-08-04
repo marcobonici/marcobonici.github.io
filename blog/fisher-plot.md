@@ -10,10 +10,17 @@
 \toc
 
 ## Fisher Matrix
+The Fisher Matrix is a tool that can be used to make _forecasts_, i.e. to predict the sensitivity of an experiment to a set of parameters. Given the likelihood, the expression of the Fisher matrix is given by[^fisher]
+\begin{equation}
+\boldsymbol{F}_{i j} \equiv-\left\langle\frac{\partial^{2} \log L}{\partial \theta_{i} \partial \theta_{j}}\right\rangle;
+\label{eq:fisher}
+\end{equation}
+_i.e._ the Fisher matrix is given by (minus) the Hessian of the log likelihood$\log L$.
 
-## Fisher Plot
+## FisherPlot.jl
 
 
 ### References
+[^fisher]: [Fisher, The logic of inductive science, Journal of the Royal Statistical Society, (1935)](https://www.jstor.org/stable/2342435?origin=JSTOR-pdf)
 
 {{ addcomments }}
