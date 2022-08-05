@@ -62,7 +62,7 @@ Now we need to define a few objects:
 - an array containing the name of the parameters 
 - an array containing the name of each Correlation matrix
 - an array containing the color of each Correlation matrix
-```
+```julia:define_legends
 LaTeXArray = [L"w_0", L"w_a", L"M_\nu"]
 probes = [L"\mathrm{WL}", L"\mathrm{GC}",
           L"\mathrm{WL}\,+\,\mathrm{GC}_\mathrm{ph}\,+\,\mathrm{XC}"]
@@ -70,7 +70,7 @@ colors = ["deepskyblue3", "darkorange1", "green",]
 ```
 Now we need to define some quantities related to the plot
 > This is something that is likely to change in the future.
-```
+```julia:define_poltpars
 PlotPars = Dict("sidesquare" => 600,
 "dimticklabel" => 50,
 "parslabelsize" => 80,
@@ -84,7 +84,7 @@ We are almost there! We now need to set up the central values for our parameters
 ranges and where we want to put the ticks
 
 
-```
+```julia:define_limits
 central_values = [-1., 0., 0.06]
 
 limits = zeros(3,2)
@@ -97,8 +97,7 @@ for i in 1:3
 end
 ```
 Finally, we need to prepare a white canvas and paint each contour.
-```
-
+```julia:plot_fisher
 canvas = FisherPlot.preparecanvas(LaTeXArray, limits, ticks, probes, colors, PlotPars::Dict)
 FisherPlot.paintcorrmatrix!(canvas, central_values, C_WL, "deepskyblue3")
 FisherPlot.paintcorrmatrix!(canvas, central_values, C_GC, "darkorange1")
