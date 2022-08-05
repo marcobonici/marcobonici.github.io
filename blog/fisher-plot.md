@@ -45,7 +45,7 @@ PlotPars = Dict("sidesquare" => 400,
 "parslabelsize" => 80,
 "textsize" => 80,
 "PPmaxlabelsize" => 60,
-"font" => "Arial",
+"font" => "Dejavu Sans",
 "xticklabelrotation" => 45.)
 
 σa = sqrt(Correlation_matrix[1,1])
