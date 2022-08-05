@@ -3,24 +3,43 @@
 
 Fisher_matrix = [<span class=hljs-number >0.00375</span> -<span class=hljs-number >0.00125</span>; -<span class=hljs-number >0.00125</span> <span class=hljs-number >0.00375</span>]
 Correlation_matrix = inv(Fisher_matrix)
-LaTeXArray = [<span class=hljs-string >L&quot;\Omega_\mathrm{M}&quot;</span>, <span class=hljs-string >L&quot;\Omega_\mathrm{B}&quot;</span>]
+LaTeXArray = [<span class=hljs-string >L&quot;w_0&quot;</span>, <span class=hljs-string >L&quot;w_a&quot;</span>, <span class=hljs-string >L&quot;M_\nu&quot;</span>]
 central_values =[<span class=hljs-number >0.0</span>, <span class=hljs-number >0.0</span>]
-probes = [<span class=hljs-string >L&quot;\mathrm{WL}&quot;</span>]
-colors = [<span class=hljs-string >&quot;deepskyblue3&quot;</span>]
+probes = [<span class=hljs-string >L&quot;\mathrm{WL}&quot;</span>, <span class=hljs-string >L&quot;\mathrm{GC}&quot;</span>,
+          <span class=hljs-string >L&quot;\mathrm{WL}\,+\,\mathrm{GC}_\mathrm{ph}\,+\,\mathrm{XC}&quot;</span>]
+colors = [<span class=hljs-string >&quot;deepskyblue3&quot;</span>, <span class=hljs-string >&quot;darkorange1&quot;</span>, <span class=hljs-string >&quot;green&quot;</span>,]
 
-PlotPars = <span class=hljs-built_in >Dict</span>(<span class=hljs-string >&quot;sidesquare&quot;</span> =&gt; <span class=hljs-number >400</span>,
+PlotPars = <span class=hljs-built_in >Dict</span>(<span class=hljs-string >&quot;sidesquare&quot;</span> =&gt; <span class=hljs-number >600</span>,
 <span class=hljs-string >&quot;dimticklabel&quot;</span> =&gt; <span class=hljs-number >50</span>,
 <span class=hljs-string >&quot;parslabelsize&quot;</span> =&gt; <span class=hljs-number >80</span>,
-<span class=hljs-string >&quot;textsize&quot;</span> =&gt; <span class=hljs-number >80</span>,
+<span class=hljs-string >&quot;textsize&quot;</span> =&gt; <span class=hljs-number >40</span>,
 <span class=hljs-string >&quot;PPmaxlabelsize&quot;</span> =&gt; <span class=hljs-number >60</span>,
 <span class=hljs-string >&quot;font&quot;</span> =&gt; <span class=hljs-string >&quot;Dejavu Sans&quot;</span>,
 <span class=hljs-string >&quot;xticklabelrotation&quot;</span> =&gt; <span class=hljs-number >45.</span>)
 
+
+C_WL = [<span class=hljs-number >0.0193749</span>   -<span class=hljs-number >0.0620328</span>  -<span class=hljs-number >0.00296159</span>; -<span class=hljs-number >0.0620328</span>    <span class=hljs-number >0.225214</span>    <span class=hljs-number >0.0119904</span>;
+       -<span class=hljs-number >0.00296159</span>   <span class=hljs-number >0.0119904</span>   <span class=hljs-number >0.043537</span>]
+C_GC = [<span class=hljs-number >0.0150589</span>   -<span class=hljs-number >0.0561336</span>    <span class=hljs-number >0.00109151</span>; -<span class=hljs-number >0.0561336</span>    <span class=hljs-number >0.215808</span>    -<span class=hljs-number >0.00562308</span>;
+        <span class=hljs-number >0.00109151</span>  -<span class=hljs-number >0.00562308</span>   <span class=hljs-number >0.00219601</span>]
+C_3x2_pt = [<span class=hljs-number >0.000724956</span>  -<span class=hljs-number >0.00241439</span>   <span class=hljs-number >0.000119474</span>; -<span class=hljs-number >0.00241439</span>   <span class=hljs-number >0.00844342</span>   -<span class=hljs-number >0.000546318</span>;
+            <span class=hljs-number >0.000119474</span>  -<span class=hljs-number >0.000546318</span>   <span class=hljs-number >0.00113283</span>]
+
+
 σa = sqrt(Correlation_matrix[<span class=hljs-number >1</span>,<span class=hljs-number >1</span>])
 σb = sqrt(Correlation_matrix[<span class=hljs-number >2</span>,<span class=hljs-number >2</span>])
+central_values = [-<span class=hljs-number >1.</span>, <span class=hljs-number >0.</span>, <span class=hljs-number >0.06</span>]
 
-limits = [-<span class=hljs-number >4</span>σa <span class=hljs-number >4</span>σa; -<span class=hljs-number >4</span>σb <span class=hljs-number >4</span>σb]
-ticks = [-<span class=hljs-number >3</span>σa <span class=hljs-number >3</span>σa; -<span class=hljs-number >3</span>σb <span class=hljs-number >3</span>σb]
+limits = zeros(<span class=hljs-number >3</span>,<span class=hljs-number >2</span>)
+ticks = zeros(<span class=hljs-number >3</span>,<span class=hljs-number >2</span>)
+<span class=hljs-keyword >for</span> i <span class=hljs-keyword >in</span> <span class=hljs-number >1</span>:<span class=hljs-number >3</span>
+    limits[i,<span class=hljs-number >1</span>] = -<span class=hljs-number >4</span>sqrt(C_WL[i,i])+central_values[i]
+    limits[i,<span class=hljs-number >2</span>] = +<span class=hljs-number >4</span>sqrt(C_WL[i,i])+central_values[i]
+    ticks[i,<span class=hljs-number >1</span>]  = -<span class=hljs-number >3</span>sqrt(C_WL[i,i])+central_values[i]
+    ticks[i,<span class=hljs-number >2</span>]  = +<span class=hljs-number >3</span>sqrt(C_WL[i,i])+central_values[i]
+<span class=hljs-keyword >end</span>
 
 canvas = FisherPlot.preparecanvas(LaTeXArray, limits, ticks, probes, colors, PlotPars::<span class=hljs-built_in >Dict</span>)
-FisherPlot.paintcorrmatrix!(canvas, central_values, Correlation_matrix, <span class=hljs-string >&quot;deepskyblue3&quot;</span>)</code></pre> <img src="/assets/blog/fisher-plot/code/output/fisher_contour.png" alt=""> <h3 id=references ><a href="#references" class=header-anchor >References</a></h3> <p><table class=fndef  id="fndef:fisher"> <tr> <td class=fndef-backref ><a href="#fnref:fisher">[1]</a> <td class=fndef-content ><a href="https://www.jstor.org/stable/2342435?origin&#61;JSTOR-pdf">Fisher, The logic of inductive science, Journal of the Royal Statistical Society, &#40;1935&#41;</a> </table> <script src="https://utteranc.es/client.js" repo="marcobonici/marcobonici.github.io" issue-term=url  label=comments  theme=github-light  crossorigin=anonymous  async> </script> </p> <!-- <div class=page-foot > <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> {{ fill author }}. {{isnotpage /tag/*}}Last modified: {{ fill fd_mtime }}.{{end}} Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>. </div> --> </div> </div> </div> <div class=page__footer > <footer> <div class=page__footer-follow > <ul class=social-icons > <li><strong>Follow:</strong> <li><a href="https://twitter.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a> <li><a href="https://github.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a> </ul> </div> <div class=page__footer-copyright >&copy; Marco Bonici. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a>, <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a> and the <a href="https://julialang.org">Julia programming language</a>.</div> </footer> </div> <script src="/libs/minimal-mistakes/main.min.js"></script> <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script>
+FisherPlot.paintcorrmatrix!(canvas, central_values, C_WL, <span class=hljs-string >&quot;deepskyblue3&quot;</span>)
+FisherPlot.paintcorrmatrix!(canvas, central_values, C_GC, <span class=hljs-string >&quot;darkorange1&quot;</span>)
+FisherPlot.paintcorrmatrix!(canvas, central_values, C_3x2_pt, <span class=hljs-string >&quot;green&quot;</span>)</code></pre> <img src="/assets/blog/fisher-plot/code/output/fisher_contour.png" alt=""> <h3 id=references ><a href="#references" class=header-anchor >References</a></h3> <p><table class=fndef  id="fndef:fisher"> <tr> <td class=fndef-backref ><a href="#fnref:fisher">[1]</a> <td class=fndef-content ><a href="https://www.jstor.org/stable/2342435?origin&#61;JSTOR-pdf">Fisher, The logic of inductive science, Journal of the Royal Statistical Society, &#40;1935&#41;</a> </table> <script src="https://utteranc.es/client.js" repo="marcobonici/marcobonici.github.io" issue-term=url  label=comments  theme=github-light  crossorigin=anonymous  async> </script> </p> <!-- <div class=page-foot > <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> {{ fill author }}. {{isnotpage /tag/*}}Last modified: {{ fill fd_mtime }}.{{end}} Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>. </div> --> </div> </div> </div> <div class=page__footer > <footer> <div class=page__footer-follow > <ul class=social-icons > <li><strong>Follow:</strong> <li><a href="https://twitter.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a> <li><a href="https://github.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a> </ul> </div> <div class=page__footer-copyright >&copy; Marco Bonici. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a>, <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a> and the <a href="https://julialang.org">Julia programming language</a>.</div> </footer> </div> <script src="/libs/minimal-mistakes/main.min.js"></script> <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script>
