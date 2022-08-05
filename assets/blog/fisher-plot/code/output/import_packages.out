@@ -1,0 +1,3 @@
+ArgumentError: Package LaTeXStrings not found in current path:
+- Run `import Pkg; Pkg.add("LaTeXStrings")` to install the LaTeXStrings package.
+
