@@ -36,13 +36,21 @@ The $1-\sigma$ error on the $i$-th parameter of the model is given by
 \begin{equation}
 \sigma_i = \sqrt{C_{ii}}
 \end{equation}
+
 ## FisherPlot.jl
-In order to make our plots, we need some Fisher matrices. Here I am gonna define some
-correlation matrices computed using my code
-[CosmoCentral](https://github.com/marcobonici/CosmoCentral.jl). The parameters described by
-these matrices are the Dark Energy equation of state parameters[^chevallier][^linder], $w_0$
-and $w_a$, and the sum of the neutrino masses, $M_\nu$. These correlation matrices are
-computed following the approach of the Euclid official forecasts[^euclid]
+In order to make our plots, we need some Correlation matrices. Rather than creating some
+mock Correlation matrices, I prefer to use some real-world matrices thatI have calculated by
+myself[^1]. In particular, I am going to use some Correlation matrices that I calculated
+with my code [CosmoCentral](https://github.com/marcobonici/CosmoCentral.jl). We are going to
+use three correlation matrices, the first considering coming from Weak Lensing, the second
+one considering Photometric Galaxy Clustering, and the last one the combination of the first
+two probes plus their cross-correlation (usually known as $3\times2\.\text{pt}$).
+These correlation matrices are computed following the approach of the Euclid official
+forecasts[^euclid].
+
+The parameters described by these
+matrices are the Dark Energy equation of state parameters[^chevallier][^linder], $w_0$
+and $w_a$, and the sum of the neutrino masses, $M_\nu$. 
 
 
 ```julia:correlation_matrices
@@ -58,19 +66,20 @@ Now we have to import a couple of packages, FisherPlot and LaTeXStrings
 using FisherPlot
 using LaTeXStrings
 ```
-Now we need to define a few objects:
-- an array containing the name of the parameters 
-- an array containing the name of each Correlation matrix
-- an array containing the color of each Correlation matrix
-```julia:define_legends
+Now we need to define a few arrays, containing respectively:
+- the name of the parameters 
+- the name of each Correlation matrix
+- the color of each Correlation matrix
+```julia:define_probes
 LaTeXArray = [L"w_0", L"w_a", L"M_\nu"]
 probes = [L"\mathrm{WL}", L"\mathrm{GC}",
           L"\mathrm{WL}\,+\,\mathrm{GC}_\mathrm{ph}\,+\,\mathrm{XC}"]
 colors = ["deepskyblue3", "darkorange1", "green",]
 ```
-Now we need to define some quantities related to the plot
-> This is something that is likely to change in the future.
-```julia:define_poltpars
+Now we need to define  a dictionary containing some specifics needed by the plotter
+> This is something that is likely to change in the near future.
+
+```julia:define_plotpars
 PlotPars = Dict("sidesquare" => 600,
 "dimticklabel" => 50,
 "parslabelsize" => 80,
@@ -78,13 +87,14 @@ PlotPars = Dict("sidesquare" => 600,
 "PPmaxlabelsize" => 60,
 "font" => "Dejavu Sans",
 "xticklabelrotation" => 45.)
-
 ```
 We are almost there! We now need to set up the central values for our parameters, the plot
-ranges and where we want to put the ticks
+ranges and where we want to put the tick labels. You have to choose them by yourself, in
+order to guarantee the code to be as much flexible as possible. In this particular case, we
+are going to use the Weak Lensing errors in order to decide the plot ranges.
 
 
-```julia:define_limits
+```julia:define_plotranges
 central_values = [-1., 0., 0.06]
 
 limits = zeros(3,2)
@@ -96,7 +106,7 @@ for i in 1:3
     ticks[i,2]  = +3sqrt(C_WL[i,i])+central_values[i]
 end
 ```
-Finally, we need to prepare a white canvas and paint each contour.
+Finally, we need to prepare a white canvas and paint each contour on top of each other.
 ```julia:plot_fisher
 canvas = FisherPlot.preparecanvas(LaTeXArray, limits, ticks, probes, colors, PlotPars::Dict)
 FisherPlot.paintcorrmatrix!(canvas, central_values, C_WL, "deepskyblue3")
@@ -107,11 +117,15 @@ FisherPlot.save(joinpath(@OUTPUT, "fisher_contour.png"), canvas) # hide
 Now, we can see the result!
 \fig{fisher_contour}
 
+Quite nice, isn't it?
 
-### References
+
+### References & Footnotes
 [^fisher]: [Fisher, The logic of inductive science, Journal of the Royal Statistical Society (1935)](https://www.jstor.org/stable/2342435?origin=JSTOR-pdf)
+[^1]: I mean: I am a scientist, and scientists are selfish. Better make peace with it.
 [^chevallier]: [M. Chevallier, D. Polarski, Accelerating Universe with scaling Dark Matter, International Journal of Modern Physics D (2001)](https://www.worldscientific.com/doi/abs/10.1142/S0218271801000822)
 [^linder]: [E. V. Linder, Exploring the Expansion History of the Universe, Physical Review Letter (2003)](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.90.091301)
 [^euclid]: [Euclid Collaboration, VII. Forecast validation for Euclid cosmological probes, Astronomy & Astrophysics (2020)](https://www.aanda.org/articles/aa/full_html/2020/10/aa38071-20/aa38071-20.html)
+
 
 {{ addcomments }}
