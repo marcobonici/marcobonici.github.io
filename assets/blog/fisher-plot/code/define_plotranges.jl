@@ -9,3 +9,4 @@ for i in 1:3
     ticks[i,1]  = -3sqrt(C_WL[i,i])+central_values[i]
     ticks[i,2]  = +3sqrt(C_WL[i,i])+central_values[i]
 end
+limits[3,1] = 0
