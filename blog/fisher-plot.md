@@ -131,10 +131,10 @@ Quite nice, isn't it?
 ### References & Footnotes
 [^fisher]: [Fisher, The logic of inductive science, Journal of the Royal Statistical Society (1935)](https://www.jstor.org/stable/2342435?origin=JSTOR-pdf)
 [^computation]: You can actually work out an analytical expression for your Fisher matrix...or use modern tools such as Automatic Differentiation.
-[^fun]: I mean: I am a scientist, and scientists are selfish. Better make peace with it.
+[^fun]: I mean: I am a scientist, and scientists are selfish.
+[^euclid]: [Euclid Collaboration, VII. Forecast validation for Euclid cosmological probes, Astronomy & Astrophysics (2020)](https://www.aanda.org/articles/aa/full_html/2020/10/aa38071-20/aa38071-20.html)
 [^chevallier]: [M. Chevallier, D. Polarski, Accelerating Universe with scaling Dark Matter, International Journal of Modern Physics D (2001)](https://www.worldscientific.com/doi/abs/10.1142/S0218271801000822)
 [^linder]: [E. V. Linder, Exploring the Expansion History of the Universe, Physical Review Letter (2003)](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.90.091301)
-[^euclid]: [Euclid Collaboration, VII. Forecast validation for Euclid cosmological probes, Astronomy & Astrophysics (2020)](https://www.aanda.org/articles/aa/full_html/2020/10/aa38071-20/aa38071-20.html)
 
 
 {{ addcomments }}
