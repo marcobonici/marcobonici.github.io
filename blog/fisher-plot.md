@@ -96,7 +96,7 @@ PlotPars = Dict("sidesquare" => 600,
 ```
 We are almost there! We now need to set up the central values for each parameter, the plot
 ranges and where we want to put the tick labels. This is something that you should take care
-of. For instance, we know that the sum of the neutrino masses $M_\nu$ is greater than $0$, 
+of. For instance, we know that the sum of the neutrino masses $M_\nu$ is positive.
 so we don't want to avoid plotting the posterior for negative masses. In this particular
 case, we are going to use the Weak Lensing errors in order to decide the plot ranges.
 
