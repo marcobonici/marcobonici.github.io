@@ -13,13 +13,19 @@ this package.
 \toc
 
 ## Fisher Matrix
-The Fisher Matrix is a statistical tool that can be used to make _forecasts_, i.e. to
-predict the sensitivity of an experiment to a set of parameters. This can be done before
-having the actual data, in order to make _experiment design_.
+The Fisher Matrix is a statistical tool that can be used to make _forecasts_, in order to
+make _experiment design_.
 
-In order to compute the Fisher matrix, we just need to know our model and the measurement
-uncertainties. Put in another way, we just need to write down a log likelihood $\log L$ and
-compute its Hessian matrix:[^fisher]
+You have an experiment that is going to collect some data $\boldsymbol{D}$ and you want to
+understand how precisely you are going to measure some parameters $\boldsymbol{\theta}$.
+Maybe you don't have yet collected data, started your experiment or even obtained the money
+to _build_ the experiment.How much precision will you gain by buying a
+finer piece of equipment?  Is it worth it? Making a Fisher forecast can help you answer this
+question.
+
+In order to compute the Fisher matrix, you just need to know the likelihood of your data
+given the model parameters, $L(\boldsymbol{D}|\boldsymbol{\theta})$, and compute minus the
+Hassian matrix of the log likelihood, $\log L$:[^fisher][^computation]
 \begin{equation}
 \boldsymbol{F}_{i j} \equiv-\left\langle\frac{\partial^{2} \log L}{\partial \theta_{i} \partial \theta_{j}}\right\rangle.
 \label{eq:fisher}
@@ -40,7 +46,7 @@ The $1-\sigma$ error on the $i$-th parameter of the model is given by
 ## FisherPlot.jl
 In order to make our plots, we need some Correlation matrices. Rather than creating some
 mock Correlation matrices, I prefer to use some real-world matrices thatI have calculated by
-myself[^1]. In particular, I am going to use some Correlation matrices that I calculated
+myself[^fun]. In particular, I am going to use some Correlation matrices that I calculated
 with my code [CosmoCentral](https://github.com/marcobonici/CosmoCentral.jl). We are going to
 use three correlation matrices, the first considering coming from Weak Lensing, the second
 one considering Photometric Galaxy Clustering, and the last one the combination of the first
@@ -122,7 +128,8 @@ Quite nice, isn't it?
 
 ### References & Footnotes
 [^fisher]: [Fisher, The logic of inductive science, Journal of the Royal Statistical Society (1935)](https://www.jstor.org/stable/2342435?origin=JSTOR-pdf)
-[^1]: I mean: I am a scientist, and scientists are selfish. Better make peace with it.
+[^computation]: You can actually work out an analytical expression for your Fisher matrix...or use modern tools such as Automatic Differentiation.
+[^fun]: I mean: I am a scientist, and scientists are selfish. Better make peace with it.
 [^chevallier]: [M. Chevallier, D. Polarski, Accelerating Universe with scaling Dark Matter, International Journal of Modern Physics D (2001)](https://www.worldscientific.com/doi/abs/10.1142/S0218271801000822)
 [^linder]: [E. V. Linder, Exploring the Expansion History of the Universe, Physical Review Letter (2003)](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.90.091301)
 [^euclid]: [Euclid Collaboration, VII. Forecast validation for Euclid cosmological probes, Astronomy & Astrophysics (2020)](https://www.aanda.org/articles/aa/full_html/2020/10/aa38071-20/aa38071-20.html)

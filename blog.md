@@ -1,3 +1,3 @@
 @def title = "Blog"
 
-* 05/17 [Fisher matrix posterior contour plot with FisherPlot.jl.](/blog/fisher-plot)
+* 08/17 [Fisher matrix posterior contour plot with FisherPlot.jl.](/blog/fisher-plot)
