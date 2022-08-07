@@ -13,15 +13,13 @@ this package.
 \toc
 
 ## Fisher Matrix
-The Fisher Matrix is a statistical tool that can be used to make _forecasts_, in order to
-make _experiment design_.
 
 You have an experiment that is going to collect some data $\boldsymbol{D}$ and you want to
 understand how precisely you are going to measure some parameters $\boldsymbol{\theta}$.
-Maybe you don't have yet collected data, started your experiment or even obtained the money
-to _build_ the experiment.How much precision will you gain by buying a
-finer piece of equipment?  Is it worth it? Making a Fisher forecast can help you answer this
-question.
+Maybe you don't have collected any data, started your experiment or even obtained the money
+to _build_ the experiment. How much precision will you gain by buying a
+finer piece of equipment?  Is it worth it? Performing a Fisher forecast can help you answer
+these questions.
 
 In order to compute the Fisher matrix, you just need to know the likelihood of your data
 given the model parameters, $L(\boldsymbol{D}|\boldsymbol{\theta})$, and compute minus the
@@ -31,7 +29,8 @@ Hassian matrix of the log likelihood, $\log L$:[^fisher][^computation]
 \label{eq:fisher}
 \end{equation}
 
-Once the Fisher matrix $\boldsymbol{F}_{i j}$ has been computed, the parameters covariance matrix $\boldsymbol{C}_{ij}$ can be easily obtained inverting the Fisher Matrix
+Once the Fisher matrix $\boldsymbol{F}_{i j}$ has been computed, the parameters covariance
+matrix $\boldsymbol{C}_{ij}$ can be easily obtained inverting the Fisher Matrix
 
 \begin{equation}
 \boldsymbol{C} \equiv \boldsymbol{F}^{-1}.
@@ -44,13 +43,14 @@ The $1-\sigma$ error on the $i$-th parameter of the model is given by
 \end{equation}
 
 ## FisherPlot.jl
+
 In order to make our plots, we need some Correlation matrices. Rather than creating some
-mock Correlation matrices, I prefer to use some real-world matrices thatI have calculated by
-myself[^fun]. In particular, I am going to use some Correlation matrices that I calculated
+mock Correlation matrices, I prefer to use some real-world matrices that I have calculated by
+myself[^fun]. In particular, I am going to use some Correlation matrices calculated
 with my code [CosmoCentral](https://github.com/marcobonici/CosmoCentral.jl). We are going to
-use three correlation matrices, the first considering coming from Weak Lensing, the second
-one considering Photometric Galaxy Clustering, and the last one the combination of the first
-two probes plus their cross-correlation (usually known as $3\times2\.\text{pt}$).
+use three correlation matrices, the first considering measurements coming from Weak Lensing,
+the second one considering Photometric Galaxy Clustering, and the last one the combination
+of the first two probes plus their cross-correlation (usually known as $3\times2\.\text{pt}$).
 These correlation matrices are computed following the approach of the Euclid official
 forecasts[^euclid].
 
@@ -72,17 +72,17 @@ Now we have to import a couple of packages, FisherPlot and LaTeXStrings
 using FisherPlot
 using LaTeXStrings
 ```
-Now we need to define a few arrays, containing respectively:
-- the name of the parameters 
+Now we need to define a few arrays, containing:
+- the name of the model parameters 
 - the name of each Correlation matrix
 - the color of each Correlation matrix
 ```julia:define_probes
 LaTeXArray = [L"w_0", L"w_a", L"M_\nu"]
 probes = [L"\mathrm{WL}", L"\mathrm{GC}",
-          L"\mathrm{WL}\,+\,\mathrm{GC}_\mathrm{ph}\,+\,\mathrm{XC}"]
+L"\mathrm{WL}\,+\,\mathrm{GC}_\mathrm{ph}\,+\,\mathrm{XC}"]
 colors = ["deepskyblue3", "darkorange1", "green",]
 ```
-Now we need to define  a dictionary containing some specifics needed by the plotter
+Now we need to define  a dictionary containing some objects needed by the plotter
 > This is something that is likely to change in the near future.
 
 ```julia:define_plotpars
@@ -94,10 +94,11 @@ PlotPars = Dict("sidesquare" => 600,
 "font" => "Dejavu Sans",
 "xticklabelrotation" => 45.)
 ```
-We are almost there! We now need to set up the central values for our parameters, the plot
-ranges and where we want to put the tick labels. You have to choose them by yourself, in
-order to guarantee the code to be as much flexible as possible. In this particular case, we
-are going to use the Weak Lensing errors in order to decide the plot ranges.
+We are almost there! We now need to set up the central values for each parameter, the plot
+ranges and where we want to put the tick labels. This is something that you should take care
+of. For instance, we know that the sum of the neutrino masses $M_\nu$ is greater than $0$, 
+so we don't want to avoid plotting the posterior for negative masses. In this particular
+case, we are going to use the Weak Lensing errors in order to decide the plot ranges.
 
 
 ```julia:define_plotranges
@@ -111,8 +112,9 @@ for i in 1:3
     ticks[i,1]  = -3sqrt(C_WL[i,i])+central_values[i]
     ticks[i,2]  = +3sqrt(C_WL[i,i])+central_values[i]
 end
+limits[3,1] = 0
 ```
-Finally, we need to prepare a white canvas and paint each contour on top of each other.
+Finally, we need to prepare a white ``canvas`` and paint each contour on top of each other.
 ```julia:plot_fisher
 canvas = FisherPlot.preparecanvas(LaTeXArray, limits, ticks, probes, colors, PlotPars::Dict)
 FisherPlot.paintcorrmatrix!(canvas, central_values, C_WL, "deepskyblue3")
