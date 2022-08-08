@@ -15,17 +15,19 @@ this package.
 ## Fisher Matrix
 
 You have an experiment that is going to collect some data $\boldsymbol{D}$ and you want to
-understand how precisely you are going to measure some parameters $\boldsymbol{\theta}$.
+understand how precisely you are going to measure some parameters $\boldsymbol{\theta}.$
 Maybe you don't have collected any data, started your experiment or even obtained the money
-to _build_ the experiment. How much precision will you gain by buying a
-finer piece of equipment?  Is it worth it? Performing a Fisher forecast can help you answer
-these questions.
+to _build_ the experiment. Which error can we expect on the parameters we care about? Is
+there any correlation between our parameters? How much precision will you gain by buying a
+finer piece of equipment?  Which numbers are you gonna put in that grant proposal?
+Performing a Fisher forecast can help you answer these questions.
 
 In order to compute the Fisher matrix, you just need to know the likelihood of your data
 given the model parameters, $L(\boldsymbol{D}|\boldsymbol{\theta})$, and compute minus the
 Hassian matrix of the log likelihood, $\log L$:[^fisher][^computation]
 \begin{equation}
-\boldsymbol{F}_{i j} \equiv-\left\langle\frac{\partial^{2} \log L}{\partial \theta_{i} \partial \theta_{j}}\right\rangle.
+\boldsymbol{F}_{i j} \equiv-\left\langle\frac{\partial^{2} \log L}{\partial \theta_{i}
+\partial \theta_{j}}\right\rangle.
 \label{eq:fisher}
 \end{equation}
 
@@ -37,10 +39,29 @@ matrix $\boldsymbol{C}_{ij}$ can be easily obtained inverting the Fisher Matrix
 \label{eq:covariance}
 \end{equation}
 
-The $1-\sigma$ error on the $i$-th parameter of the model is given by
+Once you have computed the correlation matrix, the  $1-\sigma$ error on the $i$-th parameter
+of the model is given by
 \begin{equation}
-\sigma_i = \sqrt{C_{ii}}
+\sigma_i = \sqrt{C_{ii}}.
 \end{equation}
+
+But we have not finished yet: the correlation matrix can be used to evaluate the correlation
+between parameters. Let us focus on the $2\mathrm{D}$ marginalized posterior of two
+parameters, namely $x$ and $y$. The posterior is represented by an ellipses, whose semi-axes
+are given by:
+\begin{equation}
+a^{2}=\frac{\sigma_{x}^{2}+\sigma_{y}^{2}}{2}+\sqrt{\frac{\left(\sigma_{x}^{2}-
+\sigma_{y}^{2}\right)^{2}}{4}+\sigma_{x y}^{2}}
+\end{equation}
+\begin{equation}
+b^{2}=\frac{\sigma_{x}^{2}+\sigma_{y}^{2}}{2}-\sqrt{\frac{\left(\sigma_{x}^{2}-
+\sigma_{y}^{2}\right)^{2}}{4}+\sigma_{x y}^{2}}
+\end{equation}
+while the ellipse orientation is given by
+\begin{equation}
+\tan 2 \theta=\frac{2 \sigma_{x y}}{\sigma_{x}^{2}-\sigma_{y}^{2}}
+\end{equation}
+
 
 ## FisherPlot.jl
 
