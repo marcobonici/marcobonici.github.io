@@ -45,10 +45,10 @@ of the model is given by
 \sigma_i = \sqrt{C_{ii}}.
 \end{equation}
 
-But we have not finished yet: the correlation matrix can be used to evaluate the correlation
-between parameters. Let us focus on the $2\mathrm{D}$ marginalized posterior of two
-parameters, namely $x$ and $y$. The posterior is represented by an ellipses, whose semi-axes
-are given by:
+But we have not finished yet: we can also obtain the correlation between the model
+parameters. Let us focus on the $2\mathrm{D}$ marginalized posterior of two parameters,
+namely $x$ and $y$. The posterior is represented by an ellipses, whose semi-axes are given
+by:
 \begin{equation}
 a^{2}=\frac{\sigma_{x}^{2}+\sigma_{y}^{2}}{2}+\sqrt{\frac{\left(\sigma_{x}^{2}-
 \sigma_{y}^{2}\right)^{2}}{4}+\sigma_{x y}^{2}}
@@ -59,9 +59,15 @@ b^{2}=\frac{\sigma_{x}^{2}+\sigma_{y}^{2}}{2}-\sqrt{\frac{\left(\sigma_{x}^{2}-
 \end{equation}
 while the ellipse orientation is given by
 \begin{equation}
-\tan 2 \theta=\frac{2 \sigma_{x y}}{\sigma_{x}^{2}-\sigma_{y}^{2}}
+\tan 2 \theta=\frac{2 \sigma_{x y}}{\sigma_{x}^{2}-\sigma_{y}^{2}}.
+\label{eq:atan}
 \end{equation}
 
+> ⚠️ If you are going to write down your own Fisher plotter, beware of the fact that you should give to the `atan` function not the ratio of the two elements in Equation \eqref{eq:atan}, but the numerator and the denominator separately. If you are not going to do it, it is possible that the ellipse will be oriented in the wrong way!
+
+If you want a more detailed introduction to Fisher matrices, please refer to
+[Coe (2009)](https://arxiv.org/pdf/0906.4123.pdf) and/or
+[Heavens (2009)](http://www.bo.astro.it/~school/school09/Presentations/Bertinoro09_Alan_Heavens_Notes.pdf).
 
 ## FisherPlot.jl
 
@@ -71,13 +77,13 @@ myself[^fun]. In particular, I am going to use some Correlation matrices calcula
 with my code [CosmoCentral](https://github.com/marcobonici/CosmoCentral.jl). We are going to
 use three correlation matrices, the first considering measurements coming from Weak Lensing,
 the second one considering Photometric Galaxy Clustering, and the last one the combination
-of the first two probes plus their cross-correlation (usually known as $3\times2\.\text{pt}$).
+of the first two probes plus their cross-correlation (usually known as $3\times2\,\text{pt}$).
 These correlation matrices are computed following the approach of the Euclid official
 forecasts[^euclid].
 
-The parameters described by these
-matrices are the Dark Energy equation of state parameters[^chevallier][^linder], $w_0$
-and $w_a$, and the sum of the neutrino masses, $M_\nu$. 
+The parameters described by these matrices are the Dark Energy equation of state
+parameters[^chevallier][^linder], $w_0$ and $w_a$, and the sum of the neutrino masses,
+$M_\nu$. 
 
 
 ```julia:correlation_matrices
@@ -104,7 +110,7 @@ L"\mathrm{WL}\,+\,\mathrm{GC}_\mathrm{ph}\,+\,\mathrm{XC}"]
 colors = ["deepskyblue3", "darkorange1", "green",]
 ```
 Now we need to define  a dictionary containing some objects needed by the plotter
-> This is something that is likely to change in the near future.
+> ⚠️ This is something that is likely to change in the near future.
 
 ```julia:define_plotpars
 PlotPars = Dict("sidesquare" => 600,
@@ -117,9 +123,11 @@ PlotPars = Dict("sidesquare" => 600,
 ```
 We are almost there! We now need to set up the central values for each parameter, the plot
 ranges and where we want to put the tick labels. This is something that you should take care
-of. For instance, we know that the sum of the neutrino masses $M_\nu$ is positive.
-so we don't want to avoid plotting the posterior for negative masses. In this particular
+of. For instance, we know that the sum of the neutrino masses $M_\nu$ is positive,
+so we want to avoid plotting the posterior for negative masses. In this particular
 case, we are going to use the Weak Lensing errors in order to decide the plot ranges.
+
+>  👍 As a rule of thumb: take for the plot limits and ticks, respectively, 4 and 3 $\sigma$'s. Of course ypu may prefer something differnt, but this should give you a good starting point.
 
 
 ```julia:define_plotranges
@@ -147,6 +155,8 @@ Now, we can see the result!
 \fig{fisher_contour}
 
 Quite nice, isn't it?
+
+\note{Quickcheck on note.}
 
 
 ### References & Footnotes
