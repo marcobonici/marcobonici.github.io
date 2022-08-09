@@ -125,7 +125,7 @@ PlotPars = Dict("sidesquare" => 600,
 "textsize" => 40,
 "PPmaxlabelsize" => 60,
 "font" => "Dejavu Sans",
-"xticklabelrotation" => 45.)
+"xticklabelrotation" => 0.)
 ```
 We are almost there! We now need to set up the central values for each parameter, the plot
 ranges and where we want to put the tick labels. This is something that you should take care
