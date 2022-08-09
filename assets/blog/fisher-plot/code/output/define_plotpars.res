@@ -5,4 +5,4 @@ Dict{String, Any} with 7 entries:
   "textsize" => 40
   "font" => "Dejavu Sans"
   "PPmaxlabelsize" => 60
-  "xticklabelrotation" => 45.0
+  "xticklabelrotation" => 0.0

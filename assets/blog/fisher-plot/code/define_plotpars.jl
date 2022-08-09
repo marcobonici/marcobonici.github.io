@@ -5,4 +5,4 @@ PlotPars = Dict("sidesquare" => 600,
 "textsize" => 40,
 "PPmaxlabelsize" => 60,
 "font" => "Dejavu Sans",
-"xticklabelrotation" => 45.)
+"xticklabelrotation" => 0.)
