@@ -22,4 +22,25 @@ Add here global latex commands to use throughout your pages.
 \newcommand{\R}{\mathbb R}
 \newcommand{\scal}[1]{\langle #1 \rangle}
 
-\newcommand{\note}[1]{@@note @@title ⚠ Note@@ @@content #1 @@ @@}
+\newcommand{\suggestion}[2]{
+  @@suggestion
+  **Suggestion**: _!#1_.
+  #2
+  @@
+}
+
+\newcommand{\definition}[2]{
+  @@definition
+  **Definition**: (_!#1_)
+  #2
+  @@
+}
+
+\newcommand{\warning}[1]{
+  @@warning
+  **Warning** ⚠:
+  #1
+  @@
+}
+
+\newcommand{\note}[1]{@@note @@title ⚠ Note @@ @@content #1 @@ @@}

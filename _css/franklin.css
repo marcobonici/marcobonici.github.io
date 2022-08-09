@@ -339,3 +339,55 @@ code {
   border-radius: 0 10px 10px 0;
   border-left: 5px solid #4c9cf1;
 }
+
+/* ==================================================================
+    USER DEFINED DIVS
+================================================================== */
+
+
+.definition {
+  background-color: aliceblue;
+  border-left: 5px solid cornflowerblue;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 1em;
+}
+
+.suggestion {
+  background-color: rgb(209, 255, 215);
+  border-left: 5px solid rgb(4, 133, 21);
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 1em;
+}
+
+.warning {
+  background-color: rgb(247, 246, 192);
+  border-left: 5px solid rgb(252, 247, 0);
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 1em;
+}
+
+.note {
+  margin-top: 1.5em;
+  width: 95%;
+  margin-left:auto;
+  margin-right:auto;
+  background-color:  aliceblue;
+  border-radius: 5px;
+  margin-bottom: 1em;
+}
+.note .content {
+  padding: 10px;
+  padding-left: 12px;
+}
+.note .title{
+  font-size: 105%;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding-left: 7px;
+  padding-top: 2px;
+  color: white;
+  background: cornflowerblue;
+}

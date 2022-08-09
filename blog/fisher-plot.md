@@ -63,7 +63,12 @@ while the ellipse orientation is given by
 \label{eq:atan}
 \end{equation}
 
-> ⚠️ If you are going to write down your own Fisher plotter, beware of the fact that you should give to the `atan` function not the ratio of the two elements in Equation \eqref{eq:atan}, but the numerator and the denominator separately. If you are not going to do it, it is possible that the ellipse will be oriented in the wrong way!
+\warning{
+If you are going to write down your own Fisher plotter, beware of the fact that you should
+give to the `atan` function not the ratio of the two elements in Equation \eqref{eq:atan},
+but the numerator and the denominator separately. If you are not going to do it, it is
+possible that the ellipse will be oriented in the wrong way!}
+
 
 If you want a more detailed introduction to Fisher matrices, please refer to
 [Coe (2009)](https://arxiv.org/pdf/0906.4123.pdf) and/or
@@ -110,7 +115,8 @@ L"\mathrm{WL}\,+\,\mathrm{GC}_\mathrm{ph}\,+\,\mathrm{XC}"]
 colors = ["deepskyblue3", "darkorange1", "green",]
 ```
 Now we need to define  a dictionary containing some objects needed by the plotter
-> ⚠️ This is something that is likely to change in the near future.
+\warning{This is something that is likely to change in the near future, with the next
+release.}
 
 ```julia:define_plotpars
 PlotPars = Dict("sidesquare" => 600,
@@ -127,7 +133,9 @@ of. For instance, we know that the sum of the neutrino masses $M_\nu$ is positiv
 so we want to avoid plotting the posterior for negative masses. In this particular
 case, we are going to use the Weak Lensing errors in order to decide the plot ranges.
 
->  👍 As a rule of thumb: take for the plot limits and ticks, respectively, 4 and 3 $\sigma$'s. Of course ypu may prefer something differnt, but this should give you a good starting point.
+\suggestion{Plot ranges}{As a rule of thumb, take for the plot limits and ticks,
+respectively, 4 and 3 $\sigma$'s and worse constrained Fisher Matrix. Of course you may
+prefer something different, but this should give you a good starting point.}
 
 
 ```julia:define_plotranges
@@ -155,8 +163,6 @@ Now, we can see the result!
 \fig{fisher_contour}
 
 Quite nice, isn't it?
-
-\note{Quickcheck on note.}
 
 
 ### References & Footnotes
