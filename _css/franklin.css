@@ -354,7 +354,7 @@ code {
 }
 
 .suggestion {
-  background-color: rgb(209, 255, 215);
+  background-color: rgba(4, 133, 21, 0.2);
   border-left: 5px solid rgb(4, 133, 21);
   border-radius: 10px;
   padding: 10px;
@@ -362,8 +362,8 @@ code {
 }
 
 .warning {
-  background-color: rgb(247, 246, 192);
-  border-left: 5px solid rgb(252, 247, 0);
+  background-color: rgba(255, 234, 0, 0.2);
+  border-left: 5px solid rgb(255, 234, 0);
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 1em;

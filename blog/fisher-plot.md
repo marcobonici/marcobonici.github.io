@@ -116,7 +116,7 @@ colors = ["deepskyblue3", "darkorange1", "green",]
 ```
 Now we need to define  a dictionary containing some objects needed by the plotter
 \warning{This is something that is likely to change in the near future, with the next
-release.}
+release of FisherPlot.jl.}
 
 ```julia:define_plotpars
 PlotPars = Dict("sidesquare" => 600,
@@ -125,7 +125,7 @@ PlotPars = Dict("sidesquare" => 600,
 "textsize" => 40,
 "PPmaxlabelsize" => 60,
 "font" => "Dejavu Sans",
-"xticklabelrotation" => 0.)
+"xticklabelrotation" => π/4)
 ```
 We are almost there! We now need to set up the central values for each parameter, the plot
 ranges and where we want to put the tick labels. This is something that you should take care
