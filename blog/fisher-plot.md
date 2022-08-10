@@ -134,8 +134,8 @@ so we want to avoid plotting the posterior for negative masses. In this particul
 case, we are going to use the Weak Lensing errors in order to decide the plot ranges.
 
 \suggestion{Plot ranges}{As a rule of thumb, take for the plot limits and ticks,
-respectively, 4 and 3 $\sigma$'s and worse constrained Fisher Matrix. Of course you may
-prefer something different, but this should give you a good starting point.}
+respectively, 4 and 3 $\sigma$'s of the less constraining Fisher Matrix for each parameter.
+Of course you may prefer something different, but this should give you a good starting point.}
 
 
 ```julia:define_plotranges
