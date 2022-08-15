@@ -1,3 +1,5 @@
+using TikzCDs
+
 function hfun_bar(vname)
   val = Meta.parse(vname[1])
   return round(sqrt(val), digits=2)
@@ -34,4 +36,16 @@ function hfun_addcomments()
     return html_str
 end
 
-
+function env_tikzcd(e, _)
+    content = strip(Franklin.content(e))
+    name = strip(Franklin.content(e.braces[1]))
+    # save SVG at __site/assets/[path/to/file]/$name.svg
+    rpath = joinpath("assets", splitext(Franklin.locvar(:fd_rpath))[1], "$name.svg")
+    outpath = joinpath(Franklin.path(:site), rpath)
+    # if the directory doesn't exist, create it
+    outdir = dirname(outpath)
+    isdir(outdir) || mkpath(outdir)
+    # save the file and show it
+    save(SVG(outpath), TikzCD(content))
+    return "\\fig{/$(Franklin.unixify(rpath))}"
+  end

@@ -20,6 +20,11 @@ jobs:
     # NOTE: Here you can install dependencies such as matplotlib if you use
     # packages such as PyPlot.
     # - run: pip install matplotlib
+    - name: Install deps for TikzCD
+      run: |
+          sudo add-apt-repository ppa:jonathonf/texlive-2019
+          sudo apt-get -qq update
+          sudo apt install -y pdf2svg texlive-latex-base texlive-binaries texlive-pictures texlive-latex-extra texlive-luatex
     - name: Install Julia
       uses: julia-actions/setup-julia@v1
       with:
