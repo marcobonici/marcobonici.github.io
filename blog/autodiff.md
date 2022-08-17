@@ -138,7 +138,7 @@ save(SVG(joinpath(@OUTPUT, "forwardpass_5")), tp)
 ### Backward pass
 
 \begin{equation}
-\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}
+\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=?
 \end{equation}
 
 ```julia:backwardpass_1
