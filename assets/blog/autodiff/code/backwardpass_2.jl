@@ -8,4 +8,4 @@ x_2 \arrow[r] &  w_2 \arrow[r] \arrow[dr] & \times \arrow[r] & w_5 \arrow[rrr] &
 \arrow [l, green, shift right=1.75ex, "\bar{y} \frac{\partial y}{\partial w_8}" {sloped,above} green]\\
 x_3 \arrow[r] &  w_3 \arrow[r] & + \arrow[r] & w_6 \arrow[r] & \exp \arrow[r] & w_7 \arrow[ur]
 """)
-save(SVG(joinpath(@OUTPUT, "backwardpass_1")), tp)
+save(SVG(joinpath(@OUTPUT, "backwardpass_2")), tp)
