@@ -53,9 +53,9 @@ save(SVG(joinpath(@OUTPUT, "forwardpass_1")), tp)
 
 | Variable  | Value  | 
 |-----------|--------|
-| $w_1$     | 0      | 
-| $w_2$     | 0      | 
-| $w_3$     | 0      | 
+| $w_1$     | $0$    | 
+| $w_2$     | $0$    | 
+| $w_3$     | $0$    | 
 
 ```julia:forwardpass_2
 #hideall
@@ -71,12 +71,12 @@ save(SVG(joinpath(@OUTPUT, "forwardpass_2")), tp)
 
 | Variable  | Value  | 
 |-----------|--------|
-| $w_1$     | 0      | 
-| $w_2$     | 0      | 
-| $w_3$     | 0      | 
-| $w_4$     | 0      | 
-| $w_5$     | 0      | 
-| $w_6$     | 0      | 
+| $w_1$     | $0$    | 
+| $w_2$     | $0$    | 
+| $w_3$     | $0$    | 
+| $w_4$     | $0$    | 
+| $w_5$     | $0$    | 
+| $w_6$     | $0$    | 
 
 ```julia:forwardpass_3
 #hideall
@@ -92,13 +92,13 @@ save(SVG(joinpath(@OUTPUT, "forwardpass_3")), tp)
 
 | Variable  | Value  | 
 |-----------|--------|
-| $w_1$     | 0      | 
-| $w_2$     | 0      | 
-| $w_3$     | 0      | 
-| $w_4$     | 0      | 
-| $w_5$     | 0      | 
-| $w_6$     | 0      |
-| $w_7$     | 1      |
+| $w_1$     | $0$    | 
+| $w_2$     | $0$    | 
+| $w_3$     | $0$    | 
+| $w_4$     | $0$    | 
+| $w_5$     | $0$    | 
+| $w_6$     | $0$    |
+| $w_7$     | $1$    |
 
 ```julia:forwardpass_4
 #hideall
@@ -114,14 +114,14 @@ save(SVG(joinpath(@OUTPUT, "forwardpass_4")), tp)
 
 | Variable  | Value  | 
 |-----------|--------|
-| $w_1$     | 0      | 
-| $w_2$     | 0      | 
-| $w_3$     | 0      | 
-| $w_4$     | 0      | 
-| $w_5$     | 0      | 
-| $w_6$     | 0      |
-| $w_7$     | 1      |
-| $w_8$     | 1      |
+| $w_1$     | $0$    | 
+| $w_2$     | $0$    | 
+| $w_3$     | $0$    | 
+| $w_4$     | $0$    | 
+| $w_5$     | $0$    | 
+| $w_6$     | $0$    |
+| $w_7$     | $1$    |
+| $w_8$     | $1$    |
 
 ```julia:forwardpass_5
 #hideall
