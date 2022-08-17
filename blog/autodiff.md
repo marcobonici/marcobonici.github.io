@@ -207,6 +207,18 @@ save(SVG(joinpath(@OUTPUT, "backwardpass_3")), tp)
 ```
 \fig{backwardpass_3}
 
+\begin{equation}
+\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\frac{\mathrm{d}w_4}{\mathrm{d} x} + \frac{\mathrm{d}w_5}{\mathrm{d} x} + \frac{\partial w_7}{\partial w_6}\frac{\mathrm{d}w_6}{\mathrm{d} x} \right)
+\end{equation}
+
+\begin{equation}
+\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\frac{\mathrm{d}w_4}{\mathrm{d} x} + \frac{\mathrm{d}w_5}{\mathrm{d} x} + \exp (w_6)\frac{\mathrm{d}w_6}{\mathrm{d} x} \right)
+\end{equation}
+
+\begin{equation}
+\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\frac{\mathrm{d}w_4}{\mathrm{d} x} + \frac{\mathrm{d}w_5}{\mathrm{d} x} + \frac{\mathrm{d}w_6}{\mathrm{d} x} \right)
+\end{equation}
+
 ```julia:backwardpass_4
 #hideall
 using TikzCDs
@@ -221,6 +233,26 @@ x_3 \arrow[r] &  w_3 \arrow[r] & w_6 \arrow[r] \arrow [l, green, shift right=1.e
 save(SVG(joinpath(@OUTPUT, "backwardpass_4")), tp)
 ```
 \fig{backwardpass_4}
+
+\begin{equation}
+\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\left(\frac{\partial w_4}{\partial w_1} \frac{\mathrm{d}w_1}{\mathrm{d} x}\right) + \left(\frac{\partial w_5}{\partial w_1} \frac{\mathrm{d}w_1}{\mathrm{d} x}+\frac{\partial w_5}{\partial w_2} \frac{\mathrm{d}w_2}{\mathrm{d} x}\right) + \left(\frac{\partial w_6}{\partial w_2} \frac{\mathrm{d}w_2}{\mathrm{d} x}+\frac{\partial w_6}{\partial w_3} \frac{\mathrm{d}w_3}{\mathrm{d} x}\right) \right)
+\end{equation}
+
+\begin{equation}
+\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\left(\frac{\partial w_4}{\partial w_1}+\frac{\partial w_5}{\partial w_1} \right)\frac{\mathrm{d}w_1}{\mathrm{d} x} + \left(\frac{\partial w_5}{\partial w_2}+\frac{\partial w_6}{\partial w_2} \right)\frac{\mathrm{d}w_2}{\mathrm{d} x} +  \frac{\partial w_6}{\partial w_3} \frac{\mathrm{d}w_3}{\mathrm{d} x} \right)
+\end{equation}
+
+\begin{equation}
+\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\left(\cos w_1+w_2 \right)\frac{\mathrm{d}w_1}{\mathrm{d} x} + \left(w_1+1 \right)\frac{\mathrm{d}w_2}{\mathrm{d} x} +  1 \frac{\mathrm{d}w_3}{\mathrm{d} x} \right)
+\end{equation}
+
+\begin{equation}
+\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\left(1+0 \right)\frac{\mathrm{d}w_1}{\mathrm{d} x} + \left(0+1 \right)\frac{\mathrm{d}w_2}{\mathrm{d} x} +  1 \frac{\mathrm{d}w_3}{\mathrm{d} x} \right)
+\end{equation}
+
+\begin{equation}
+\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\frac{\mathrm{d}w_1}{\mathrm{d} x} + \frac{\mathrm{d}w_2}{\mathrm{d} x} +  \frac{\mathrm{d}w_3}{\mathrm{d} x} \right)
+\end{equation}
 
 ```julia:backwardpass_5
 #hideall
@@ -237,3 +269,6 @@ save(SVG(joinpath(@OUTPUT, "backwardpass_5")), tp)
 ```
 \fig{backwardpass_5}
 
+\begin{equation}
+\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\frac{\partial w_1}{\partial x_1}\frac{\mathrm{d}x_1}{\mathrm{d} x} + \frac{\partial w_2}{\partial x_1}\frac{\mathrm{d}x_2}{\mathrm{d} x} +  \frac{\partial w_3}{\partial x_3}\frac{\mathrm{d}x_3}{\mathrm{d} x} \right)
+\end{equation}
