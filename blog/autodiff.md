@@ -137,62 +137,103 @@ save(SVG(joinpath(@OUTPUT, "forwardpass_5")), tp)
 
 ### Backward pass
 
+\begin{equation}
+\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}
+\end{equation}
+
 ```julia:backwardpass_1
 #hideall
 using TikzCDs
 tp = TikzCD(L"""
 x_1 \arrow[r] &  w_1 \arrow[r] \arrow [dr] & \sin \arrow[r] & w_4 \arrow[drrr, shift left=0.75ex]\\
 x_2 \arrow[r] &  w_2 \arrow[r] \arrow[dr] & \times \arrow[r] & w_5 \arrow[rrr] & & &
-+ \arrow[r] & w_8 \arrow[r] \arrow[ullll, green, shift right = 1.5ex, "\bar{w}_8 \frac{\partial w_8}{\partial w_4}" {sloped,above} green] & y
-\arrow [l, green, shift right=1.75ex, "\bar{y} \frac{\partial y}{\partial w_8}" {sloped,above} green]\\
++ \arrow[r] & w_8 \arrow[r] & y
+\arrow [l, green, shift right=1.ex, "\bar{y} \frac{\partial y}{\partial w_8}" {sloped,above} green]\\
 x_3 \arrow[r] &  w_3 \arrow[r] & + \arrow[r] & w_6 \arrow[r] & \exp \arrow[r] & w_7 \arrow[ur]
 """)
 save(SVG(joinpath(@OUTPUT, "backwardpass_1")), tp)
 ```
 \fig{backwardpass_1}
 
+\begin{equation}
+\bar{x} = \frac{\mathrm{d}y}{\mathrm{d} x}
+\end{equation}
+
+\begin{equation}
+\bar{y} = 1
+\end{equation}
+
+
+
+\begin{equation}
+\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\bar{y}\frac{\partial y}{\partial w_8}\frac{\mathrm{d}w_8}{\mathrm{d} x}
+\end{equation}
+
+\begin{equation}
+\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\frac{\mathrm{d}w_8}{\mathrm{d} x}
+\end{equation}
+
 ```julia:backwardpass_2
 #hideall
 using TikzCDs
 tp = TikzCD(L"""
-x_1 \arrow[r] &  w_1 \arrow[r] \arrow [dr] & \sin \arrow[r] & w_4 \arrow[drrr, shift left=0.75ex]\\
-x_2 \arrow[r] &  w_2 \arrow[r] \arrow[dr] & \times \arrow[r] & w_5 \arrow[rrr] & & &
-+ \arrow[r] & w_8 \arrow[r] \arrow[ullll, green, shift right = 1.5ex, "\bar{w}_8 \frac{\partial w_8}{\partial w_4}" {sloped,above} green] & y
-\arrow [l, green, shift right=1.75ex, "\bar{y} \frac{\partial y}{\partial w_8}" {sloped,above} green]\\
-x_3 \arrow[r] &  w_3 \arrow[r] & + \arrow[r] & w_6 \arrow[r] & \exp \arrow[r] & w_7 \arrow[ur]
+x_1 \arrow[r] &  w_1 \arrow[r] \arrow [dr] & \sin \arrow[r] & w_4 \arrow[drr, shift left=0.75ex]\\
+x_2 \arrow[r] &  w_2 \arrow[r] \arrow[dr] & \times \arrow[r] & w_5 \arrow[rr] &  & w_8 \arrow[r] \arrow[ull, green, shift right = 1.5ex, "\bar{w}_8 \frac{\partial w_8}{\partial w_4}" {sloped,above} green] \arrow[ll, green, shift right = 0.9ex, "\bar{w}_8 \frac{\partial w_8}{\partial w_5}" {sloped,above} green] \arrow[dl, green, shift left = 0.9ex, "\bar{w}_8 \frac{\partial w_8}{\partial w_7}" {sloped,below} green] & y
+\arrow [l, green, shift right=1.ex, "\bar{y} \frac{\partial y}{\partial w_8}" {sloped,above} green]\\
+x_3 \arrow[r] &  w_3 \arrow[r] & + \arrow[r] & w_6 \arrow[r] & w_7 \arrow[ur]
 """)
 save(SVG(joinpath(@OUTPUT, "backwardpass_2")), tp)
 ```
 \fig{backwardpass_2}
 
+\begin{equation}
+\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left( \frac{\partial w_8}{\partial w_4}\frac{\mathrm{d}w_4}{\mathrm{d} x} + \frac{\partial w_8}{\partial w_5}\frac{\mathrm{d}w_5}{\mathrm{d} x} + \frac{\partial w_8}{\partial w_7}\frac{\mathrm{d}w_7}{\mathrm{d} x} \right)
+\end{equation}
 
+\begin{equation}
+\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\frac{\mathrm{d}w_4}{\mathrm{d} x} + \frac{\mathrm{d}w_5}{\mathrm{d} x} + \frac{\mathrm{d}w_7}{\mathrm{d} x} \right)
+\end{equation}
 
+```julia:backwardpass_3
+#hideall
+using TikzCDs
+tp = TikzCD(L"""
+x_1 \arrow[r] &  w_1 \arrow[r] \arrow [dr]  & w_4 \arrow[drr, shift left=0.75ex]\\
+x_2 \arrow[r] &  w_2 \arrow[r] \arrow[dr] & w_5 \arrow[rr] &  & w_8 \arrow[r] \arrow[ull, green, shift right = 1.5ex, "\bar{w}_8 \frac{\partial w_8}{\partial w_4}" {sloped,above} green] \arrow[ll, green, shift right = 0.9ex, "\bar{w}_8 \frac{\partial w_8}{\partial w_5}" {sloped,above} green] \arrow[dl, green, shift left = 0.9ex, "\bar{w}_8 \frac{\partial w_8}{\partial w_7}" {sloped,below} green] & y
+\arrow [l, green, shift right=1.ex, "\bar{y} \frac{\partial y}{\partial w_8}" {sloped,above} green]\\
+x_3 \arrow[r] &  w_3 \arrow[r] & w_6 \arrow[r] & w_7 \arrow[ur] \arrow [l, green, shift right=1.ex, "\bar{w}_7 \frac{\partial w_6}{\partial w_7}" {sloped,above} green] 
+""", options ="scale = 1.")
+save(SVG(joinpath(@OUTPUT, "backwardpass_3")), tp)
+```
+\fig{backwardpass_3}
 
-# Plots
+```julia:backwardpass_4
+#hideall
+using TikzCDs
+tp = TikzCD(L"""
+x_1 \arrow[r] &  w_1 \arrow[r] \arrow [ddr]  & w_4 \arrow[ddrr, shift left=0.75ex] \arrow [l, green, shift right=1.ex, "\bar{w}_4 \frac{\partial w_4}{\partial w_1}" {sloped,above} green] \\
+\\
+x_2 \arrow[r] &  w_2 \arrow[r] \arrow[ddr] & w_5 \arrow[rr] \arrow [uul, green, shift right=1.ex, "\bar{w}_5 \frac{\partial w_5}{\partial w_1}" {sloped,above} green] \arrow [l, green, shift right=1.ex, "\bar{w}_5 \frac{\partial w_5}{\partial w_2}" {sloped,near end} green] &  & w_8 \arrow[r] \arrow[uull, green, shift right = 1.5ex, "\bar{w}_8 \frac{\partial w_8}{\partial w_4}" {sloped,above} green] \arrow[ll, green, shift right = 0.9ex, "\bar{w}_8 \frac{\partial w_8}{\partial w_5}" {sloped,above} green] \arrow[ddl, green, shift left = 0.9ex, "\bar{w}_8 \frac{\partial w_8}{\partial w_7}" {sloped,below} green] & y
+\arrow [l, green, shift right=1.ex, "\bar{y} \frac{\partial y}{\partial w_8}" {sloped,above} green]\\
+\\
+x_3 \arrow[r] &  w_3 \arrow[r] & w_6 \arrow[r] \arrow [l, green, shift right=1.ex, "\bar{w}_6 \frac{\partial w_6}{\partial w_3}" {sloped,near end} green] \arrow [uul, green, shift right=1.ex, "\bar{w}_6 \frac{\partial w_6}{\partial w_2}" {sloped,above} green] & w_7 \arrow[uur] \arrow [l, green, shift right=1.ex, "\bar{w}_7 \frac{\partial w_6}{\partial w_7}" {sloped,above} green] 
+""", options ="scale = 1.")
+save(SVG(joinpath(@OUTPUT, "backwardpass_4")), tp)
+```
+\fig{backwardpass_4}
 
+```julia:backwardpass_5
+#hideall
+using TikzCDs
+tp = TikzCD(L"""
+x_1 \arrow[r] &  w_1 \arrow [l, green, shift right=1.ex, "\bar{w}_1 \frac{\mathrm{d} w_1}{\mathrm{d} x_1}" {sloped,above} green] \arrow[r] \arrow [ddr]  & w_4 \arrow[ddrr, shift left=0.75ex] \arrow [l, green, shift right=1.ex, "\bar{w}_4 \frac{\partial w_4}{\partial w_1}" {sloped,above} green] \\
+\\
+x_2 \arrow[r] &  w_2 \arrow [l, green, shift right=1.ex, "\bar{w}_2 \frac{\mathrm{d} w_2}{\mathrm{d} x_2}" {sloped,above} green] \arrow[r] \arrow[ddr] & w_5 \arrow[rr] \arrow [uul, green, shift right=1.ex, "\bar{w}_5 \frac{\partial w_5}{\partial w_1}" {sloped,above} green] \arrow [l, green, shift right=1.ex, "\bar{w}_5 \frac{\partial w_5}{\partial w_2}" {sloped,near end} green] &  & w_8 \arrow[r] \arrow[uull, green, shift right = 1.5ex, "\bar{w}_8 \frac{\partial w_8}{\partial w_4}" {sloped,above} green] \arrow[ll, green, shift right = 0.9ex, "\bar{w}_8 \frac{\partial w_8}{\partial w_5}" {sloped,above} green] \arrow[ddl, green, shift left = 0.9ex, "\bar{w}_8 \frac{\partial w_8}{\partial w_7}" {sloped,below} green] & y
+\arrow [l, green, shift right=1.ex, "\bar{y} \frac{\partial y}{\partial w_8}" {sloped,above} green]\\
+\\
+x_3 \arrow[r] &  w_3 \arrow [l, green, shift right=1.ex, "\bar{w}_3 \frac{\mathrm{d} w_3}{\mathrm{d} x_3}" {sloped,above} green]  \arrow[r] & w_6 \arrow[r] \arrow [l, green, shift right=1.ex, "\bar{w}_6 \frac{\partial w_6}{\partial w_3}" {sloped,near end} green] \arrow [uul, green, shift right=1.ex, "\bar{w}_6 \frac{\partial w_6}{\partial w_2}" {sloped,above} green] & w_7 \arrow[uur] \arrow [l, green, shift right=1.ex, "\bar{w}_7 \frac{\partial w_6}{\partial w_7}" {sloped,above} green] 
+""", options ="scale = 1.")
+save(SVG(joinpath(@OUTPUT, "backwardpass_5")), tp)
+```
+\fig{backwardpass_5}
 
-@@small-imgc \begin{tikzcd}{backprop}
-& x \arrow[dr] \arrow[dl, shift right=1.5ex, "\bar{x}\frac{\partial x}{\partial t}" {sloped,above}]\\
-t \arrow[ur] \arrow[dr] & & z \arrow[dl, shift left=1.5ex, "\bar{z}\frac{\partial z}{\partial y}" {sloped,below}] \arrow[ul, shift right=1.5ex, "\bar{z}\frac{\partial z}{\partial x}" {sloped,above}]\\
-& y  \arrow[ur] \arrow[ul, shift left=1.5ex, "\bar{y}\frac{\partial y}{\partial t}" {sloped,below}]
-\end{tikzcd}@@
-
-@@small-imgc \begin{tikzcd}{tcd1}
-t \arrow[r, "\phi"] \arrow[d, red]
-  & x \arrow[d, "\psi" red] \\
-  y \arrow[r, red, "\eta" blue]
-  & z
-\end{tikzcd}@@
-
-@@small-imgc \begin{tikzcd}{tcd2}
-A \arrow[r, "\phi" above , "\psi"'] & B
-\end{tikzcd}@@
-
-
-
-@@small-imgc \begin{tikzcd}{backprop1}
-A \arrow[r, red, shift left=1.5ex] \arrow[r]
-\arrow[dr, blue, shift right=1.5ex] \arrow[dr]
-& B \arrow[d, purple, shift left=1.5ex] \arrow[d]\\
-& C
-\end{tikzcd}@@
