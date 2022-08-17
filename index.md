@@ -8,7 +8,7 @@ the European Space Agency. Euclid will map the galaxy distribution in about a th
 sky. I am mainly involved in the activity of the Galaxy Clustering Science Working Group
 (GC-SGW). My main activities regard:
 
-- Cosmic Voids. Voids are the biggest large-scale structures of the Universe and can be used as a complementary source of information, increasing the scientific outcome of the Euclid mission. In particular, the main topic of my PhD thesis has been the study of the Void-Lensing cross-correlation. A [Euclid collaboration paper](https://arxiv.org/abs/2206.14211), led by myself, has been recently submitted to _Astronomy & Astrophysics_.
+- Cosmic Voids. Voids are the biggest large-scale structures of the Universe and can be used as a complementary source of information, increasing the scientific outcome of the Euclid mission. In particular, the main topic of my PhD thesis has been the study of the Void-Lensing cross-correlation. A [Euclid collaboration paper](https://arxiv.org/abs/2206.14211), led by myself and Dr. Carmelita Carbone, has been recently submitted to _Astronomy & Astrophysics_.
 - I am involved, as a core-team member, in the development of the official likelihood code of the Euclid consortium, CLOE.
 - I am leading a Euclid Key Project which aims at developing techniques to accelerate the inference of cosmological data, using Deep Learning and Computer Science techniques. By the way, this project in entirely coded in [Julia](https://docs.julialang.org/en/v1/).
 
