@@ -1,9 +1,9 @@
 @def title = "Notes on Automatic Differentiation"
 
 \warning{This is not meant to be a rigouros explanation of automatic differentiation.
-These must me considered as some notes that I wrote for myself, to understnd better the
+These must be considered as some notes that I wrote for myself, to better understand the
 topic of automatic differentiation. Furthermore, these notes are far to be completed and
-refined.}
+need to be refined.}
 
 # Example
 Let us consider the following function $f(\boldsymbol{x}):\mathbb{R}^3\rightarrow\mathbb{R}$
@@ -69,7 +69,7 @@ save(SVG(joinpath(@OUTPUT, "forwardpass_1")), tp)
 | $w_1$     | $0$    | 
 | $w_2$     | $0$    | 
 | $w_3$     | $0$    | 
-This was an easy one: basically, we simply add to define three variables, corresponding to
+This was an easy one: basically, we simply had to define three variables, corresponding to
 the three inputs. Let's move forward!
 
 ```julia:forwardpass_2
@@ -159,7 +159,7 @@ save(SVG(joinpath(@OUTPUT, "forwardpass_5")), tp)
 this look trivial and useless, we have evaluated al quantities required for the next step!
 
 ### Backward pass
-We are now put in the position to compute the gradient of the function.
+We are now in the position to compute the gradient of the function.
 Let us start defining the _adjoint_ of a quantity $x$, which is mapped in another quantity
 $y$:
 
@@ -168,19 +168,19 @@ $y$:
 \end{equation}
 
 This quantity and the chain rule will be the key ingredients in the forecoming calculations.
-Using the chain rule, we will start from the ooutput, $y$, and we will pull back the
+Using the chain rule, we will start from the output, $y$, and we will pull back the
 calculations, till we will reach the beginning of the calculation. How can we use the chain
 rule? The gradient che be rewritten as 
 
 \begin{equation}
-\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\frac{\partial y}{\partial w_8}\frac{\mathrm{d}w_8}{\mathrm{d} x}
+\frac{\mathrm{d}y}{\mathrm{d}\boldsymbol{x}}=\frac{\partial y}{\partial w_8}\frac{\mathrm{d}w_8}{\mathrm{d} x}
 \end{equation}
 
 Since we know the relation between $y$ and $w_8$ we can compute the partial derivative we
 added
 
 \begin{equation}
-\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\frac{\mathrm{d}w_8}{\mathrm{d} x}
+\frac{\mathrm{d}y}{\mathrm{d}\boldsymbol{x}}=\frac{\mathrm{d}w_8}{\mathrm{d} x}
 \end{equation}
 But now, let's get back to the graph! I'll add in green each calcuation we have been doing
 
@@ -201,11 +201,11 @@ save(SVG(joinpath(@OUTPUT, "backwardpass_1")), tp)
 
 Let's keep going!
 \begin{equation}
-\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left( \frac{\partial w_8}{\partial w_4}\frac{\mathrm{d}w_4}{\mathrm{d} x} + \frac{\partial w_8}{\partial w_5}\frac{\mathrm{d}w_5}{\mathrm{d} x} + \frac{\partial w_8}{\partial w_7}\frac{\mathrm{d}w_7}{\mathrm{d} x} \right)
+\frac{\mathrm{d}y}{\mathrm{d}\boldsymbol{x}}=\left( \frac{\partial w_8}{\partial w_4}\frac{\mathrm{d}w_4}{\mathrm{d} x} + \frac{\partial w_8}{\partial w_5}\frac{\mathrm{d}w_5}{\mathrm{d} x} + \frac{\partial w_8}{\partial w_7}\frac{\mathrm{d}w_7}{\mathrm{d} x} \right)
 \end{equation}
 
 \begin{equation}
-\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\frac{\mathrm{d}w_4}{\mathrm{d} x} + \frac{\mathrm{d}w_5}{\mathrm{d} x} + \frac{\mathrm{d}w_7}{\mathrm{d} x} \right)
+\frac{\mathrm{d}y}{\mathrm{d}\boldsymbol{x}}=\left(\frac{\mathrm{d}w_4}{\mathrm{d} x} + \frac{\mathrm{d}w_5}{\mathrm{d} x} + \frac{\mathrm{d}w_7}{\mathrm{d} x} \right)
 \end{equation}
 
 
@@ -225,21 +225,21 @@ save(SVG(joinpath(@OUTPUT, "backwardpass_2")), tp)
 Up to now, everything has been quite easy. Let's continue with the next step!
 
 \begin{equation}
-\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\frac{\mathrm{d}w_4}{\mathrm{d} x} + \frac{\mathrm{d}w_5}{\mathrm{d} x} + \frac{\partial w_7}{\partial w_6}\frac{\mathrm{d}w_6}{\mathrm{d} x} \right)
+\frac{\mathrm{d}y}{\mathrm{d}\boldsymbol{x}}=\left(\frac{\mathrm{d}w_4}{\mathrm{d} x} + \frac{\mathrm{d}w_5}{\mathrm{d} x} + \frac{\partial w_7}{\partial w_6}\frac{\mathrm{d}w_6}{\mathrm{d} x} \right)
 \end{equation}
 
 \begin{equation}
-\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\frac{\mathrm{d}w_4}{\mathrm{d} x} + \frac{\mathrm{d}w_5}{\mathrm{d} x} + \exp (w_6)\frac{\mathrm{d}w_6}{\mathrm{d} x} \right)
+\frac{\mathrm{d}y}{\mathrm{d}\boldsymbol{x}}=\left(\frac{\mathrm{d}w_4}{\mathrm{d} x} + \frac{\mathrm{d}w_5}{\mathrm{d} x} + \exp (w_6)\frac{\mathrm{d}w_6}{\mathrm{d} x} \right)
 \end{equation}
 Finally! Has we can see evaluating the partial derivative requires the value of $w_6$. But
 we already know this values, since it is stored in the Wengert list!
 
 \begin{equation}
-\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\frac{\mathrm{d}w_4}{\mathrm{d} x} + \frac{\mathrm{d}w_5}{\mathrm{d} x} + \frac{\mathrm{d}w_6}{\mathrm{d} x} \right)
+\frac{\mathrm{d}y}{\mathrm{d}\boldsymbol{x}}=\left(\frac{\mathrm{d}w_4}{\mathrm{d} x} + \frac{\mathrm{d}w_5}{\mathrm{d} x} + \frac{\mathrm{d}w_6}{\mathrm{d} x} \right)
 \end{equation}
 
 Now, the meaning of the first step should be clearer: we have evaluated and stored all
-itnermediate quantities. In this way, while moving back along the computationad graph, we
+intermediate quantities. In this way, while moving back along the computationad graph, we
 already have all quantities required to compute the gradient!
 
 
@@ -259,23 +259,23 @@ save(SVG(joinpath(@OUTPUT, "backwardpass_3")), tp)
 Let's keep going!
 
 \begin{equation}
-\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\left(\frac{\partial w_4}{\partial w_1} \frac{\mathrm{d}w_1}{\mathrm{d} x}\right) + \left(\frac{\partial w_5}{\partial w_1} \frac{\mathrm{d}w_1}{\mathrm{d} x}+\frac{\partial w_5}{\partial w_2} \frac{\mathrm{d}w_2}{\mathrm{d} x}\right) + \left(\frac{\partial w_6}{\partial w_2} \frac{\mathrm{d}w_2}{\mathrm{d} x}+\frac{\partial w_6}{\partial w_3} \frac{\mathrm{d}w_3}{\mathrm{d} x}\right) \right)
+\frac{\mathrm{d}y}{\mathrm{d}\boldsymbol{x}}=\left(\left(\frac{\partial w_4}{\partial w_1} \frac{\mathrm{d}w_1}{\mathrm{d} x}\right) + \left(\frac{\partial w_5}{\partial w_1} \frac{\mathrm{d}w_1}{\mathrm{d} x}+\frac{\partial w_5}{\partial w_2} \frac{\mathrm{d}w_2}{\mathrm{d} x}\right) + \left(\frac{\partial w_6}{\partial w_2} \frac{\mathrm{d}w_2}{\mathrm{d} x}+\frac{\partial w_6}{\partial w_3} \frac{\mathrm{d}w_3}{\mathrm{d} x}\right) \right)
 \end{equation}
 
 \begin{equation}
-\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\left(\frac{\partial w_4}{\partial w_1}+\frac{\partial w_5}{\partial w_1} \right)\frac{\mathrm{d}w_1}{\mathrm{d} x} + \left(\frac{\partial w_5}{\partial w_2}+\frac{\partial w_6}{\partial w_2} \right)\frac{\mathrm{d}w_2}{\mathrm{d} x} +  \frac{\partial w_6}{\partial w_3} \frac{\mathrm{d}w_3}{\mathrm{d} x} \right)
+\frac{\mathrm{d}y}{\mathrm{d}\boldsymbol{x}}=\left(\left(\frac{\partial w_4}{\partial w_1}+\frac{\partial w_5}{\partial w_1} \right)\frac{\mathrm{d}w_1}{\mathrm{d} x} + \left(\frac{\partial w_5}{\partial w_2}+\frac{\partial w_6}{\partial w_2} \right)\frac{\mathrm{d}w_2}{\mathrm{d} x} +  \frac{\partial w_6}{\partial w_3} \frac{\mathrm{d}w_3}{\mathrm{d} x} \right)
 \end{equation}
 
 \begin{equation}
-\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\left(\cos w_1+w_2 \right)\frac{\mathrm{d}w_1}{\mathrm{d} x} + \left(w_1+1 \right)\frac{\mathrm{d}w_2}{\mathrm{d} x} +  1 \frac{\mathrm{d}w_3}{\mathrm{d} x} \right)
+\frac{\mathrm{d}y}{\mathrm{d}\boldsymbol{x}}=\left(\left(\cos w_1+w_2 \right)\frac{\mathrm{d}w_1}{\mathrm{d} x} + \left(w_1+1 \right)\frac{\mathrm{d}w_2}{\mathrm{d} x} +  1 \frac{\mathrm{d}w_3}{\mathrm{d} x} \right)
 \end{equation}
 
 \begin{equation}
-\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\left(1+0 \right)\frac{\mathrm{d}w_1}{\mathrm{d} x} + \left(0+1 \right)\frac{\mathrm{d}w_2}{\mathrm{d} x} +  1 \frac{\mathrm{d}w_3}{\mathrm{d} x} \right)
+\frac{\mathrm{d}y}{\mathrm{d}\boldsymbol{x}}=\left(\left(1+0 \right)\frac{\mathrm{d}w_1}{\mathrm{d} x} + \left(0+1 \right)\frac{\mathrm{d}w_2}{\mathrm{d} x} +  1 \frac{\mathrm{d}w_3}{\mathrm{d} x} \right)
 \end{equation}
 
 \begin{equation}
-\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\frac{\mathrm{d}w_1}{\mathrm{d} x} + \frac{\mathrm{d}w_2}{\mathrm{d} x} +  \frac{\mathrm{d}w_3}{\mathrm{d} x} \right)
+\frac{\mathrm{d}y}{\mathrm{d}\boldsymbol{x}}=\left(\frac{\mathrm{d}w_1}{\mathrm{d} x} + \frac{\mathrm{d}w_2}{\mathrm{d} x} +  \frac{\mathrm{d}w_3}{\mathrm{d} x} \right)
 \end{equation}
 
 
@@ -315,11 +315,11 @@ save(SVG(joinpath(@OUTPUT, "backwardpass_5")), tp)
 \fig{backwardpass_5}
 
 \begin{equation}
-\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\frac{\partial w_1}{\partial x_1}\frac{\mathrm{d}x_1}{\mathrm{d} x} + \frac{\partial w_2}{\partial x_1}\frac{\mathrm{d}x_2}{\mathrm{d} x} +  \frac{\partial w_3}{\partial x_3}\frac{\mathrm{d}x_3}{\mathrm{d} x} \right)
+\frac{\mathrm{d}y}{\mathrm{d}\boldsymbol{x}}=\left(\frac{\partial w_1}{\partial x_1}\frac{\mathrm{d}x_1}{\mathrm{d} x} + \frac{\partial w_2}{\partial x_2}\frac{\mathrm{d}x_2}{\mathrm{d} x} +  \frac{\partial w_3}{\partial x_3}\frac{\mathrm{d}x_3}{\mathrm{d} x} \right)
 \end{equation}
 
 \begin{equation}
-\frac{\mathrm{d}y}{\mathrm{d}\bf{x}}=\left(\frac{\partial w_1}{\partial x_1} + \frac{\partial w_2}{\partial x_1} +  \frac{\partial w_3}{\partial x_3}\right)
+\frac{\mathrm{d}y}{\mathrm{d}\boldsymbol{x}}=\left(\frac{\partial w_1}{\partial x_1} + \frac{\partial w_2}{\partial x_2} +  \frac{\partial w_3}{\partial x_3}\right)
 \end{equation}
 
 We have now written the gradient of our function! We three terms, each of the proportional
