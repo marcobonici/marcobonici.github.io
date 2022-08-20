@@ -5,6 +5,18 @@ These must be considered as some notes that I wrote for myself, to better unders
 topic of automatic differentiation. Furthermore, these notes are far to be completed and
 need to be refined.}
 
+Several computational techniques (minimization, training of Deep Neural Networks,
+Hamiltonian MonteCarlo) requires the computation of gradients, jacobian, and hessians. While
+we all learnt how to compute these quantities during calculus courses, there are several
+situations in which classical tools may not be enough.
+
+In the reminder of this post, I'll walk through the main techniques that can be used to
+compute derivatives:
+- Symbolic derivatives
+- Finite difference
+- Forward automatic differentiation
+- Backward automatic differentiation
+
 # Example
 Let us consider the following function $f(\boldsymbol{x}):\mathbb{R}^3\rightarrow\mathbb{R}$
 \begin{equation}
@@ -19,6 +31,9 @@ evaluated at $\boldsymbol{x}_0$?
 \end{equation}
 
 ## Symbolic approach
+
+This is the classical approach that we all learnt during calculus courses: you simply have
+to write down the analytical derivatives and compute their values
 
 \begin{equation}
 \frac{\partial f}{\partial x_1} = \cos x_1 + x_2
@@ -39,6 +54,15 @@ evaluated at $\boldsymbol{x}_0$?
 \begin{equation}
 \nabla f(\boldsymbol{x}_0) = \left(\cos 0 + 0, 0 + \exp(0+0), \exp(0+0)\right) = \left(1,1,1 \right)
 \end{equation}
+
+Quite easy, isn't it?
+What are the pros and cons?
+- ✅ High precision, since derivatives are analytical
+- ✅ Work with arbitrary functions
+- ❌ Need to be coded
+- ❌ Error prone
+- ❌ For complicated functions, the derivative may not have a maneageable analyical expression
+- ❌ Not efficient when there are a lot of input and output parameters
 
 
 ## Backward algorithmic differentiation
