@@ -17,6 +17,8 @@ compute derivatives:
 - Forward automatic differentiation
 - Backward automatic differentiation
 
+\toc
+
 # Example
 Let us consider the following function $f(\boldsymbol{x}):\mathbb{R}^3\rightarrow\mathbb{R}$
 \begin{equation}
@@ -56,14 +58,21 @@ to write down the analytical derivatives and compute their values
 \end{equation}
 
 Quite easy, isn't it?
-What are the pros and cons?
+What are the advantages of this approach?
 - ✅ High precision, since derivatives are analytical
-- ✅ Work with arbitrary functions
-- ❌ Need to be coded
-- ❌ Error prone
-- ❌ For complicated functions, the derivative may not have a maneageable analyical expression
-- ❌ Not efficient when there are a lot of input and output parameters
+- ✅ As long as you have an analytical expression for the input function, this approach works
 
+However, this approach has several drawbacks
+- ❌ Need to be coded and error prone
+- ❌ For complicated functions, the derivative may not have a maneageable analytical expression
+- ❌ Poor scaling: if you have $N$ input and $M$ output, it scales as $\mathcal{O}(N\times M)$
+- ❌ We don't always have an analytical functions to differentiate. If we consider the numerical solution of Differential Equations, we dont have an analytical solution.
+
+Some of these problems can be alleviated with the next approach: finite difference derivatives.
+
+## Finite difference derivatives
+
+## Forward algorithmic differentiation
 
 ## Backward algorithmic differentiation
 In this part, I'll show a different approach to compute gradient: backward automatic
