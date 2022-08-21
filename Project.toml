@@ -1,5 +1,7 @@
 [deps]
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 FisherPlot = "a6a81055-8810-4a7f-bad9-3c67194ad2e1"
+ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
 Franklin = "713c75ef-9fc9-4b05-94a9-213340da978e"
 JLD = "4138dd39-2aa7-5051-a626-17a0bb65d9c8"
 LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"

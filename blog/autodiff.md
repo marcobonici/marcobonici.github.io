@@ -65,14 +65,77 @@ What are the advantages of this approach?
 However, this approach has several drawbacks
 - ❌ Need to be coded and error prone
 - ❌ For complicated functions, the derivative may not have a maneageable analytical expression
-- ❌ Poor scaling: if you have $N$ input and $M$ output, it scales as $\mathcal{O}(N\times M)$
-- ❌ We don't always have an analytical functions to differentiate. If we consider the numerical solution of Differential Equations, we dont have an analytical solution.
+- ❌ We don't always have an analytical functions to differentiate. For instance, when dealing with Differential Equations, we often have only a numerical solution
 
 Some of these problems can be alleviated with the next approach: finite difference derivatives.
 
 ## Finite difference derivatives
 
+The second approach replaces the limit in the derivative definition with a finite difference
+derivative:
+\begin{equation}
+f^{\prime}(x)=\lim _{\epsilon \rightarrow 0} \frac{f(x+\epsilon)-f(x)}{\epsilon}\approx \frac{f(x+\Delta x)-f(x)}{\Delta x}
+\end{equation}
+
+If we have a function with more variables, this approach need to be extended to each of
+variables. Let us code it in Julia!
+```julia:func_def
+f(x) = sin(x[1])+x[1]*x[2]+exp(x[2]+x[3])
+```
+
+What about the efficiency of this function?
+```julia:benchmark
+using BenchmarkTools
+@benchmark f([0,0,0])
+```
+\show{benchmark}
+Let us evaluate the finite difference derivative!
+```julia:finite_difference_1
+fx₀ = f([0,0,0])
+Δx = 1e-6
+∂f1 = (f([Δx,0,0])-fx₀)/Δx
+∂f2 = (f([0,Δx,0])-fx₀)/Δx
+∂f3 = (f([0,0,Δx])-fx₀)/Δx
+println("∂f1=", ∂f1) # hide
+println("∂f2=", ∂f2) # hide
+println("∂f3=", ∂f3) # hide
+```
+Let us see the result of the calculation!
+\show{finite_difference_1}
+Nice! We have evaluated the required gradient. However, the result is imprecise: there is a
+truncation error! We have approximated the derivative and this gave us an imprecise result.
+Furthermore, the error depends on the chosen step-size. If the step-size is too big, we are
+not going to approximate the derivative...
+```julia:finite_difference_2
+Δx = 1e-2
+∂f1 = (f([Δx,0,0])-fx₀)/Δx # hide
+∂f2 = (f([0,Δx,0])-fx₀)/Δx # hide
+∂f3 = (f([0,0,Δx])-fx₀)/Δx # hide
+println("∂f1=", ∂f1) # hide
+println("∂f2=", ∂f2) # hide
+println("∂f3=", ∂f3) # hide
+```
+\show{finite_difference_2}
+...on the other hand, a small step-size will incure on floating-precision error
+```julia:finite_difference_3
+fx₀ = f(0,0,0) # hide
+Δx = 1e-16
+∂f1 = (f([Δx,0,0])-fx₀)/Δx # hide
+∂f2 = (f([0,Δx,0])-fx₀)/Δx # hide
+∂f3 = (f([0,0,Δx])-fx₀)/Δx # hide
+println("∂f1=", ∂f1) # hide
+println("∂f2=", ∂f2) # hide
+println("∂f3=", ∂f3) # hide
+```
+\show{finite_difference_3}
 ## Forward algorithmic differentiation
+
+```julia:forward_diff_1
+using ForwardDiff
+println(ForwardDiff.gradient(f, [0,0,0])) # hide
+@benchmark ForwardDiff.gradient(f, [0,0,0])
+```
+\show{forward_diff_1}
 
 ## Backward algorithmic differentiation
 In this part, I'll show a different approach to compute gradient: backward automatic
