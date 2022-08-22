@@ -1,6 +1,5 @@
 # This file was generated, do not modify it. # hide
-fx₀ = f(0,0,0) # hide
-Δx = 1e-16
+Δx = 1e-15
 ∂f1 = (f([Δx,0,0])-fx₀)/Δx # hide
 ∂f2 = (f([0,Δx,0])-fx₀)/Δx # hide
 ∂f3 = (f([0,0,Δx])-fx₀)/Δx # hide
