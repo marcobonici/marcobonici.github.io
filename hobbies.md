@@ -26,3 +26,8 @@ a group of people makes me feel alive.
 ![Alice](/assets/hobbies/alice_in_wonderland.jpg)
 
 ![StandUp](/assets/hobbies/standup.jpeg)
+
+![Opening De Carlo](/assets/hobbies/opening_decarlo.png)
+
+The last photo was taken in Tolfa, while I was doing the opening act for
+[Francesco De Carlo](https://francescodecarlo.co.uk/).
