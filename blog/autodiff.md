@@ -5,17 +5,13 @@ These must be considered as some notes that I wrote for myself, to better unders
 topic of automatic differentiation. Furthermore, these notes are far to be completed and
 need to be refined.}
 
-Several computational techniques (minimization, training of Deep Neural Networks,
+Several computational techniques (minimization algorithms, training of Deep Neural Networks,
 Hamiltonian MonteCarlo) requires the computation of gradients, jacobian, and hessians. While
-we all learnt how to compute these quantities during calculus courses, there are several
-situations in which classical tools may not be enough.
+we all learnt how to compute these quantities during calculus courses, these techniques may
+be not well suited when dealing with numerical computations.
 
 In the reminder of this post, I'll walk through the main techniques that can be used to
 compute derivatives:
-- Symbolic derivatives
-- Finite difference
-- Forward automatic differentiation
-- Backward automatic differentiation
 
 \toc
 
@@ -63,7 +59,6 @@ What are the advantages of this approach?
 - ✅ As long as you have an analytical expression for the input function, this approach works
 
 However, this approach has several drawbacks
-- ❌ Need to be coded and error prone
 - ❌ For complicated functions, the derivative may not have a maneageable analytical expression
 - ❌ We don't always have an analytical functions to differentiate. For instance, when dealing with Differential Equations, we often have only a numerical solution
 
@@ -77,8 +72,8 @@ derivative:
 f^{\prime}(x)=\lim _{\epsilon \rightarrow 0} \frac{f(x+\epsilon)-f(x)}{\epsilon}\approx \frac{f(x+\Delta x)-f(x)}{\Delta x}
 \end{equation}
 
-If we have a function with more variables, this approach need to be extended to each of
-variables. Let us code it in Julia!
+If we have a function with more variables, this approach need to be extended to each of the
+variables involved. Let us code it in Julia!
 ```julia:func_def
 f(x) = sin(x[1])+x[1]*x[2]+exp(x[2]+x[3])
 ```
@@ -89,16 +84,25 @@ using BenchmarkTools
 @benchmark f([0,0,0])
 ```
 \show{benchmark}
-Let us evaluate the finite difference derivative!
+Let us evaluate the finite difference derivative![^finitedifference]
 ```julia:finite_difference_1
-fx₀ = f([0,0,0])
-Δx = 1e-6
-∂f1 = (f([Δx,0,0])-fx₀)/Δx
-∂f2 = (f([0,Δx,0])-fx₀)/Δx
-∂f3 = (f([0,0,Δx])-fx₀)/Δx
-println("∂f1=", ∂f1) # hide
-println("∂f2=", ∂f2) # hide
-println("∂f3=", ∂f3) # hide
+using LinearAlgebra
+f(x) = sin(x[1])+x[1]*x[2]+exp(x[2]+x[3]) # hide
+
+function  ∇f(f, x, ϵ)
+    gradf = zeros(size(x))
+    ϵ_matrix = ϵ * Matrix(I, length(x), length(x))
+    for i in 1:length(x)
+        gradf[i] = (f(x+ϵ_matrix[i,:])-f(x-ϵ_matrix[i,:]))/ϵ
+    end
+    return gradf
+end
+
+gradf = ∇f(f,[0,0,0], 1e-4)
+
+println("∂f1=", gradf[1]) # hide
+println("∂f2=", gradf[2]) # hide
+println("∂f3=", gradf[3]) # hide
 ```
 Let us see the result of the calculation!
 \show{finite_difference_1}
@@ -107,26 +111,28 @@ truncation error! We have approximated the derivative and this gave us an imprec
 Furthermore, the error depends on the chosen step-size. If the step-size is too big, we are
 not going to approximate the derivative...
 ```julia:finite_difference_2
-Δx = 1e-2
-∂f1 = (f([Δx,0,0])-fx₀)/Δx # hide
-∂f2 = (f([0,Δx,0])-fx₀)/Δx # hide
-∂f3 = (f([0,0,Δx])-fx₀)/Δx # hide
-println("∂f1=", ∂f1) # hide
-println("∂f2=", ∂f2) # hide
-println("∂f3=", ∂f3) # hide
+gradf = ∇f(f,[0,0,0], 1e-1)
+
+println("∂f1=", gradf[1]) # hide
+println("∂f2=", gradf[2]) # hide
+println("∂f3=", gradf[3]) # hide
 ```
 \show{finite_difference_2}
 ...on the other hand, a small step-size will incure on floating-precision error
 ```julia:finite_difference_3
-Δx = 1e-15
-∂f1 = (f([Δx,0,0])-fx₀)/Δx # hide
-∂f2 = (f([0,Δx,0])-fx₀)/Δx # hide
-∂f3 = (f([0,0,Δx])-fx₀)/Δx # hide
-println("∂f1=", ∂f1) # hide
-println("∂f2=", ∂f2) # hide
-println("∂f3=", ∂f3) # hide
+gradf = ∇f(f,[0,0,0], 1e-15)
+
+println("∂f1=", gradf[1]) # hide
+println("∂f2=", gradf[2]) # hide
+println("∂f3=", gradf[3]) # hide
 ```
 \show{finite_difference_3}
+On the performance side, 
+
+```julia:finite_difference_4
+@benchmark gradf = ∇f(f,[0,0,0], 1e-4)
+```
+\show{finite_difference_4}
 ## Forward algorithmic differentiation
 
 ```julia:forward_diff_1
@@ -421,3 +427,6 @@ We have now written the gradient of our function! We three terms, each of the pr
 to a partial derivative. The coefficient multiplying each of these derivatives is the
 corresponding element of the gradient! Thus, we can conclude that the calculation give the
 same result as before!
+
+### References and Footnotes
+[^finitedifference]: This is not the most efficient way to code the finite difference derivative, it is just something quick and dirt to show the method. A more efficient implementation can be found in (FiniteDifference.jl)[https://github.com/JuliaDiff/FiniteDifferences.jl]
