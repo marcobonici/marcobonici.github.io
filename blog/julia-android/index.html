@@ -1,0 +1,60 @@
+<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/libs/highlight/github.min.css"> <link rel=stylesheet  href="/css/franklin.css"> <link rel=stylesheet  href="/css/minimal-mistakes.css"> <link rel=stylesheet  href="/css/adjust.css"> <link rel=icon  href="/assets/temp_fav.png"> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>Julia on Android</title> <meta name=google-site-verification  content=83wzCvn1Z2WBAj5oNN1RlvnWS5Xb5MmekUS2wgld9sg  /> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=site-title  href="/">Marco Bonici</a> <ul class=visible-links > <li class=masthead__menu-item ><a href="/blog/" >Blog</a> <li class=masthead__menu-item ><a href="/work/" >Publications</a> <li class=masthead__menu-item ><a href="/Bonici_CV.pdf" >CV</a> <li class=masthead__menu-item ><a href="/hobbies/">Other Interests</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class="sidebar sticky"> <div itemscope itemtype="https://schema.org/Person"> <div class=author__avatar > <img src="/assets/portrait.jpg" alt=Me  itemprop=image > </div> <div class=author__content > <h3 class=author__name  itemprop=name >Marco Bonici</h3> <p class=author__bio  itemprop=description >PostDoctoral Researcher at INAF-IASF Milano. Cosmologist working in the field of the large-scale-structure of the Universe. JuliaLang enthusiast.</p> </div> <div class=author__urls-wrapper > <button class="btn btn--inverse">Follow</button> <ul class="author__urls social-icons"> <li itemprop=homeLocation  itemscope itemtype="https://schema.org/Place"> <i class="fas fa-fw fa-map-marker-alt" aria-hidden=true ></i> <span itemprop=name >Milano, Italy</span> <li><a href="https://twitter.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a> <li><a href="https://github.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a> <li><a href="mailto:marco.bonici@inaf.it" rel="nofollow noopener noreferrer"><i class="fa fa-envelope" aria-hidden=true ></i> Email</a> </ul> </div> </div> </div> <div class=franklin-content ><h1 id=julia_on_android_how_to_use_julia_everywhere ><a href="#julia_on_android_how_to_use_julia_everywhere" class=header-anchor >Julia on Android: how to use Julia everywhere</a></h1> <p>in this blog post, I am going to show how to install a terminal emulator on your Android device and run Julia on top of it. This blog post is based on the tutorial that can be found at the following links:</p> <ul> <li><p><a href="https://gist.github.com/caseykneale/fb5503d95b29c1e3bf167a192bf17420">RMSRosas termux julia install instructions 2021</a></p> <li><p><a href="https://www.linkedin.com/pulse/running-julia-my-android-phone-paresh-mathur">Running Julia on my android phone</a></p> <li><p><a href="https://github.com/MFDGaming/ubuntu-in-termux">Ubuntu in Termux</a></p> </ul> <h2 id=first_step_install_termux ><a href="#first_step_install_termux" class=header-anchor >First step: install Termux</a></h2> <p>The chosen emulator is Termux, but we are not going to use the Play Store version, but rather the one given by <a href="https://f-droid.org/en/">F-Droid</a>.</p> <p>After downloading F-Droid and installing it, you need to look for a Termux emulator usng the search bar. After installing Termux in this way, you should be able to update your environment</p> <pre><code class="julia hljs">apt-get update &amp;&amp; apt-get upgrade -y</code></pre>
+<p>Install <code>wget</code></p>
+<pre><code class="julia hljs">apt-get install wget -y</code></pre>
+<p>Install <code>proot</code></p>
+<pre><code class="julia hljs">apt-get install proot -y</code></pre>
+<p>Install <code>git</code></p>
+<pre><code class="julia hljs">apt-get install git -y</code></pre>
+<p>Go to <code>home</code>  folder</p>
+<pre><code class="julia hljs">cd ~</code></pre>
+<p>Download script to install Ubuntu</p>
+<pre><code class="julia hljs">git clone https://github.com/MFDGaming/ubuntu-<span class=hljs-keyword >in</span>-termux.git</code></pre>
+<p>Go to script folder</p>
+<pre><code class="julia hljs">cd ubuntu-<span class=hljs-keyword >in</span>-termux</code></pre>
+<p>Give permission to run script</p>
+<pre><code class="julia hljs">chmod +x ubuntu.sh</code></pre>
+<p>Run the script</p>
+<pre><code class="julia hljs">./ubuntu.sh -y</code></pre>
+<p>Now you can start Ubuntu</p>
+<pre><code class="julia hljs">./startubuntu.sh</code></pre>
+<h1 id=second_step_install_julia ><a href="#second_step_install_julia" class=header-anchor >Second step: install Julia</a></h1>
+<p>Download Julia binaries. Here is the download lonk at the last moment I updated the blog post</p>
+<pre><code class="julia hljs">wget https://julialang-s3.julialang.org/bin/linux/aarch64/<span class=hljs-number >1.8</span>/julia-<span class=hljs-number >1.8</span><span class=hljs-number >.2</span>-linux-aarch64.tar.gz</code></pre>
+<p>Extract the downloaded archive</p>
+<pre><code class="julia hljs">tar zxvf julia-<span class=hljs-number >1.8</span><span class=hljs-number >.1</span>-linux-x86_64.tar.gz</code></pre>
+<p>Add Julia to your Path. Open your bashrc</p>
+<pre><code class="julia hljs">nano ~/.bashrc</code></pre>
+<p>Add to the end the <em>Absolute</em> path to Julia, which will look like </p>
+<pre><code class="julia hljs"><span class=hljs-keyword >export</span> PATH=<span class=hljs-string >&quot;<span class=hljs-variable >$PATH</span>:/root/julia-1.8.2
+/bin&quot;</span></code></pre>
+<p>Now source your bashrc</p>
+<pre><code class="julia hljs">source ~/.bashrc</code></pre>
+<p>You can now start Julia from terminal, using simply</p>
+<pre><code class="julia hljs">julia</code></pre>
+<!-- <div class=page-foot >
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> {{ fill author }}. {{isnotpage /tag/*}}Last modified: {{ fill fd_mtime }}.{{end}}
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div> -->
+</div>
+
+      </div> 
+    </div>   
+
+    <div class=page__footer >
+      <footer>
+        
+        
+        <div class=page__footer-follow >
+          <ul class=social-icons >
+            <li><strong>Follow:</strong>
+            <li><a href="https://twitter.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a>
+            <li><a href="https://github.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a>
+          </ul>
+        </div>
+        <div class=page__footer-copyright >&copy; Marco Bonici. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a>,  <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a>
+          and the <a href="https://julialang.org">Julia programming language</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script>
