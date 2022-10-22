@@ -14,3 +14,6 @@ Now you can add all the packages you want!
 The second step requires to use `IJulia` to add your Julia kernel to Jupyter.
 ![add_kernel](/assets/julia-tricks/add_kernel.png)
 More info can be found on the IJulia [Documentation](https://julialang.github.io/IJulia.jl/stable/manual/installation/#Installing-additional-Julia-kernels).
+
+## Distributed computing
+Remember, when creating processes, that you should pay attention to the env you are using...with the flag `exeflags="--project=$(Base.active_project())"`
