@@ -16,4 +16,7 @@ The second step requires to use `IJulia` to add your Julia kernel to Jupyter.
 More info can be found on the IJulia [Documentation](https://julialang.github.io/IJulia.jl/stable/manual/installation/#Installing-additional-Julia-kernels).
 
 ## Distributed computing
+
+### Julia Envs & Distributed computing
+If you want to use a Julia environment with distributed computing, it is not enough to start the `julia` REPL or run a script using the `--project` flag: if you add a process, this will use the mail `julia` environment.
 Remember, when creating processes, that you should pay attention to the env you are using...with the flag `exeflags="--project=$(Base.active_project())"`
