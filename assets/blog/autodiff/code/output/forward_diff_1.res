@@ -1,10 +1,10 @@
-BenchmarkTools.Trial: 10000 samples with 189 evaluations.
- Range (min … max):  541.270 ns … 162.022 μs  ┊ GC (min … max):  0.00% … 99.33%
- Time  (median):     724.870 ns               ┊ GC (median):     0.00%
- Time  (mean ± σ):   917.139 ns ±   4.317 μs  ┊ GC (mean ± σ):  13.19% ±  2.81%
+BenchmarkTools.Trial: 10000 samples with 197 evaluations.
+ Range (min … max):  463.457 ns … 118.312 μs  ┊ GC (min … max):  0.00% … 99.35%
+ Time  (median):     502.543 ns               ┊ GC (median):     0.00%
+ Time  (mean ± σ):   664.509 ns ±   3.312 μs  ┊ GC (mean ± σ):  14.07% ±  2.81%
 
-     ▄█▂                                                         
-  ▁▂▆███▆▅▆▅▄▄▄▅▆▇▆▅▄▄▄▃▃▂▂▂▂▂▂▂▂▂▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁ ▂
-  541 ns           Histogram: frequency by time         1.62 μs <
+   █▇▁                                                           
+  ▅███▅▄▃▃▂▂▂▂▂▂▂▂▂▂▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▃▃▃▂▂▂▂▂▂▂▂▂▃▃▄▅▅▄▃▃▂▁▁ ▂
+  463 ns           Histogram: frequency by time          751 ns <
 
  Memory estimate: 512 bytes, allocs estimate: 5.
