@@ -63,7 +63,7 @@ wget https://julialang-s3.julialang.org/bin/linux/aarch64/1.8/julia-1.8.2-linux-
 ```
 Extract the downloaded archive
 ```
-tar zxvf julia-1.8.1-linux-x86_64.tar.gz
+tar zxvf julia-1.8.2-linux-x86_64.tar.gz
 ```
 Add Julia to your Path. Open your bashrc
 ```
