@@ -15,6 +15,11 @@ The second step requires to use `IJulia` to add your Julia kernel to Jupyter.
 ![add_kernel](/assets/julia-tricks/add_kernel.png)
 More info can be found on the IJulia [Documentation](https://julialang.github.io/IJulia.jl/stable/manual/installation/#Installing-additional-Julia-kernels).
 
+## Julia and VSCode
+VSCode is a great IDE for Julia, the one I am currently using. What you need, in order to freely add virtual envs to the studd you are doing, is to add the correct path to your Julia installation, in the Julia extension settings
+![set_vscode](/assets/julia-tricks/vscode_set_julia_path.png)
+
+
 ## Distributed computing
 
 ### Julia Envs & Distributed computing
