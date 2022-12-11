@@ -71,8 +71,7 @@ nano ~/.bashrc
 ```
 Add to the end the *Absolute* path to Julia, which will look like 
 ```
-export PATH="$PATH:/root/julia-1.8.2
-/bin"
+export PATH="$PATH:/root/julia-1.8.2/bin"
 ```
 Now source your bashrc
 ```
@@ -82,3 +81,6 @@ You can now start Julia from terminal, using simply
 ```
 julia
 ```
+If everything works, you should see something like this
+![julia-android](/assets/blog/julia-android/final-result.jpg)
+Now you can start bullying your friends, showing them how easy it is to run your Julia codes on your smartphone.
