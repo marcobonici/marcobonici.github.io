@@ -23,5 +23,5 @@ VSCode is a great IDE for Julia, the one I am currently using. What you need, in
 ## Distributed computing
 
 ### Julia Envs & Distributed computing
-If you want to use a Julia environment with distributed computing, it is not enough to start the `julia` REPL or run a script using the `--project` flag: if you add a process, this will use the mail `julia` environment.
+If you want to use a Julia environment with distributed computing, it is not enough to start the `julia` REPL or run a script using the `--project` flag: if you add a process, this will use the main `julia` environment.
 Remember, when creating processes, that you should pay attention to the env you are using...with the flag `exeflags="--project=$(Base.active_project())"`
