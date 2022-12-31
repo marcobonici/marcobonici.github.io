@@ -16,9 +16,39 @@ The second step requires to use `IJulia` to add your Julia kernel to Jupyter.
 More info can be found on the IJulia [Documentation](https://julialang.github.io/IJulia.jl/stable/manual/installation/#Installing-additional-Julia-kernels).
 
 ## Julia and VSCode
-VSCode is a great IDE for Julia, the one I am currently using. What you need, in order to freely add virtual envs to the studd you are doing, is to add the correct path to your Julia installation, in the Julia extension settings
+VSCode is a great IDE for Julia, the one I am currently using. What you need, in order to freely add virtual envs to the stuff you are doing, is to add the correct path to your Julia installation, in the Julia extension settings
 ![set_vscode](/assets/julia-tricks/vscode_set_julia_path.png)
 
+## Benchmarking
+
+When you want to show benchmark in your website (or in your package documentation), it is useful to perform them _locally_ on your laptop, save the benchmark result and show them (after daclaring which hardware was employed!).
+
+For instance, the benchmark presents on the `Effort.jl` page, have been produced with the following code
+
+
+```julia
+suite = BenchmarkGroup()
+
+suite["Effort"] = BenchmarkGroup(["tag1"])
+
+suite["Effort"]["Monopole"] = @benchmarkable Effort.get_Pℓ($input_test, $bs, $f, $Mono_Emu)
+suite["Effort"]["AP_GK"] = @benchmarkable Effort.apply_AP_check($k_test, $Mono_Effort, $Quad_Effort, $Hexa_Effort,  $q_par, $q_perp)
+suite["Effort"]["AP_GL"] = @benchmarkable Effort.apply_AP($k_test, $Mono_Effort, $Quad_Effort, $Hexa_Effort,  $q_par, $q_perp)
+
+tune!(suite)
+
+results = run(suite, verbose = true)
+
+BenchmarkTools.save("effort_benchmark.json", results)
+```
+
+In order to see the results, just load the benchmark file and use
+
+```julia
+benchmark = BenchmarkTools.load("effort_benchmark.json")
+
+benchmark[1]["Effort"]["AP_GL"]
+```
 
 ## Distributed computing
 
