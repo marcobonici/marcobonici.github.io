@@ -60,3 +60,37 @@ benchmark[1]["Effort"]["AP_GL"]
 
 If you want to use a Julia environment with distributed computing, it is not enough to start the `julia` REPL or run a script using the `--project` flag: if you add a process, this will use the main `julia` environment.
 Remember, when creating processes, that you should pay attention to the env you are using...with the flag `exeflags="--project=$(Base.active_project())"`
+
+## Create Artifact
+
+Largely based on [this](https://github.com/simeonschaub/ArtifactUtils.jl).
+This is what we are doing to create the ACTPol lite likelihood.
+
+
+```julia
+using Artifacts, ArtifactUtils, ACTPolLite
+
+tempdir = mktempdir()
+
+npzwrite(joinpath(tempdir,"win_func_d.npy"), win_func_d)
+npzwrite(joinpath(tempdir,"win_func_w.npy"), win_func_w)
+npzwrite(joinpath(tempdir,"cov_ACT.npy"), cov_ACT)
+npzwrite(joinpath(tempdir,"data.npy"), data)
+
+gist = upload_to_gist(artifact_id)
+
+add_artifact!("Artifacts.toml", "DR4_data", gist)
+```
+
+In the package, add a function `__init__()` such as
+
+```julia
+function __init__()
+
+    global win_func_d = npzread(joinpath(artifact"DR4_data", "win_func_d.npy"))
+    global win_func_w = npzread(joinpath(artifact"DR4_data", "win_func_w.npy"))
+    global cov_ACT = npzread(joinpath(artifact"DR4_data", "cov_ACT.npy"))
+    global data = npzread(joinpath(artifact"DR4_data", "data.npy"))
+
+end
+```
