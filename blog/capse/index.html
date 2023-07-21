@@ -1,0 +1,221 @@
+<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/libs/katex/katex.min.css"> <link rel=stylesheet  href="/libs/highlight/github.min.css"> <link rel=stylesheet  href="/css/franklin.css"> <link rel=stylesheet  href="/css/minimal-mistakes.css"> <link rel=stylesheet  href="/css/adjust.css"> <link rel=icon  href="/assets/temp_fav.png"> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>Capse.jl</title> <meta name=google-site-verification  content=83wzCvn1Z2WBAj5oNN1RlvnWS5Xb5MmekUS2wgld9sg  /> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=site-title  href="/">Marco Bonici</a> <ul class=visible-links > <li class=masthead__menu-item ><a href="/blog/" >Blog</a> <li class=masthead__menu-item ><a href="/work/" >Publications</a> <li class=masthead__menu-item ><a href="/Bonici_CV.pdf" >CV</a> <li class=masthead__menu-item ><a href="/hobbies/">Other Interests</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class="sidebar sticky"> <div itemscope itemtype="https://schema.org/Person"> <div class=author__avatar > <img src="/assets/portrait.jpg" alt=Me  itemprop=image > </div> <div class=author__content > <h3 class=author__name  itemprop=name >Marco Bonici</h3> <p class=author__bio  itemprop=description >PostDoctoral Researcher at INAF-IASF Milano. Cosmologist working in the field of the large-scale-structure of the Universe. JuliaLang enthusiast.</p> </div> <div class=author__urls-wrapper > <button class="btn btn--inverse">Follow</button> <ul class="author__urls social-icons"> <li itemprop=homeLocation  itemscope itemtype="https://schema.org/Place"> <i class="fas fa-fw fa-map-marker-alt" aria-hidden=true ></i> <span itemprop=name >Milano, Italy</span> <li><a href="https://twitter.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a> <li><a href="https://github.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a> <li><a href="mailto:marco.bonici@inaf.it" rel="nofollow noopener noreferrer"><i class="fa fa-envelope" aria-hidden=true ></i> Email</a> </ul> </div> </div> </div> <script src="/libs/clipboard.min.js"></script><div class=franklin-content ><h1 id=capsejl_a_one-second-cmb_analysis_tool ><a href="#capsejl_a_one-second-cmb_analysis_tool" class=header-anchor >Capse.jl: a one-second-CMB analysis tool</a></h1> <p>On of the recent hot topics in Cosmology is represented by the development of <em>emulators</em>, surrogate models that are meant to replace a computationally expensive function with an approximation that is way cheaper. Focusing on CMB emulators, two of the last emulators built are ClassNet<sup id="fnref:classnet"><a href="#fndef:classnet" class=fnref >[1]</a></sup> and Cosmopower<sup id="fnref:cosmopower"><a href="#fndef:cosmopower" class=fnref >[2]</a></sup>. Following different strategies and approaches, these two frameworks are able to compute the CMB angular spectrum in a fraction of the time required by an Einstein-Boltzmann solver; Cosmopower in particular is around 1,000 times faster, computing the CMB power spectrum in a few milliseconds.</p> <p>So, the interested reader might ask us a simple question: <em>why are you working on yet another CMB emulator? Can&#39;t you just use Cosmopower?</em></p> <p>I think that, although Cosmopower has reached an incredibile performance and versatility, we can do better, reducing the amount of resources required to train the emulators and reaching a higher computational performance. Furthermore, I wanna leverage one of the emulators main characteristics, their <em>differentiability</em>. This open up to the possibility of using gradient-based algorithms for bayesian inference and minimization.</p> <p>In order to reach that goal, together with Federico Bianchini<sup id="fnref:moustache"><a href="#fndef:moustache" class=fnref >[3]</a></sup> and Jaime Ruiz-Zapatero<sup id="fnref:phylosophy"><a href="#fndef:phylosophy" class=fnref >[4]</a></sup>, I have developed Capse.jl, a CMB Angular Power Spectrum emulator written using the Julia language.</p> <p>So, what are the main characteristics of Capse.jl and why should you consider giving it a try?</p> <ul> <li><p>⚡ Capse.jl is blazing fast. It builds on SimpleChains.jl<sup id="fnref:simplechains"><a href="#fndef:simplechains" class=fnref >[5]</a></sup>, a Julia Neural Network library designed with a limited scope: develop fast neural networks running on the CPU.</p> <li><p>⚗️ In order to emulate only the essential components, Capse.jl performs a physics-based preprocess of the output features<sup id="fnref:preprocess"><a href="#fndef:preprocess" class=fnref >[6]</a></sup>.</p> <li><p>🔋 Capse.jl is cheap to train: as a consequence of the previous two points, it can be trained in around one hour using a standard CPU.</p> <li><p>🎯 Capse.jl can be coupled with gradient-based algorithms, in order to perform bayesian analysis and/or minimizations.</p> </ul> <p>Furthermore, Capse.jl is written, <em>ça va sans dire</em>, in pure Julia. This means that it can be easily deployed on different kind of machines &#40;installing JAX and TensorFlow on Mac devices can be troublesome&#41;, even on Android smartphones. Yes, I have used Capse.jl on my Android smartphone and it was incredibly performant also there.</p> <p>Let us now give a quick summary of the main points of the Capse.jl emulator.</p> <div class=franklin-toc ><ol><li><a href="#installation_usage">Installation &amp; Usage</a><li><a href="#precision_tests_residual_curves_chains">Precision tests: residual curves &amp; chains</a></ol></div> <h2 id=installation_usage ><a href="#installation_usage" class=header-anchor >Installation &amp; Usage</a></h2> <p>Installing Capse.jl is quite easy. After moving to the package environment, you have to type</p> <p><code>Pkg</code> comes with a REPL. Enter the Pkg REPL by pressing <code>&#93;</code> from the Julia REPL. To get back to the Julia REPL, press <code>Ctrl&#43;C</code> or backspace &#40;when the REPL cursor is at the beginning of the input&#41;.</p> <p>Upon entering the Pkg REPL, you should see the following prompt:</p> <pre><code class="julia hljs">(<span class=hljs-meta >@v1</span><span class=hljs-number >.9</span>) pkg&gt;</code></pre>
+<p>Now you can install AbstractEmulator.jl, the higher level package I use to develop my emulators, and Capse.jl</p>
+<pre><code class="julia hljs">(<span class=hljs-meta >@v1</span><span class=hljs-number >.9</span>) pkg&gt; add https://github.com/CosmologicalEmulators/AbstractEmulator.jl
+(<span class=hljs-meta >@v1</span><span class=hljs-number >.9</span>) pkg&gt; add https://github.com/CosmologicalEmulators/Capse.jl</code></pre>
+<p>This is something that should work with no particol effort. After installation, can move back to the standard <code>Julia</code> REPL, load the following packages</p>
+<pre><code class="julia hljs"><span class=hljs-keyword >using</span> SimpleChains
+<span class=hljs-keyword >using</span> Static
+<span class=hljs-keyword >using</span> NPZ
+<span class=hljs-keyword >using</span> Capse</code></pre>
+<p>Now you we have to load the emulator, which requires three elements:</p>
+<ul>
+<li><p>the <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant=normal >ℓ</mi></mrow><annotation encoding="application/x-tex">\ell</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.6944em;"></span><span class=mord >ℓ</span></span></span></span>-grid the emulator has been trained on</p>
+
+<li><p>the trained weights</p>
+
+<li><p>the input and output features minimum and maximum ranges, used the perform the min-max normalization</p>
+
+</ul>
+<pre><code class="julia hljs">ℓ = npzread(<span class=hljs-string >&quot;l.npy&quot;</span>)
+
+weights_TT = npzread(<span class=hljs-string >&quot;weights_TT_lcdm.npy&quot;</span>)
+trained_emu_TT = Capse.SimpleChainsEmulator(Architecture= mlpd, Weights = weights_TT)
+CℓTT_emu = Capse.CℓEmulator(TrainedEmulator = trained_emu_TT, ℓgrid = ℓ,
+                             InMinMax = npzread(<span class=hljs-string >&quot;inMinMax_lcdm.npy&quot;</span>),
+                             OutMinMax = npzread(<span class=hljs-string >&quot;outMinMaxCℓTT_lcdm.npy&quot;</span>))</code></pre>
+<div class=warning ><strong>Warning</strong> ⚠:    Up to now <code>Capse.jl</code> takes the input with an hardcoded order, being them <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ln</mi><mo>⁡</mo><mn>1</mn><msup><mn>0</mn><mn>10</mn></msup><msub><mi>A</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">\ln 10^{10}A_s</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.9641em;vertical-align:-0.15em;"></span><span class=mop >ln</span><span class=mspace  style="margin-right:0.1667em;"></span><span class=mord >1</span><span class=mord ><span class=mord >0</span><span class=msupsub ><span class=vlist-t ><span class=vlist-r ><span class=vlist  style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">10</span></span></span></span></span></span></span></span></span><span class=mord ><span class="mord mathnormal">A</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">s</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">n_s</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.5806em;vertical-align:-0.15em;"></span><span class=mord ><span class="mord mathnormal">n</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">s</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">H_0</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.8333em;vertical-align:-0.15em;"></span><span class=mord ><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ω</mi><mi>b</mi></msub></mrow><annotation encoding="application/x-tex">\omega_b</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.5806em;vertical-align:-0.15em;"></span><span class=mord ><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">b</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ω</mi><mi>c</mi></msub></mrow><annotation encoding="application/x-tex">\omega_c</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.5806em;vertical-align:-0.15em;"></span><span class=mord ><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">c</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> and <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi></mrow><annotation encoding="application/x-tex">\tau</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span></span></span></span>. In a future release we are going to add a more flexible way to use it&#33;</div>
+<pre><code class="julia hljs"><span class=hljs-meta >@benchmark</span> Capse.get_Cℓ($input_test, $CℓTT_emu)</code></pre>
+<p>That&#39;s it&#33; The mean execution time of <code>Capse.jl</code> is of <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>45</mn><mtext> </mtext><mi>μ</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">45\,\mu s</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.8389em;vertical-align:-0.1944em;"></span><span class=mord >45</span><span class=mspace  style="margin-right:0.1667em;"></span><span class="mord mathnormal">μ</span><span class="mord mathnormal">s</span></span></span></span>&#33; This is almost 3 orders of magnitudes lower than <code>Cosmopower</code>&#33;</p>
+<h2 id=precision_tests_residual_curves_chains ><a href="#precision_tests_residual_curves_chains" class=header-anchor >Precision tests: residual curves &amp; chains</a></h2>
+<p><code>Capse.jl</code> is the fastest CMB emulator available. But is it precise? This is something we need to check, because as Mr. Pirelli said... <img src="https://github.com/marcobonici/marcobonici.github.io/assets/58727599/da73ded5-0ad9-4855-aa06-e8696d96e6d1" alt=Pirelli  /></p>
+<p>Let us start plotting the distribution of the ratio between the emulation error and the expected variance from the forthcoming S4-observatory, for a validation dataset with <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>20</mn><mo separator=true >,</mo><mn>000</mn></mrow><annotation encoding="application/x-tex">20,000</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.8389em;vertical-align:-0.1944em;"></span><span class=mord >20</span><span class=mpunct >,</span><span class=mspace  style="margin-right:0.1667em;"></span><span class=mord >000</span></span></span></span> cosmologies covering the entire training space.</p>
+<p><img src="https://github.com/marcobonici/marcobonici.github.io/assets/58727599/4de40963-9596-42f0-a37d-fb1cb348667b" alt="Capse error distribution" /></p>
+<p>This means that the emulation error is <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn></mrow><annotation encoding="application/x-tex">10</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.6444em;"></span><span class=mord >10</span></span></span></span> times smaller than expected measurements variance for almost all scales<sup id="fnref:scales"><a href="#fndef:scales" class=fnref >[7]</a></sup> for <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>99</mn><mi mathvariant=normal >%</mi></mrow><annotation encoding="application/x-tex">99\%</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.8056em;vertical-align:-0.0556em;"></span><span class=mord >99%</span></span></span></span> of the validation points&#33;</p>
+<p>These are not the only tests we performed in order to assess the accuracy of our emulators. We analyzed the Planck and ACT DR4 datasets, using CAMB and Cobaya, then we used <code>Turing.jl</code> to write a likelihood using <code>Capse.jl</code>. Although this can be different from what is usually done in Cosmology, the following code snippet should highlight how to write a likelihood</p>
+<pre><code class="julia hljs"><span class=hljs-meta >@model</span> <span class=hljs-keyword >function</span> CMB_planck(data, covariance)
+    <span class=hljs-comment >#prior on model parameters</span>
+    ln10As ~ Uniform(<span class=hljs-number >0.25</span>, <span class=hljs-number >0.35</span>)
+    ns     ~ Uniform(<span class=hljs-number >0.88</span>, <span class=hljs-number >1.06</span>)
+    h0     ~ Uniform(<span class=hljs-number >0.60</span>, <span class=hljs-number >0.80</span>)
+    ωb     ~ Uniform(<span class=hljs-number >0.1985</span>, <span class=hljs-number >0.25</span>)
+    ωc     ~ Uniform(<span class=hljs-number >0.08</span>, <span class=hljs-number >0.20</span>)
+    τ      ~ Normal(<span class=hljs-number >0.0506</span>, <span class=hljs-number >0.0086</span>)
+    yₚ     ~ Normal(<span class=hljs-number >1.0</span>, <span class=hljs-number >0.0025</span>)
+
+    θ = [<span class=hljs-number >10</span>*ln10As, ns, <span class=hljs-number >100</span>*h0, ωb/<span class=hljs-number >10</span>, ωc, τ]
+    <span class=hljs-comment >#compute theoretical prediction</span>
+    pred = theory_planck(θ) ./(yₚ^<span class=hljs-number >2</span>)
+    <span class=hljs-comment >#compute likelihood</span>
+    data ~ MvNormal(pred, covariance)
+
+    <span class=hljs-keyword >return</span> <span class=hljs-literal >nothing</span>
+<span class=hljs-keyword >end</span></code></pre>
+<p>Here comes one of the <code>Julia</code> strenghts: the high interoperability of its ecosystem. Given our <code>Turing.jl</code> likelihood, we can use different analysis algorithms:</p>
+<ul>
+<li><p>NUTS, the No-U-Turn-Sampler. This is the state-of-the-art gradient-based sampler</p>
+
+<li><p>MicroCanonical Hamiltonian MonteCarlo, MCHMC, a recently developed Hamiltonian MonteCarlo Sampler</p>
+
+<li><p>Pathfinder, a variational inference algorithm</p>
+
+</ul>
+<p>The <code>Julia</code> implementation of these algorithms is interfaced with <code>Turing.jl</code>, so we can easily test these algorithms with our likelihoods&#33; What is the result of this comparison?</p>
+<p><img src="https://github.com/marcobonici/marcobonici.github.io/assets/58727599/6ad77fa6-5df7-4edd-b629-35aef48f312b" alt="Contour Planck" /></p>
+<p>The chains are basically the same, with differences of about <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.1</mn><mi>σ</mi></mrow><annotation encoding="application/x-tex">0.1\sigma</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.6444em;"></span><span class=mord >0.1</span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span></span></span></span> for the MCMC methods, and <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.2</mn><mi>σ</mi></mrow><annotation encoding="application/x-tex">0.2\sigma</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.6444em;"></span><span class=mord >0.2</span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span></span></span></span> for Pathfinder. But what about the computational performance?</p>
+<ul>
+<li><p>CAMB analyzed Planck with <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>80</mn></mrow><annotation encoding="application/x-tex">80</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.6444em;"></span><span class=mord >80</span></span></span></span> CPUhours, with an Effective Sample Size per second &#40;ESS/s&#41; of <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.004</mn></mrow><annotation encoding="application/x-tex">0.004</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.6444em;"></span><span class=mord >0.004</span></span></span></span></p>
+
+<li><p><code>Capse.jl</code> &#43; NUTS employed 1 CPUhour, with an ESS/s of 1.6</p>
+
+<li><p><code>Capse.jl</code> &#43; MCHMC required less than 1 CPUhour, with an ESS/s of 3.7</p>
+
+<li><p>Pathfinder computes the posterior in ~ <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>15</mn></mrow><annotation encoding="application/x-tex">15</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.6444em;"></span><span class=mord >15</span></span></span></span> seconds</p>
+
+</ul>
+<p>Although these results are impressive, there is still room for improvements...here comes the Chebyshev-based emulator&#33;</p>
+<p><table class=fndef  id="fndef:classnet">
+    <tr>
+        <td class=fndef-backref ><a href="#fnref:classnet">[1]</a>
+        <td class=fndef-content ><a href="https://arxiv.org/abs/2207.05707">CosmicNet II: Emulating extended cosmologies with efficient and accurate neural networks &#40;2022&#41;</a>
+    
+</table>
+<table class=fndef  id="fndef:cosmopower">
+    <tr>
+        <td class=fndef-backref ><a href="#fnref:cosmopower">[2]</a>
+        <td class=fndef-content ><a href="https://arxiv.org/abs/2106.03846">COSMOPOWER: emulating cosmological power spectra for accelerated Bayesian inference from next-generation surveys</a>
+    
+</table>
+<table class=fndef  id="fndef:moustache">
+    <tr>
+        <td class=fndef-backref ><a href="#fnref:moustache">[3]</a>
+        <td class=fndef-content >The man with the most beautiful pair of moustaches of the East Coast. Here you can find his <a href="https://fbianchini.github.io/">website</a>.
+    
+</table>
+<table class=fndef  id="fndef:phylosophy">
+    <tr>
+        <td class=fndef-backref ><a href="#fnref:phylosophy">[4]</a>
+        <td class=fndef-content >I love discussing with Jaime about no-physics related topics. The problem is that he has a way deeper knowledge of phylosophy than me, and every single time I have to admit &#40;at least to myself&#41; that he is right. Here you can find his <a href="https://jaimeruizzapatero.net/">website</a>.
+    
+</table>
+<table class=fndef  id="fndef:simplechains">
+    <tr>
+        <td class=fndef-backref ><a href="#fnref:simplechains">[5]</a>
+        <td class=fndef-content >Here you can find a link to <a href="https://github.com/PumasAI/SimpleChains.jl">SimpleChains.jl</a> repository.
+    
+</table>
+<table class=fndef  id="fndef:preprocess">
+    <tr>
+        <td class=fndef-backref ><a href="#fnref:preprocess">[6]</a>
+        <td class=fndef-content >Although we already reached a nice performance, we wanna improve the preprocessing in a future work.
+    
+</table>
+<table class=fndef  id="fndef:scales">
+    <tr>
+        <td class=fndef-backref ><a href="#fnref:scales">[7]</a>
+        <td class=fndef-content >The only exception is the <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">EE</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">EE</span></span></span></span> 2-pt correlation function for <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant=normal >ℓ</mi><mo>&lt;</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">\ell&lt;10</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.7335em;vertical-align:-0.0391em;"></span><span class=mord >ℓ</span><span class=mspace  style="margin-right:0.2778em;"></span><span class=mrel >&lt;</span><span class=mspace  style="margin-right:0.2778em;"></span></span><span class=base ><span class=strut  style="height:0.6444em;"></span><span class=mord >10</span></span></span></span>. We are working to improve the precision of <code>Capse.jl</code> also on these scales.
+    
+</table>
+</p>
+<!-- <div class=page-foot >
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> {{ fill author }}. {{isnotpage /tag/*}}Last modified: {{ fill fd_mtime }}.{{end}}
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div> -->
+</div>
+
+      </div> 
+    </div>   
+
+    <div class=page__footer >
+      <footer>
+        
+        
+        <div class=page__footer-follow >
+          <ul class=social-icons >
+            <li><strong>Follow:</strong>
+            <li><a href="https://twitter.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a>
+            <li><a href="https://github.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a>
+          </ul>
+        </div>
+        <div class=page__footer-copyright >&copy; Marco Bonici. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a>,  <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a>
+          and the <a href="https://julialang.org">Julia programming language</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script>
+
+    
+        
+
+
+
+    
+    
+        
+
+
+    
+  
+
+
+
+
+<script>
+  (function(){
+  
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+  
+    var pre = document.getElementsByTagName('pre');
+  
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+  
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+  
+            pre[i].appendChild(button);
+      }
+    };
+  
+    // Run Clipboard
+  
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+  
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+  
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+  
+    });
+  
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+  
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+  
+  })();
+  </script>
