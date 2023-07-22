@@ -76,7 +76,7 @@ That's it! The mean execution time of `Capse.jl` is of $45\,\mu s$! This is almo
 
 Let us start plotting the distribution of the ratio between the emulation error and the expected variance from the forthcoming S4-observatory, for a validation dataset with $20,000$ cosmologies covering the entire training space.
 
-![Capse error distribution](https://github.com/marcobonici/marcobonici.github.io/assets/58727599/4de40963-9596-42f0-a37d-fb1cb348667b)
+![Capse error distribution](https://github.com/marcobonici/marcobonici.github.io/assets/58727599/0dff8c09-604c-4713-9c26-68ee68904531)
 
 This means that the emulation error is $10$ times smaller than expected measurements variance for almost all scales[^scales] for $99\%$ of the validation points!
 
