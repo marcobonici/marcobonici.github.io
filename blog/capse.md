@@ -1,12 +1,12 @@
 @def title = "Capse.jl"
 
-# Capse.jl: a one-second-CMB analysis tool
+# The Julia CMB emulator: here comes Capse!
 
 On of the recent hot topics in Cosmology is represented by the development of _emulators_, surrogate models that are meant to replace a computationally expensive function with an approximation that is way cheaper. Focusing on CMB emulators, two of the last emulators built are ClassNet[^classnet] and Cosmopower[^cosmopower]. Following different strategies and approaches, these two frameworks are able to compute the CMB angular spectrum in a fraction of the time required by an Einstein-Boltzmann solver; Cosmopower in particular is around 1,000 times faster, computing the CMB power spectrum in a few milliseconds.
 
-So, the interested reader might ask us a simple question: *why are you working on yet another CMB emulator? Can't you just use Cosmopower?*
+So, the interested reader might ask us a simple question: *why are you working on yet another CMB emulator? Can't you just use what is already out there?*
 
-I think that, although Cosmopower has reached an incredibile performance and versatility, we can do better, reducing the amount of resources required to train the emulators and reaching a higher computational performance. Furthermore, I wanna leverage one of the emulators main characteristics, their _differentiability_. This open up to the possibility of using gradient-based algorithms for bayesian inference and minimization.
+I think that, although the codes developed by the community an incredibile performance and versatility, we can do better, reducing the amount of resources required to train the emulators and reaching a higher computational performance. Furthermore, I wanna leverage one of the emulators main characteristics, their _differentiability_. This open up to the possibility of using gradient-based algorithms for bayesian inference and minimization.
 
 In order to reach that goal, together with Federico Bianchini[^moustache] and Jaime Ruiz-Zapatero[^phylosophy], I have developed Capse.jl, a CMB Angular Power Spectrum emulator written using the Julia language.
 
@@ -122,6 +122,34 @@ The chains are basically the same, with differences of about $0.1\sigma$ for the
 
 Although these results are impressive, there is still room for improvements...here comes the Chebyshev-based emulator!
 
+## Chebyshev emulator
+
+The main idea is quite simple: rather than emulating _all_ the $C_\ell$'s, with a grid with several thousands of elements, let us decompose the power spectrum on the Chebyshev polynomial basis:
+
+\begin{equation}
+C_{\ell}(\theta) \approx \sum_{n=0}^{N_{\max }} a_n(\theta) T_n(\ell)
+\end{equation}
+
+The coefficients of the expansion carry all the Cosmological dependence. We found out that, in order to accurately emulate the Planck data, we just need 48 coefficients! A reduction in the output features of the neural network by a factor of 50!
+
+But this is not the best thing we can do. If the operations we need to perform in order to compute the loglikelihood (such as the $C_\ell$'s binning etc...) are _linear_ in the theoretical spectra $C(\theta)$, than we can represent them as a linear operator $\mathbb{L}$ and if this operator does not depend on the cosmological parameter, we can do the following thing:
+
+\begin{equation}
+\mathbb{L} \sum_n a_n(\theta) T_n=\sum_n a_n(\theta) \mathbb{L} T_n \equiv \sum_n a_n \hat{T}_n
+\end{equation}
+
+We can compute the action of the linear operator on the Chebyshev polynomials $T_n$ just once and store it! After this, we just need to make a matrix-vector product in order to compute the binned theoretical vector!
+
+This enables for dramatic speedup: the efficiency of our likelihoods is improved by a factor of 8, at no cost, since the binned theory vector computed with this method coincides, up to floating point precision, with the old one!
+
+## Ok, and now?
+
+Although we are quite proud of the results obtained, we are already working on improvements of our framework. First and foremost, we wanna perform a rescaling based on the $\tau$ value. This is more subtle, as most spectra are proportional to $e^{-2\tau}$, but the low-$\ell$ part of the $EE$ spectrum scales as $\tau^2$. We are working to implement a nice rescaling, that can improve the performance of our networks.
+
+Furthermore, we are working on improving the Chebyshev approach. Although we succesfully applied this approach to the Planck data, we wanna push it to the same scales of Cosmopower, which reaches $\ell_\mathrm{max}=10,000$. Preliminary results show that we can actually reach this level, even increasing the precision of our emulators!
+
+Please, feel free to use the comments-tab here or to drop to me, or my colleagues, an email for questions or comments.
+
 
 [^classnet]: [CosmicNet II: Emulating extended cosmologies with efficient and accurate neural networks (2022)](https://arxiv.org/abs/2207.05707)
 [^cosmopower]: [COSMOPOWER: emulating cosmological power spectra for accelerated Bayesian inference from next-generation surveys](https://arxiv.org/abs/2106.03846)
@@ -130,3 +158,5 @@ Although these results are impressive, there is still room for improvements...he
 [^simplechains]: Here you can find a link to [SimpleChains.jl](https://github.com/PumasAI/SimpleChains.jl) repository.
 [^preprocess]: Although we already reached a nice performance, we wanna improve the preprocessing in a future work.
 [^scales]: The only exception is the $EE$ 2-pt correlation function for $\ell<10$. We are working to improve the precision of `Capse.jl` also on these scales.
+
+{{ addcomments }}
