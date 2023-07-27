@@ -19,4 +19,4 @@
 0. **M. Bonici**, C. Carbone, P. Vielzeuf, L. Paganin, V. Cardone, N. Hamaus, A. Pisani, A.J. Hawken, A. Kovacs, S. Nadathur, S. Contarini, G. Verza, I. Tutusaus, F. Marulli, L. Moscardini, M. Aubert, C. Giocoli, A. Pourtsidou, S. Camera, S. Escoffier, A. Caminata, M. Martinelli, M. Pallavicini, et al., [Euclid: Forecasts from the void-lensing cross-correlation, (2022)](https://arxiv.org/abs/2206.14211)
 0. **Marco Bonici**, Luca Biggio, Carmelita Carbone, Luigi Guzzo, [Fast emulation of two-point angular statistics for photometric galaxy surveys, (2022)](https://arxiv.org/abs/2206.14208)
 0. S. Contarini, G. Verza, A. Pisani, N. Hamaus, M. Sahlén, C. Carbone, S. Dusini, F. Marulli, L. Moscardini, A. Renzi, C. Sirignano, L. Stanco, M. Aubert, **M. Bonici**, et al.,[Euclid: Cosmological forecasts from the void size function, (2022)](https://arxiv.org/abs/2205.11525)
-0. **M. Bonici**, F. Bianchini, J. Ruiz-Zapatero, Capse.jl: efficient and differentiable CMB power spectra emulation
+0. **M. Bonici**, F. Bianchini, J. Ruiz-Zapatero, [Capse.jl: efficient and differentiable CMB power spectra emulation](https://arxiv.org/abs/2307.14339)

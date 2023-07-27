@@ -19,6 +19,8 @@ So, what are the main characteristics of Capse.jl and why should you consider gi
 
 Furthermore, Capse.jl is written, _ça va sans dire_, in pure Julia. This means that it can be easily deployed on different kind of machines (installing JAX and TensorFlow on Mac devices can be troublesome), even on Android smartphones. Yes, I have used Capse.jl on my Android smartphone and it was incredibly performant also there.
 
+In order to reproduce _all_ the results of this paper, in [this](https://github.com/marcobonici/capse_paper) repository there are the notebooks to reproduce **all** of our results.
+
 Let us now give a quick summary of the main points of the Capse.jl emulator.
 
 
