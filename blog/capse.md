@@ -28,22 +28,20 @@ Let us now give a quick summary of the main points of the Capse.jl emulator.
 
 ## Installation & Usage
 
-Installing Capse.jl is quite easy. After moving to the package environment, you have to type
-
-`Pkg` comes with a REPL. Enter the Pkg REPL by pressing `]` from the Julia REPL. To get back to the Julia REPL, press `Ctrl+C` or backspace (when the REPL cursor is at the beginning of the input).
+Installing Capse.jl is quite easy. After moving to the package environment, you can enter the Pkg REPL by pressing `]` from the Julia REPL. To get back to the Julia REPL, press `Ctrl+C` or backspace (when the REPL cursor is at the beginning of the input).
 
 Upon entering the Pkg REPL, you should see the following prompt:
 
 ```
 (@v1.9) pkg>
 ```
-Now you can install AbstractEmulator.jl, the higher level package I use to develop my emulators, and Capse.jl
+Now you can install AbstractEmulator.jl[^abstractemu], the higher level package I use to develop my emulators, and Capse.jl
 ```
 (@v1.9) pkg> add https://github.com/CosmologicalEmulators/AbstractEmulator.jl
 (@v1.9) pkg> add https://github.com/CosmologicalEmulators/Capse.jl
 ```
 
-This is something that should work with no particol effort. After installation, can move back to the standard `Julia` REPL, load the following packages
+This is something that should work with no particular effort. After installation, to move back to the standard `Julia` REPL, load the following packages
 ```julia
 using SimpleChains
 using Static
@@ -150,7 +148,7 @@ Although we are quite proud of the results obtained, we are already working on i
 
 Furthermore, we are working on improving the Chebyshev approach. Although we succesfully applied this approach to the Planck data, we wanna push it to the same scales of Cosmopower, which reaches $\ell_\mathrm{max}=10,000$. Preliminary results show that we can actually reach this level, even increasing the precision of our emulators!
 
-Please, feel free to use the comments-tab here or to drop to me, or my colleagues, an email for questions or comments.
+Please, feel free to use the comments-tab here or to drop to me, or any of my colleagues, an email for questions or comments.
 
 
 [^classnet]: [CosmicNet II: Emulating extended cosmologies with efficient and accurate neural networks (2022)](https://arxiv.org/abs/2207.05707)
@@ -161,5 +159,6 @@ Please, feel free to use the comments-tab here or to drop to me, or my colleague
 [^luxintegration]: We have opened a [branch](https://github.com/CosmologicalEmulators/AbstractCosmologicalEmulators.jl/tree/lux_integration)  where we are addying support to the [Lux.jl](https://github.com/LuxDL/Lux.jl) library, in order to have models running on the GPU as well.
 [^preprocess]: Although we already reached a nice performance, we wanna improve the preprocessing in a future work.
 [^scales]: The only exception is the $EE$ 2-pt correlation function for $\ell<10$. We are working to improve the precision of `Capse.jl` also on these scales.
+[^abstractemu]: we are registering in these days the package `AbstractCosmologicalEmulators.jl`, which is at the core of the CosmologicalEmulators ecosystem. 
 
 {{ addcomments }}
