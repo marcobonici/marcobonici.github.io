@@ -2,18 +2,18 @@
 
 # The Julia CMB emulator: here comes Capse!
 
-On of the recent hot topics in Cosmology is represented by the development of _emulators_, surrogate models that are meant to replace a computationally expensive function with an approximation that is way cheaper. Focusing on CMB emulators, two of the last emulators built are ClassNet[^classnet] and Cosmopower[^cosmopower]. Following different strategies and approaches, these two frameworks are able to compute the CMB angular spectrum in a fraction of the time required by an Einstein-Boltzmann solver; Cosmopower in particular is around 1,000 times faster, computing the CMB power spectrum in a few milliseconds.
+One of the recent hot topics in Cosmology is represented by the development of _emulators_, surrogate models that are meant to replace a computationally expensive function with an approximation that is way cheaper. Focusing on CMB emulators, two of the last emulators built are ClassNet[^classnet] and Cosmopower[^cosmopower]. Following different strategies and approaches, these two frameworks are able to compute the CMB angular spectrum in a fraction of the time required by an Einstein-Boltzmann solver; in particular, Cosmopower gives a speedup of a factor of 1.000x, computing the CMB power spectrum in a few milliseconds.
 
 So, the interested reader might ask us a simple question: *why are you working on yet another CMB emulator? Can't you just use what is already out there?*
 
-I think that, although the codes developed by the community an incredibile performance and versatility, we can do better, reducing the amount of resources required to train the emulators and reaching a higher computational performance. Furthermore, I wanna leverage one of the emulators main characteristics, their _differentiability_. This open up to the possibility of using gradient-based algorithms for bayesian inference and minimization.
+I think that, although the codes developed by the community have incredibile performance and versatility, we can do better, reducing the amount of resources required to train the emulators and reaching a higher computational performance. Furthermore, I wanna leverage one of the emulators main characteristics, their _differentiability_. This open up to the possibility of using gradient-based algorithms for bayesian inference and minimization.
 
 In order to reach that goal, together with Federico Bianchini[^moustache] and Jaime Ruiz-Zapatero[^phylosophy], I have developed Capse.jl, a CMB Angular Power Spectrum emulator written using the Julia language.
 
 So, what are the main characteristics of Capse.jl and why should you consider giving it a try?
 
-- ⚡ Capse.jl is blazing fast. It builds on SimpleChains.jl[^simplechains], a Julia Neural Network library designed with a limited scope: develop fast neural networks running on the CPU.
-- ⚗️ In order to emulate only the essential components, Capse.jl performs a physics-based preprocess of the output features[^preprocess].
+- ⚡ Capse.jl is blazingly fast. It builds on SimpleChains.jl[^simplechains], a Julia Neural Network library designed with a limited scope: develop fast neural networks running on the CPU[^luxintegration].
+- ⚗️ In order to minimize the amount of resourced used, Capse.jl performs a physics-based preprocess of the output features[^preprocess].
 - 🔋 Capse.jl is cheap to train: as a consequence of the previous two points, it can be trained in around one hour using a standard CPU.
 - 🎯 Capse.jl can be coupled with gradient-based algorithms, in order to perform bayesian analysis and/or minimizations.
 
@@ -158,6 +158,7 @@ Please, feel free to use the comments-tab here or to drop to me, or my colleague
 [^moustache]: The man with the most beautiful pair of moustaches of the East Coast. Here you can find his [website](https://fbianchini.github.io/).
 [^phylosophy]: I love discussing with Jaime about no-physics related topics. The problem is that he has a way deeper knowledge of phylosophy than me, and every single time I have to admit (at least to myself) that he is right. Here you can find his [website](https://jaimeruizzapatero.net/).
 [^simplechains]: Here you can find a link to [SimpleChains.jl](https://github.com/PumasAI/SimpleChains.jl) repository.
+[^luxintegration]: We have opened a [branch](https://github.com/CosmologicalEmulators/AbstractCosmologicalEmulators.jl/tree/lux_integration)  where we are addying support to the [Lux.jl](https://github.com/LuxDL/Lux.jl) library, in order to have models running on the GPU as well.
 [^preprocess]: Although we already reached a nice performance, we wanna improve the preprocessing in a future work.
 [^scales]: The only exception is the $EE$ 2-pt correlation function for $\ell<10$. We are working to improve the precision of `Capse.jl` also on these scales.
 
