@@ -28,7 +28,7 @@ Let us now give a quick summary of the main points of the Capse.jl emulator.
 
 ## Installation & Usage
 
-Installing Capse.jl is quite easy. After moving to the package environment, you can enter the Pkg REPL by pressing `]` from the Julia REPL. To get back to the Julia REPL, press `Ctrl+C` or backspace (when the REPL cursor is at the beginning of the input).
+Installing Capse.jl is quite easy. After moving to the package environment, you can enter the Pkg REPL by pressing `]` from the Julia REPL. To get back to the Julia REPL, press ``Ctrl+C`` or backspace (when the REPL cursor is at the beginning of the input).
 
 Upon entering the Pkg REPL, you should see the following prompt:
 
@@ -37,11 +37,10 @@ Upon entering the Pkg REPL, you should see the following prompt:
 ```
 Now you can install Capse.jl
 ```
-(@v1.9) pkg> add https://github.com/CosmologicalEmulators/AbstractEmulator.jl
 (@v1.9) pkg> add https://github.com/CosmologicalEmulators/Capse.jl
 ```
 
-After installation, to move back to the standard `Julia` REPL, press ``<kbd>Ctrl</kbd> + <kbd>c</kbd>``; after this load the following packages
+Now load the following packages
 
 ```julia
 using NPZ
