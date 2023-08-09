@@ -35,19 +35,54 @@ Upon entering the Pkg REPL, you should see the following prompt:
 ```
 (@v1.9) pkg>
 ```
-Now you can install AbstractEmulator.jl[^abstractemu], the higher level package I use to develop my emulators, and Capse.jl
+Now you can install Capse.jl
 ```
 (@v1.9) pkg> add https://github.com/CosmologicalEmulators/AbstractEmulator.jl
 (@v1.9) pkg> add https://github.com/CosmologicalEmulators/Capse.jl
 ```
 
-This is something that should work with no particular effort. After installation, to move back to the standard `Julia` REPL, load the following packages
+After installation, to move back to the standard `Julia` REPL, press ``<kbd>Ctrl</kbd> + <kbd>c</kbd>``; after this load the following packages
+
 ```julia
-using SimpleChains
-using Static
 using NPZ
 using Capse
 ```
+
+Now you have to load the NN, that we are passing to `Capse.jl`. There are two possibilities:
+
+1. You can define a `SimpleChains.jl` emulator
+
+```julia
+using SimpleChains
+mlpd = SimpleChain(
+  static(6),
+  TurboDense(tanh, 64),
+  TurboDense(tanh, 64),
+  TurboDense(tanh, 64),
+  TurboDense(tanh, 64),
+  TurboDense(tanh, 64),
+  TurboDense(identity, 40)
+)
+```
+
+2. You can use a `Dict` and the built-in method `instantiate_NN`
+
+```julia
+NN_dict = Dict("n_input_features" => 6,
+               "n_output_features" => 4999,
+               "n_hidden_layers" => 5,
+               "layers" => Dict("layer_1" => Dict("activation_function" => "tanh", "n_neurons" => 64),
+                                "layer_2" => Dict("activation_function" => "tanh", "n_neurons" => 64),
+                                "layer_3" => Dict("activation_function" => "tanh", "n_neurons" => 64),
+                                "layer_4" => Dict("activation_function" => "tanh", "n_neurons" => 64),
+                                "layer_5" => Dict("activation_function" => "tanh", "n_neurons" => 64)
+    )
+)
+
+mlpd = Capse.instantiate_NN(NN_dict)
+```
+The former is more direct, but the latter has the advantage that, since dictionaries can be saved as JSON files, is more portable (this is what we are currently doing with the official repo for the `Capse.jl` release paper).
+
 Now you we have to load the emulator, which requires three elements:
 - the $\ell$-grid the emulator has been trained on
 - the trained weights
@@ -62,12 +97,15 @@ CℓTT_emu = Capse.CℓEmulator(TrainedEmulator = trained_emu_TT, ℓgrid = ℓ,
                              InMinMax = npzread("inMinMax_lcdm.npy"),
                              OutMinMax = npzread("outMinMaxCℓTT_lcdm.npy"))
 ```
+
+We can now use the loaded emulator to compute some $C_\ell$'s!
+
 \warning{Up to now `Capse.jl` takes the input with an hardcoded order, being them $\ln 10^{10}A_s$, $n_s$, $H_0$, $\omega_b$, $\omega_c$ and $\tau$. In a future release we are going to add a more flexible way to use it!}
 
 ```julia
 @benchmark Capse.get_Cℓ($input_test, $CℓTT_emu)
 ```
-That's it! The mean execution time of `Capse.jl` is of $45\,\mu s$! This is almost 3 orders of magnitudes lower than `Cosmopower`!
+That's it! The mean execution time of `Capse.jl` is of $45\,\mu s$! This is almost 3 orders of magnitudes faster than `Cosmopower`!
 
 ## Precision tests: residual curves & chains
 
@@ -159,6 +197,6 @@ Please, feel free to use the comments-tab here or to drop to me, or any of my co
 [^luxintegration]: We have opened a [branch](https://github.com/CosmologicalEmulators/AbstractCosmologicalEmulators.jl/tree/lux_integration)  where we are addying support to the [Lux.jl](https://github.com/LuxDL/Lux.jl) library, in order to have models running on the GPU as well.
 [^preprocess]: Although we already reached a nice performance, we wanna improve the preprocessing in a future work.
 [^scales]: The only exception is the $EE$ 2-pt correlation function for $\ell<10$. We are working to improve the precision of `Capse.jl` also on these scales.
-[^abstractemu]: we are registering in these days the package `AbstractCosmologicalEmulators.jl`, which is at the core of the CosmologicalEmulators ecosystem. 
+[^abstractemu]: we are registering in these days the package `AbstractCosmologicalEmulators.jl`, which is at the core of the CosmologicalEmulators ecosystem.
 
 {{ addcomments }}
