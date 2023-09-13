@@ -1,4 +1,4 @@
-<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/libs/highlight/github.min.css"> <link rel=stylesheet  href="/css/franklin.css"> <link rel=stylesheet  href="/css/minimal-mistakes.css"> <link rel=stylesheet  href="/css/adjust.css"> <link rel=icon  href="/assets/temp_fav.png"> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>Julia tricks</title> <meta name=google-site-verification  content=83wzCvn1Z2WBAj5oNN1RlvnWS5Xb5MmekUS2wgld9sg  /> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=site-title  href="/">Marco Bonici</a> <ul class=visible-links > <li class=masthead__menu-item ><a href="/blog/" >Blog</a> <li class=masthead__menu-item ><a href="/work/" >Publications</a> <li class=masthead__menu-item ><a href="/Bonici_CV.pdf" >CV</a> <li class=masthead__menu-item ><a href="/hobbies/">Other Interests</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class="sidebar sticky"> <div itemscope itemtype="https://schema.org/Person"> <div class=author__avatar > <img src="/assets/portrait.jpg" alt=Me  itemprop=image > </div> <div class=author__content > <h3 class=author__name  itemprop=name >Marco Bonici</h3> <p class=author__bio  itemprop=description >PostDoctoral Researcher at Waterloo Center for Astrophysics. Cosmologist working in the field of the large-scale-structure of the Universe. JuliaLang enthusiast.</p> </div> <div class=author__urls-wrapper > <button class="btn btn--inverse">Follow</button> <ul class="author__urls social-icons"> <li itemprop=homeLocation  itemscope itemtype="https://schema.org/Place"> <i class="fas fa-fw fa-map-marker-alt" aria-hidden=true ></i> <span itemprop=name >Waterloo, Canada</span> <li><a href="https://twitter.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a> <li><a href="https://github.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a> <li><a href="mailto:mbonici@uwaterloo.ca" rel="nofollow noopener noreferrer"><i class="fa fa-envelope" aria-hidden=true ></i> Email</a> </ul> </div> </div> </div> <script src="/libs/clipboard.min.js"></script><div class=franklin-content ><p>This page is hidden, for a reason: it is just a list of tricks that I use but that I do not expect to be useful for the general public.</p> <h2 id=installing_julia ><a href="#installing_julia" class=header-anchor >Installing Julia</a></h2> <p>Installing <code>Julia</code> is easy. You just need to download the following file from the official repository and untar it. After this,</p> <pre><code class="julia hljs">wget https://julialang-s3.julialang.org/bin/linux/aarch64/<span class=hljs-number >1.9</span>/julia-<span class=hljs-number >1.9</span><span class=hljs-number >.3</span>-linux-aarch64.tar.gz
+<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/libs/highlight/github.min.css"> <link rel=stylesheet  href="/css/franklin.css"> <link rel=stylesheet  href="/css/minimal-mistakes.css"> <link rel=stylesheet  href="/css/adjust.css"> <link rel=icon  href="/assets/temp_fav.png"> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>Julia tricks</title> <meta name=google-site-verification  content=83wzCvn1Z2WBAj5oNN1RlvnWS5Xb5MmekUS2wgld9sg  /> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=site-title  href="/">Marco Bonici</a> <ul class=visible-links > <li class=masthead__menu-item ><a href="/blog/" >Blog</a> <li class=masthead__menu-item ><a href="/work/" >Publications</a> <li class=masthead__menu-item ><a href="/Bonici_CV.pdf" >CV</a> <li class=masthead__menu-item ><a href="/hobbies/">Other Interests</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class="sidebar sticky"> <div itemscope itemtype="https://schema.org/Person"> <div class=author__avatar > <img src="/assets/portrait.jpg" alt=Me  itemprop=image > </div> <div class=author__content > <h3 class=author__name  itemprop=name >Marco Bonici</h3> <p class=author__bio  itemprop=description >PostDoctoral Researcher at Waterloo Center for Astrophysics. Cosmologist working in the field of the large-scale-structure of the Universe. JuliaLang enthusiast.</p> </div> <div class=author__urls-wrapper > <button class="btn btn--inverse">Follow</button> <ul class="author__urls social-icons"> <li itemprop=homeLocation  itemscope itemtype="https://schema.org/Place"> <i class="fas fa-fw fa-map-marker-alt" aria-hidden=true ></i> <span itemprop=name >Waterloo, Canada</span> <li><a href="https://twitter.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a> <li><a href="https://mathstodon.xyz/@marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-mastodon" aria-hidden=true ></i> Mastodon</a> <li><a href="https://github.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a> <li><a href="mailto:mbonici@uwaterloo.ca" rel="nofollow noopener noreferrer"><i class="fa fa-envelope" aria-hidden=true ></i> Email</a> </ul> </div> </div> </div> <script src="/libs/clipboard.min.js"></script><div class=franklin-content ><p>This page is hidden, for a reason: it is just a list of tricks that I use but that I do not expect to be useful for the general public.</p> <h2 id=installing_julia ><a href="#installing_julia" class=header-anchor >Installing Julia</a></h2> <p>Installing <code>Julia</code> is easy. You just need to download the following file from the official repository and untar it. After this,</p> <pre><code class="julia hljs">wget https://julialang-s3.julialang.org/bin/linux/aarch64/<span class=hljs-number >1.9</span>/julia-<span class=hljs-number >1.9</span><span class=hljs-number >.3</span>-linux-aarch64.tar.gz
 tar zxvf julia-<span class=hljs-number >1.9</span><span class=hljs-number >.3</span>-linux-x86_64.tar.gz</code></pre> <p>Add Julia to your Path. Open your bashrc</p> <pre><code class="julia hljs">nano ~/.bashrc</code></pre>
 <p>Add to the end the <em>Absolute</em> path to Julia, which will look like</p>
 <pre><code class="julia hljs"><span class=hljs-keyword >export</span> PATH=<span class=hljs-string >&quot;<span class=hljs-variable >$PATH</span>:/path/to/julia-1.9.2/bin&quot;</span></code></pre>
@@ -89,6 +89,7 @@ add_artifact!(<span class=hljs-string >&quot;Artifacts.toml&quot;</span>, <span 
           <ul class=social-icons >
             <li><strong>Follow:</strong>
             <li><a href="https://twitter.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a>
+            <li><a href="https://mathstodon.xyz/@marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-mastodon" aria-hidden=true ></i> Mastodon</a>
             <li><a href="https://github.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a>
           </ul>
         </div>
@@ -113,16 +114,16 @@ add_artifact!(<span class=hljs-string >&quot;Artifacts.toml&quot;</span>, <span 
 
 <script>
   (function(){
-  
+
     // Get the elements.
     // - the 'pre' element.
     // - the 'div' with the 'paste-content' id.
-  
+
     var pre = document.getElementsByTagName('pre');
-  
+
     // Add a copy button in the 'pre' element.
     // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
-  
+
     for (var i = 0; i < pre.length; i++) {
       var tag_name = pre[i].children[0].className
                 var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
@@ -130,43 +131,43 @@ add_artifact!(<span class=hljs-string >&quot;Artifacts.toml&quot;</span>, <span 
         var button           = document.createElement('button');
             button.className = 'copy-button';
             button.textContent = 'Copy';
-  
+
             pre[i].appendChild(button);
       }
     };
-  
+
     // Run Clipboard
-  
+
     var copyCode = new Clipboard('.copy-button', {
       target: function(trigger) {
         return trigger.previousElementSibling;
       }
     });
-  
+
     // On success:
     // - Change the "Copy" text to "Copied".
     // - Swap it to "Copy" in 2s.
     // - Lead user to the "contenteditable" area with Velocity scroll.
-  
+
     copyCode.on('success', function(event) {
       event.clearSelection();
       event.trigger.textContent = 'Copied';
       window.setTimeout(function() {
         event.trigger.textContent = 'Copy';
       }, 2000);
-  
+
     });
-  
+
     // On error (Safari):
     // - Change the  "Press Ctrl+C to copy"
     // - Swap it to "Copy" in 2s.
-  
+
     copyCode.on('error', function(event) {
       event.trigger.textContent = 'Press "Ctrl + C" to copy';
       window.setTimeout(function() {
         event.trigger.textContent = 'Copy';
       }, 5000);
     });
-  
+
   })();
   </script>
