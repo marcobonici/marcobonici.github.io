@@ -5,7 +5,7 @@
 [FisherPlot.jl](https://github.com/marcobonici/FisherPlot.jl) is my first registered Julia
 package. It can be used to easily plot Fisher matrix contours, obtaining publication-quality
 results. In the remainder of this post, I'll give a (short) introduction to Fisher matrices,
-before showing how to use the package. 
+before showing how to use the package.
 
 
 
@@ -47,7 +47,7 @@ of the model is given by
 
 But we have not finished yet: we can also obtain the correlation between the model
 parameters. Let us focus on the $2\mathrm{D}$ marginalized posterior of two parameters,
-namely $x$ and $y$. The posterior is represented by an ellipses, whose semi-axes are given
+namely $x$ and $y$. The posterior is represented by an ellipse, whose semi-axes are given
 by:
 \begin{equation}
 a^{2}=\frac{\sigma_{x}^{2}+\sigma_{y}^{2}}{2}+\sqrt{\frac{\left(\sigma_{x}^{2}-
@@ -81,7 +81,7 @@ mock covariance matrices, I prefer to use some real-world matrices that I have c
 myself[^fun]. In particular, I am going to use some covariance matrices calculated
 with my code [CosmoCentral](https://github.com/marcobonici/CosmoCentral.jl).
 
-We are going to use three covariance matrices, each of them considering as observables the 
+We are going to use three covariance matrices, each of them considering as observables the
 tomographic angular power spectrum $C_\ell$'s coming from the following cosmological probes:
 - Weak Lensing
 - Photometric Galaxy Clustering
@@ -91,7 +91,7 @@ forecasts[^euclid].
 
 The parameters described by these matrices are the Dark Energy equation of state
 parameters[^chevallier][^linder], $w_0$ and $w_a$, and the sum of the neutrino masses,
-$M_\nu$. 
+$M_\nu$.
 
 
 ```julia:covariance_matrices
@@ -108,7 +108,7 @@ using FisherPlot
 using LaTeXStrings
 ```
 Now we need to define a few arrays, containing:
-- the name of the model parameters 
+- the name of the model parameters
 - the name of each covariance matrix
 - the color of each covariance matrix
 ```julia:define_probes
