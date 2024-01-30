@@ -1,6 +1,6 @@
 @def title = "Marco Bonici"
 
-I am a PostDoctoral Researcher at the [Waterloo Center for Astrophysics](https://uwaterloo.ca/astrophysics-centre/). I am a cosmologist and my research lies in the context of the large-scale-structure of the Universe. Currently my rfocus is on methods to accelerate the analysis of cosmological datasets, employing surrogate models and gradient based methods (and most of this work is performed using the Julia programming language).
+I am a PostDoctoral Researcher at the [Waterloo Center for Astrophysics](https://uwaterloo.ca/astrophysics-centre/). I am a cosmologist and my research lies in the context of the large-scale-structure of the Universe. Currently my focus is on methods to accelerate the analysis of cosmological datasets, employing surrogates and gradient-based methods (and most of this work is performed using the Julia programming language).
 
 I recently joined the [DESI collaboration](https://www.desi.lbl.gov/) and I have been involved for a few years in the [Euclid](https://www.esa.int/Science_Exploration/Space_Science/Euclid_overview) mission of the European Space Agency. Euclid will map the galaxy distribution in about a third of the sky. I am mainly involved in the activity of the Galaxy Clustering Science Working Group (GC-SGW). Within Euclid, my main activities regard:
 
