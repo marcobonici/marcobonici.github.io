@@ -215,5 +215,5 @@ Please, feel free to use the comments-tab here or to drop to me, or any of my co
 [^preprocess]: Although we already reached a nice performance, we wanna improve the preprocessing in a future work.
 [^scales]: The only exception is the $EE$ 2-pt correlation function for $\ell<10$. We are working to improve the precision of `Capse.jl` also on these scales.
 [^abstractemu]: we are registering in these days the package `AbstractCosmologicalEmulators.jl`, which is at the core of the CosmologicalEmulators ecosystem.
-[^balkenhol]: while we were finalizing our revised paper, a new work appeared on the arXiv [Balkenhol et al. 2024](https://arxiv.org/abs/2401.13433), which implemented `candle`, a `JAX` based likelihood which is fully auto-differentiable and hence can use the same tools we have been using in this paper. It's a nice paper, you should check it!
+[^balkenhol]: While we were finalizing our revised paper, a new work appeared on the arXiv ([Balkenhol et al. 2024](https://arxiv.org/abs/2401.13433)), which implemented `candle`, a `JAX` based likelihood which is fully auto-differentiable and hence can use the same tools we have been using in this paper. It's a nice paper, you should check it!
 {{ addcomments }}
