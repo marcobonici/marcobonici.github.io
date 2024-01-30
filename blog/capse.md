@@ -8,7 +8,7 @@ So, the interested reader might ask us a simple question: *why are you working o
 
 I think that, although the codes developed by the community have incredibile performance and versatility, we can do better, reducing the amount of resources required to train the emulators and reaching a higher computational performance. Furthermore, I wanna leverage one of the emulators main characteristics, their _differentiability_. This open up to the possibility of using gradient-based algorithms for bayesian inference and minimization.
 
-In order to reach that goal, together with Federico Bianchini[^moustache] and Jaime Ruiz-Zapatero[^phylosophy], I have developed Capse.jl, a CMB Angular Power Spectrum emulator written using the Julia language.
+In order to reach that goal, together with Federico Bianchini[^moustache] and Jaime Ruiz-Zapatero[^phylosophy], I have developed Capse.jl, a CMB Angular Power Spectrum emulator written using the Julia language. The paper has been fomally accepted for publication in the Open Journal of Astrophysics and a revised version of the paper just hit the [arXiv](https://arxiv.org/abs/2307.14339).
 
 So, what are the main characteristics of Capse.jl and why should you consider giving it a try?
 
@@ -33,11 +33,11 @@ Installing Capse.jl is quite easy. After moving to the package environment, you 
 Upon entering the Pkg REPL, you should see the following prompt:
 
 ```
-(@v1.9) pkg>
+(@v1.10) pkg>
 ```
 Now you can install Capse.jl
 ```
-(@v1.9) pkg> add https://github.com/CosmologicalEmulators/Capse.jl
+(@v1.10) pkg> add https://github.com/CosmologicalEmulators/Capse.jl
 ```
 
 Now load the following packages
@@ -97,13 +97,20 @@ CℓTT_emu = Capse.CℓEmulator(TrainedEmulator = trained_emu_TT, ℓgrid = ℓ,
                              OutMinMax = npzread("outMinMaxCℓTT_lcdm.npy"))
 ```
 
+With a new released version of `Capse.jl`, we have added a new loading method. In order to work, you need the required files (the same mentioned above) to be put in folder. Then, you just have to type
+
+```julia
+CℓTT_emu = Capse.load_emulator("/path/to/emulator/")
+```
+
 We can now use the loaded emulator to compute some $C_\ell$'s!
 
 \warning{Up to now `Capse.jl` takes the input with an hardcoded order, being them $\ln 10^{10}A_s$, $n_s$, $H_0$, $\omega_b$, $\omega_c$ and $\tau$. In a future release we are going to add a more flexible way to use it!}
 
 ```julia
-@benchmark Capse.get_Cℓ($input_test, $CℓTT_emu)
+Capse.get_Cℓ(input_test, CℓTT_emu)
 ```
+
 That's it! The mean execution time of `Capse.jl` is of $45\,\mu s$! This is almost 3 orders of magnitudes faster than `Cosmopower`!
 
 ## Precision tests: residual curves & chains
@@ -157,6 +164,17 @@ The chains are basically the same, with differences of about $0.1\sigma$ for the
 - `Capse.jl` + MCHMC required less than 1 CPUhour, with an ESS/s of 3.7
 - Pathfinder computes the posterior in ~ $15$ seconds
 
+Furthermore, with the updated version of our paper, we have added a `Julia` version of the SPT 3G likelihood[^balkenhol], that we checked against the original likelihood (as described in [Balkenhol et al 2023](https://arxiv.org/abs/2212.05642)). The main difference with the aforementioned Planck likelihood, is that this likelihood as 33 nuisance parameters, that we keep free while running our chains.
+Again, which is the result of this comparison?
+
+![Contour SPT](https://github.com/marcobonici/marcobonici.github.io/assets/58727599/dcaf2d25-3731-4ff5-b122-3a7ed6424df4)
+
+Also in this case the results are excellent, with differences of marginalized parameters smaller than $0.1\,\sigma$. Regarding the computational performance, these are our findings:
+
+- CAMB analysis required $1,600$ CPUhours, with an Effective Sample Size per second (ESS/s) of $0.0003$
+- `Capse.jl` + NUTS employed 14 CPUhours, with an ESS/s of $0.00$
+- `Capse.jl` + MCHMC required 12 CPUhours, with an ESS/s of $0.335$
+
 Although these results are impressive, there is still room for improvements...here comes the Chebyshev-based emulator!
 
 ## Chebyshev emulator
@@ -197,5 +215,5 @@ Please, feel free to use the comments-tab here or to drop to me, or any of my co
 [^preprocess]: Although we already reached a nice performance, we wanna improve the preprocessing in a future work.
 [^scales]: The only exception is the $EE$ 2-pt correlation function for $\ell<10$. We are working to improve the precision of `Capse.jl` also on these scales.
 [^abstractemu]: we are registering in these days the package `AbstractCosmologicalEmulators.jl`, which is at the core of the CosmologicalEmulators ecosystem.
-
+[^balkenhol]: while we were finalizing our revised paper, a new work appeared on the arXiv [Balkenhol et al. 2024](https://arxiv.org/abs/2401.13433), which implemented `candle`, a `JAX` based likelihood which is fully auto-differentiable and hence can use the same tools we have been using in this paper. It's a nice paper, you should check it!
 {{ addcomments }}
