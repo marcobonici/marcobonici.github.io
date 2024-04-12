@@ -93,7 +93,7 @@ function  ∇f(f, x, ϵ)
     gradf = zeros(size(x))
     ϵ_matrix = ϵ * Matrix(I, length(x), length(x))
     for i in 1:length(x)
-        gradf[i] = (f(x+ϵ_matrix[i,:])-f(x-ϵ_matrix[i,:]))/ϵ
+        gradf[i] = (f(x+ϵ_matrix[i,:])-f(x-ϵ_matrix[i,:]))/2ϵ
     end
     return gradf
 end
