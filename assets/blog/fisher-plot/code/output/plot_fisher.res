@@ -1,2 +1,2 @@
 CairoScreen{Cairo.CairoSurfaceBase{UInt32}} with surface:
-Cairo.CairoSurfaceBase{UInt32}(Ptr{Nothing} @0x000000000d24fbd0, 2281.0, 2161.0)
+Cairo.CairoSurfaceBase{UInt32}(Ptr{Nothing} @0x000000000d27eda0, 2281.0, 2161.0)
