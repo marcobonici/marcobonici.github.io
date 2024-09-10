@@ -8,7 +8,7 @@
 
 0. M. S. Cagliari, E. Castorina, **M. Bonici**, D. Bianchi, [Optimal constraints on Primordial non-Gaussianity with the eBOSS DR16 quasars in Fourier space, JCAP (2024)](https://iopscience.iop.org/article/10.1088/1475-7516/2024/08/036)
 
-0. **Marco Bonici**, Luca Biggio, Carmelita Carbone, Luigi Guzzo, [Fast emulation of two-point angular statistics for photometric galaxy surveys, MNRAS (2024)](https://academic.oup.com/mnras/article/531/4/4203/7674892)
+0. **M. Bonici**, L. Biggio, C. Carbone, L. Guzzo, [Fast emulation of two-point angular statistics for photometric galaxy surveys, MNRAS (2024)](https://academic.oup.com/mnras/article/531/4/4203/7674892)
 
 0. J. Ruiz-Zapatero, D. Alonso, C. García-García, A. Nicola, A. Mootoovaloo, J.M. Sullivan, **M. Bonici**, P.G. Ferreira, [LimberJack.jl: auto-differentiable methods for angular power spectra analyses, OJA (2024)](https://astro.theoj.org/article/92854-limberjack-jl-auto-differentiable-methods-for-angular-power-spectra-analyses)
 
@@ -22,11 +22,11 @@
 
 0. S. Davini , I. Risso, M. Scodeggio , L. Paganin, S. Caprioli, **M. Bonici**, A. Caminata, S. Di Domizio, G. Testera, S. Tosi, B. Valerio, M. Fumana, P. Franzetti, [A proposal for relative in-flight flux self-calibrations for spectro-photometric surveys, PASP (2021)](https://iopscience.iop.org/article/10.1088/1538-3873/ac102e)
 
-0. **Marco Bonici**, Nicola Maggiore, [Constraints on interacting dynamical dark energy and a new test for  $\Lambda$CDM, Eur. Phys. J. C (2019)](https://link.springer.com/article/10.1140/epjc/s10052-019-7198-1)
+0. **M. Bonici**, N. Maggiore, [Constraints on interacting dynamical dark energy and a new test for  $\Lambda$CDM, Eur. Phys. J. C (2019)](https://link.springer.com/article/10.1140/epjc/s10052-019-7198-1)
 
-0. Nicola Alchera, **Marco Bonici**, Roberta Cardinale, Alba Domi, Nicola Maggiore, Chiara Righi, Silvano Tosi, [Analysis of the angular dependence of time delay in gravitational lensing, Symmetry (2018)](https://www.mdpi.com/2073-8994/10/7/246)
+0. N. Alchera, **M. Bonici**, R. Cardinale, A. Domi, N. Maggiore, C. Righi, S. Tosi, [Analysis of the angular dependence of time delay in gravitational lensing, Symmetry (2018)](https://www.mdpi.com/2073-8994/10/7/246)
 
-0. Nicola Alchera, **Marco Bonici**, Nicola Maggiore, [Towards a new proposal for the time delay in gravitational lensing, Symmetry (2017)](https://www.mdpi.com/2073-8994/9/10/202)
+0. N. Alchera, **M. Bonici**, N. Maggiore, [Towards a new proposal for the time delay in gravitational lensing, Symmetry (2017)](https://www.mdpi.com/2073-8994/9/10/202)
 
 ### Pre-prints
 
