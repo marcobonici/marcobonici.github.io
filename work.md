@@ -6,6 +6,10 @@
 
 ### Peer reviewed
 
+0. M. S. Cagliari, E. Castorina, **M. Bonici**, D. Bianchi, [Optimal constraints on Primordial non-Gaussianity with the eBOSS DR16 quasars in Fourier space, JCAP (2024)](https://iopscience.iop.org/article/10.1088/1475-7516/2024/08/036)
+
+0. **Marco Bonici**, Luca Biggio, Carmelita Carbone, Luigi Guzzo, [Fast emulation of two-point angular statistics for photometric galaxy surveys, MNRAS (2024)](https://academic.oup.com/mnras/article/531/4/4203/7674892)
+
 0. J. Ruiz-Zapatero, D. Alonso, C. García-García, A. Nicola, A. Mootoovaloo, J.M. Sullivan, **M. Bonici**, P.G. Ferreira, [LimberJack.jl: auto-differentiable methods for angular power spectra analyses, OJA (2024)](https://astro.theoj.org/article/92854-limberjack-jl-auto-differentiable-methods-for-angular-power-spectra-analyses)
 
 0. **M. Bonici**, F. Bianchini, J. Ruiz-Zapatero, [Capse.jl: efficient and differentiable CMB power spectra emulation, OJA (2024)](https://astro.theoj.org/article/92709-capse-jl-efficient-and-auto-differentiable-cmb-power-spectra-emulation)
@@ -29,7 +33,3 @@
 0. M. Beltrame, **M. Bonici**, C. Carbone, [Cosmological forecasts from the combination of Stage-IV photometric galaxy surveys and the magnification from forthcoming GW observatories](https://arxiv.org/abs/2403.03859)
 
 0. D. Sciotti, S. Gouyou Beauchamps, V. F. Cardone, S. Camera, I. Tutusaus, F. Lacasa, A. Barreira, A. Gorce, M. Aubert, P. Baratta, R. E. Upham, **M. Bonici**, et al., [Euclid preparation. TBD. Forecast impact of super-sample covariance on 3x2pt analysis with Euclid](https://arxiv.org/abs/2310.15731)
-
-0. M. S. Cagliari, E. Castorina, **M. Bonici**, D. Bianchi, [Optimal constraints on Primordial non-Gaussianity with the eBOSS DR16 quasars in Fourier space](https://arxiv.org/abs/2309.15814)
-
-0. **Marco Bonici**, Luca Biggio, Carmelita Carbone, Luigi Guzzo, [Fast emulation of two-point angular statistics for photometric galaxy surveys, (2022)](https://arxiv.org/abs/2206.14208)
