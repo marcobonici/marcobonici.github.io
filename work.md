@@ -30,6 +30,8 @@
 
 ### Pre-prints
 
+0. H. Zhang, **M. Bonici**, G. D'Amico, S. Paradiso, W. J. Percival, [HOD-informed prior for EFT-based full-shape analyses of LSS](https://arxiv.org/abs/2409.12937)
+
 0. M. Beltrame, **M. Bonici**, C. Carbone, [Cosmological forecasts from the combination of Stage-IV photometric galaxy surveys and the magnification from forthcoming GW observatories](https://arxiv.org/abs/2403.03859)
 
 0. D. Sciotti, S. Gouyou Beauchamps, V. F. Cardone, S. Camera, I. Tutusaus, F. Lacasa, A. Barreira, A. Gorce, M. Aubert, P. Baratta, R. E. Upham, **M. Bonici**, et al., [Euclid preparation. TBD. Forecast impact of super-sample covariance on 3x2pt analysis with Euclid](https://arxiv.org/abs/2310.15731)
