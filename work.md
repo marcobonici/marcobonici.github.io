@@ -30,6 +30,8 @@
 
 ### Pre-prints
 
+0. L. Paganin, **M. Bonici**, C. Carbone, S. Camera, et al., [Euclid preparation: 6x2 pt analysis of Euclid's spectroscopic and photometric data sets](https://arxiv.org/abs/2409.18882)
+
 0. H. Zhang, **M. Bonici**, G. D'Amico, S. Paradiso, W. J. Percival, [HOD-informed prior for EFT-based full-shape analyses of LSS](https://arxiv.org/abs/2409.12937)
 
 0. M. Beltrame, **M. Bonici**, C. Carbone, [Cosmological forecasts from the combination of Stage-IV photometric galaxy surveys and the magnification from forthcoming GW observatories](https://arxiv.org/abs/2403.03859)
