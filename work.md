@@ -30,6 +30,10 @@
 
 ### Pre-prints
 
+0. S. Chiarenza,  **M. Bonici**, W. J. Percival, M. White, [BLAST: Beyond Limber Angular power Spectra Toolkit. A fast and efficient algorithm for 3x2 pt analysis](https://arxiv.org/abs/2410.03632)
+
+0. A. H. B. Nguyen,  **M. Bonici**, G. McGee, W. J. Percival, [LOO-PIT: A sensitive posterior test](https://arxiv.org/abs/2410.03507)
+
 0. L. Paganin, **M. Bonici**, C. Carbone, S. Camera, et al., [Euclid preparation: 6x2 pt analysis of Euclid's spectroscopic and photometric data sets](https://arxiv.org/abs/2409.18882)
 
 0. H. Zhang, **M. Bonici**, G. D'Amico, S. Paradiso, W. J. Percival, [HOD-informed prior for EFT-based full-shape analyses of LSS](https://arxiv.org/abs/2409.12937)
