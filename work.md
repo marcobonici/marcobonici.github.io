@@ -10,6 +10,8 @@
 
 0. M. Beltrame, **M. Bonici**, C. Carbone, [Cosmological forecasts from the combination of Stage-IV photometric galaxy surveys and the magnification from forthcoming GW observatories, JCAP (2024)](https://iopscience.iop.org/article/10.1088/1475-7516/2024/10/074)
 
+0. D. Sciotti, S. Gouyou Beauchamps, V. F. Cardone, S. Camera, I. Tutusaus, F. Lacasa, A. Barreira, A. Gorce, M. Aubert, P. Baratta, R. E. Upham, **M. Bonici**, et al., [Euclid preparation. TBD. Forecast impact of super-sample covariance on 3x2pt analysis with Euclid, A&A (2024)](https://www.aanda.org/component/article?access=doi&doi=10.1051/0004-6361/202348389)
+
 0. M. S. Cagliari, E. Castorina, **M. Bonici**, D. Bianchi, [Optimal constraints on Primordial non-Gaussianity with the eBOSS DR16 quasars in Fourier space, JCAP (2024)](https://iopscience.iop.org/article/10.1088/1475-7516/2024/08/036)
 
 0. **M. Bonici**, L. Biggio, C. Carbone, L. Guzzo, [Fast emulation of two-point angular statistics for photometric galaxy surveys, MNRAS (2024)](https://academic.oup.com/mnras/article/531/4/4203/7674892)
@@ -41,5 +43,3 @@
 0. L. Paganin, **M. Bonici**, C. Carbone, S. Camera, et al., [Euclid preparation: 6x2 pt analysis of Euclid's spectroscopic and photometric data sets](https://arxiv.org/abs/2409.18882)
 
 0. H. Zhang, **M. Bonici**, G. D'Amico, S. Paradiso, W. J. Percival, [HOD-informed prior for EFT-based full-shape analyses of LSS](https://arxiv.org/abs/2409.12937)
-
-0. D. Sciotti, S. Gouyou Beauchamps, V. F. Cardone, S. Camera, I. Tutusaus, F. Lacasa, A. Barreira, A. Gorce, M. Aubert, P. Baratta, R. E. Upham, **M. Bonici**, et al., [Euclid preparation. TBD. Forecast impact of super-sample covariance on 3x2pt analysis with Euclid](https://arxiv.org/abs/2310.15731)
