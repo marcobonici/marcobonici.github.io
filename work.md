@@ -36,6 +36,8 @@
 
 ### Pre-prints
 
+0. DESI Collaboration, [DESI 2024 VII: Cosmological Constraints from the Full-Shape Modeling of Clustering Measurements](https://arxiv.org/abs/2411.12022)
+
 0. S. Chiarenza,  **M. Bonici**, W. J. Percival, M. White, [BLAST: Beyond Limber Angular power Spectra Toolkit. A fast and efficient algorithm for 3x2 pt analysis](https://arxiv.org/abs/2410.03632)
 
 0. A. H. B. Nguyen,  **M. Bonici**, G. McGee, W. J. Percival, [LOO-PIT: A sensitive posterior test](https://arxiv.org/abs/2410.03507)
