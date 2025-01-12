@@ -6,6 +6,8 @@
 
 ### Peer reviewed
 
+0. A. H. B. Nguyen,  **M. Bonici**, G. McGee, W. J. Percival, [LOO-PIT: A sensitive posterior test, JCAP (2025)](https://iopscience.iop.org/article/10.1088/1475-7516/2025/01/008)
+
 0. S. Chiarenza,  **M. Bonici**, W. J. Percival, M. White, [BLAST: Beyond Limber Angular power Spectra Toolkit. A fast and efficient algorithm for 3x2 pt analysis, OJA (2024)](https://astro.theoj.org/article/127038-blast-beyond-limber-angular-power-spectra-toolkit-a-fast-and-efficient-algorithm-for-3x2-pt-analysis)
 
 0. M. Beltrame, **M. Bonici**, C. Carbone, [Cosmological forecasts from the combination of Stage-IV photometric galaxy surveys and the magnification from forthcoming GW observatories, JCAP (2024)](https://iopscience.iop.org/article/10.1088/1475-7516/2024/10/074)
@@ -36,11 +38,11 @@
 
 ### Pre-prints
 
+0. **M. Bonici**, G. D'Amico, J. Bel, C. Carbone, [Effort.jl: a fast and differentiable emulator for the Effective Field Theory of the Large Scale Structure of the Universe](https://arxiv.org/abs/2501.04639)
+
 0. S. Paradiso, **M. Bonici**, M. Chen, W. J. Percival, G. D'Amico, H. Zhang, G. McGee, [Reducing nuisance prior sensitivity via non-linear reparameterization, with application to EFT analyses of large-scale structure](https://arxiv.org/abs/2412.03503)
 
 0. DESI Collaboration, [DESI 2024 VII: Cosmological Constraints from the Full-Shape Modeling of Clustering Measurements](https://arxiv.org/abs/2411.12022)
-
-0. A. H. B. Nguyen,  **M. Bonici**, G. McGee, W. J. Percival, [LOO-PIT: A sensitive posterior test](https://arxiv.org/abs/2410.03507)
 
 0. L. Paganin, **M. Bonici**, C. Carbone, S. Camera, et al., [Euclid preparation: 6x2 pt analysis of Euclid's spectroscopic and photometric data sets](https://arxiv.org/abs/2409.18882)
 
