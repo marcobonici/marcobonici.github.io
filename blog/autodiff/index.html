@@ -3,13 +3,13 @@
 <pre><code class="julia hljs"><span class=hljs-keyword >using</span> BenchmarkTools
 <span class=hljs-meta >@benchmark</span> f([<span class=hljs-number >0</span>,<span class=hljs-number >0</span>,<span class=hljs-number >0</span>])</code></pre>
 <p><pre><code class="plaintext hljs">BenchmarkTools.Trial: 10000 samples with 995 evaluations.
- Range (min … max):  30.438 ns …  15.791 μs  ┊ GC (min … max):  0.00% … 99.74%
- Time  (median):     32.629 ns               ┊ GC (median):     0.00%
- Time  (mean ± σ):   51.697 ns ± 379.253 ns  ┊ GC (mean ± σ):  17.95% ±  2.44%
+ Range (min … max):  29.161 ns …  2.284 μs  ┊ GC (min … max): 0.00% … 97.79%
+ Time  (median):     30.399 ns              ┊ GC (median):    0.00%
+ Time  (mean ± σ):   35.340 ns ± 81.994 ns  ┊ GC (mean ± σ):  9.52% ±  4.05%
 
-  ▄█▆▅▄▃▂▂▂▁                                  ▂▄▄▅▅▄▄▃▁        ▂
-  ████████████▇█▇▇█▇▇▇▇▇▆▅▇▇▆▆▆▅▅▆▅▄▄▄▅▄▄▄▄▄▂▆██████████▇▇▇▇█▇ █
-  30.4 ns       Histogram: log(frequency) by time      69.8 ns &lt;
+  ▆██▅▃▂▁▁        ▁▂▁                                   ▁ ▁▁  ▂
+  ███████████▇▇▆▅▇███▇▇▆▅▄▅▄▁▄▄▁▁▃▁▁▄▃▅▅▄▁▁▅▄▃▁▃▁▁▃▁▁▁▅██████ █
+  29.2 ns      Histogram: log(frequency) by time      63.2 ns &lt;
 
  Memory estimate: 80 bytes, allocs estimate: 1.</code></pre> Let us evaluate the finite difference derivative&#33;<sup id="fnref:finitedifference"><a href="#fndef:finitedifference" class=fnref >[1]</a></sup></p>
 <pre><code class="julia hljs"><span class=hljs-keyword >using</span> LinearAlgebra
@@ -39,28 +39,28 @@ gradf = ∇f(f,[<span class=hljs-number >0</span>,<span class=hljs-number >0</sp
 ∂f3=1.0547118733938987
 </code></pre> On the performance side, </p>
 <pre><code class="julia hljs"><span class=hljs-meta >@benchmark</span> gradf = ∇f(f,[<span class=hljs-number >0</span>,<span class=hljs-number >0</span>,<span class=hljs-number >0</span>], <span class=hljs-number >1e-4</span>)</code></pre>
-<pre><code class="plaintext hljs">BenchmarkTools.Trial: 10000 samples with 191 evaluations.
- Range (min … max):  522.330 ns … 83.213 μs  ┊ GC (min … max):  0.00% … 99.18%
- Time  (median):     554.097 ns              ┊ GC (median):     0.00%
- Time  (mean ± σ):   825.066 ns ±  3.434 μs  ┊ GC (mean ± σ):  18.08% ±  4.31%
+<pre><code class="plaintext hljs">BenchmarkTools.Trial: 10000 samples with 192 evaluations.
+ Range (min … max):  518.052 ns …  15.917 μs  ┊ GC (min … max):  0.00% … 96.53%
+ Time  (median):     532.188 ns               ┊ GC (median):     0.00%
+ Time  (mean ± σ):   618.966 ns ± 967.019 ns  ┊ GC (mean ± σ):  11.57% ±  7.09%
 
-  ▅█▇▆▅▄▄▃▃▂▂▂▂▁▁▁▁  ▁ ▁                             ▁▄▅▅▄▃▂▁  ▂
-  ██████████████████████▇▇▇▇▆▆▆▅▄▅▅▅▄▅▅▃▁▁▃▄▃▁▃▃▁▁▄▃▅█████████ █
-  522 ns        Histogram: log(frequency) by time      1.11 μs &lt;
+  ▆█▆▄▃▂▄▄▂▂▁                                                   ▂
+  ████████████████▇▆▆▆▆▅▅▄▄▄▅▃▄▃▄▃▁▄▃▄▃▁▁▃▁▁▃▁▁▁▁▁▁▁▁▁▁▁▃▁▁▁▄▆█ █
+  518 ns        Histogram: log(frequency) by time       1.05 μs &lt;
 
  Memory estimate: 1.28 KiB, allocs estimate: 16.</code></pre>
 <h2 id=forward_algorithmic_differentiation ><a href="#forward_algorithmic_differentiation" class=header-anchor >Forward algorithmic differentiation</a></h2>
 <pre><code class="julia hljs"><span class=hljs-keyword >using</span> ForwardDiff
 <span class=hljs-meta >@benchmark</span> ForwardDiff.gradient(f, [<span class=hljs-number >0</span>,<span class=hljs-number >0</span>,<span class=hljs-number >0</span>])</code></pre>
 <pre><code class="plaintext hljs">[1.0, 1.0, 1.0]
-BenchmarkTools.Trial: 10000 samples with 214 evaluations.
- Range (min … max):  347.706 ns … 74.440 μs  ┊ GC (min … max):  0.00% … 99.25%
- Time  (median):     368.958 ns              ┊ GC (median):     0.00%
- Time  (mean ± σ):   473.245 ns ±  1.934 μs  ┊ GC (mean ± σ):  10.80% ±  2.63%
+BenchmarkTools.Trial: 10000 samples with 222 evaluations.
+ Range (min … max):  334.140 ns …  12.975 μs  ┊ GC (min … max): 0.00% … 96.52%
+ Time  (median):     344.698 ns               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   383.341 ns ± 563.206 ns  ┊ GC (mean ± σ):  6.87% ±  4.54%
 
-  ▂▇█▇▅▄▄▂▂▂▂▁▁▁▁  ▁ ▁  ▁▁                 ▁▃▄▅▅▅▅▄▄▃▂▂▁▁      ▂
-  ████████████████████████████▇▆▇▇▆▆▅▅▅▆▆▅▆█████████████████▇▇ █
-  348 ns        Histogram: log(frequency) by time       565 ns &lt;
+   ▆██▇▅▃▃▂▁▁▁    ▃▃▃▂▁                                     ▁   ▂
+  ██████████████████████▇▇▆▆▆▆▇▆▆▆▅▆▆▅▅▅▅▄▅▅▆▄▄▃▄▃▂▃▄▆▆██████▇▆ █
+  334 ns        Histogram: log(frequency) by time        512 ns &lt;
 
  Memory estimate: 512 bytes, allocs estimate: 5.</code></pre>
 <h2 id=backward_algorithmic_differentiation ><a href="#backward_algorithmic_differentiation" class=header-anchor >Backward algorithmic differentiation</a></h2>
