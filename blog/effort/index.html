@@ -1,0 +1,169 @@
+<!doctype html> <!-- Minimal Mistakes Jekyll Theme 4.16.4 by Michael Rose Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes Free for personal and commercial use under the MIT license https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE --> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/libs/katex/katex.min.css"> <link rel=stylesheet  href="/libs/highlight/github.min.css"> <link rel=stylesheet  href="/css/franklin.css"> <link rel=stylesheet  href="/css/minimal-mistakes.css"> <link rel=stylesheet  href="/css/adjust.css"> <link rel=icon  href="/assets/temp_fav.png"> <!--[if IE ]> <style> /* old IE unsupported flexbox fixes */ .greedy-nav .site-title { padding-right: 3em; } .greedy-nav button { position: absolute; top: 0; right: 0; height: 100%; } </style> <![endif]--> <title>EFfort.jl</title> <meta name=google-site-verification  content=83wzCvn1Z2WBAj5oNN1RlvnWS5Xb5MmekUS2wgld9sg  /> <body class=layout--single > <div class=masthead > <div class=masthead__inner-wrap > <div class=masthead__menu > <nav id=site-nav  class=greedy-nav > <a class=site-title  href="/">Marco Bonici</a> <ul class=visible-links > <li class=masthead__menu-item ><a href="/blog/" >Blog</a> <li class=masthead__menu-item ><a href="/work/" >Publications</a> <li class=masthead__menu-item ><a href="/Bonici_CV.pdf" >CV</a> <li class=masthead__menu-item ><a href="/hobbies/">Other Interests</a> </ul> <button class="greedy-nav__toggle hidden" type=button > <span class=visually-hidden >Toggle menu</span> <div class=navicon ></div> </button> <ul class="hidden-links hidden"></ul> </nav> </div> </div> </div> <div class=initial-content > <div id=main  role=main > <div class="sidebar sticky"> <div itemscope itemtype="https://schema.org/Person"> <div class=author__avatar > <img src="/assets/portrait.jpg" alt=Me  itemprop=image > </div> <div class=author__content > <h3 class=author__name  itemprop=name >Marco Bonici</h3> <p class=author__bio  itemprop=description >PostDoctoral Researcher at Waterloo Center for Astrophysics. Cosmologist working in the field of the large-scale-structure of the Universe. JuliaLang enthusiast.</p> </div> <div class=author__urls-wrapper > <button class="btn btn--inverse">Follow</button> <ul class="author__urls social-icons"> <li itemprop=homeLocation  itemscope itemtype="https://schema.org/Place"> <i class="fas fa-fw fa-map-marker-alt" aria-hidden=true ></i> <span itemprop=name >Waterloo, Canada</span> <li><a href="https://twitter.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a> <li><a href="https://mathstodon.xyz/@marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-mastodon" aria-hidden=true ></i> Mastodon</a> <li><a href="https://github.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a> <li><a href="mailto:mbonici@uwaterloo.ca" rel="nofollow noopener noreferrer"><i class="fa fa-envelope" aria-hidden=true ></i> Email</a> </ul> </div> </div> </div> <script src="/libs/clipboard.min.js"></script><div class=franklin-content ><h1 id=the_julia_eftoflss_emulator_here_comes_effort ><a href="#the_julia_eftoflss_emulator_here_comes_effort" class=header-anchor >The Julia EFTofLSS emulator: here comes Effort&#33;</a></h1> <p>One of the recent hot topics in cosmology is the development of emulators—surrogate models designed to approximate computationally expensive functions with far more efficient alternatives. While many advancements have focused on emulating Cosmic Microwave Background &#40;CMB&#41; calculations, such as ClassNet<sup id="fnref:classnet"><a href="#fndef:classnet" class=fnref >[1]</a></sup> and Cosmopower<sup id="fnref:cosmopower"><a href="#fndef:cosmopower" class=fnref >[2]</a></sup>, the spotlight has recently shifted to emulators for Large-Scale Structure &#40;LSS&#41; analyses, after the release of new datasets from the DESI collaboration.</p> <p>Effort.jl focuses on emulating the galaxy power spectrum in the context of the Effective Field Theory of Large-Scale Structure &#40;EFTofLSS&#41;, a cornerstone framework for interpreting LSS surveys. But why yet another emulator? What makes Effort.jl stand out from the many existing tools?</p> <p>While other frameworks such as EmulateLSS<sup id="fnref:emulatelss"><a href="#fndef:emulatelss" class=fnref >[3]</a></sup>, Matryoshka<sup id="fnref:matryoshka"><a href="#fndef:matryoshka" class=fnref >[4]</a></sup>, COMET<sup id="fnref:comet"><a href="#fndef:comet" class=fnref >[5]</a></sup>, COBRA<sup id="fnref:cobra"><a href="#fndef:cobra" class=fnref >[6]</a></sup> have demonstrated exceptional performance, Effort.jl aims to take the game a step further, achieving new heights in computational efficiency and flexibility. Here’s how:</p> <p>⚡ Blazing Performance: Effort.jl can compute the galaxy power spectrum multipoles in approximately 15 µs—orders of magnitude faster than traditional Boltzmann solvers. This is thanks to its integration with the high-performance Julia ecosystem.</p> <p>🧠 Physics-Based Preprocessing: To reduce training resources, Effort.jl incorporates analytical rescaling of input and output features based on the underlying physics of the problem. This preprocessing minimizes the emulator’s complexity while maintaining precision.</p> <p>🔋 Effortless Training: Unlike many resource-heavy frameworks, Effort.jl is designed to be trained efficiently using standard hardware, completing training in about one hour on a standard CPU.</p> <p>🎯 Gradient-Based Optimization: Effort.jl is fully differentiable, enabling seamless integration with gradient-based algorithms for Bayesian inference and parameter minimization. This opens up possibilities for faster and more accurate cosmological analyses.</p> <p>These characteristics make Effort.jl an appealing choice for cosmologists working on next-generation surveys, such as DESI and Euclid, where precision and computational efficiency are paramount.</p> <p>Effort.jl is part of a broader vision to revolutionize cosmological emulators by combining speed, accessibility, and adaptability. Whether you’re exploring the intricacies of galaxy clustering or aiming for cutting-edge inference, Effort.jl promises to be a powerful tool in your arsenal.</p> <p>Furthermore, Effort.jl is written, <em>ça va sans dire</em>, in pure Julia. This means that it can be easily deployed on different kind of machines, even on Android smartphones. Yes, I have used Capse.jl on my Android smartphone and it was incredibly performant also there<sup id="fnref:girlfriend"><a href="#fndef:girlfriend" class=fnref >[7]</a></sup>.</p> <p>Let us now give a quick summary of the main points of the Capse.jl emulator.</p> <div class=franklin-toc ><ol><li><a href="#installation_usage">Installation &amp; Usage</a><li><a href="#precision_tests_residual_curves_chains">Precision tests: residual curves &amp; chains</a><li><a href="#ok_and_now">Ok, and now?</a></ol></div> <h2 id=installation_usage ><a href="#installation_usage" class=header-anchor >Installation &amp; Usage</a></h2> <p>Installing Capse.jl is quite easy. After moving to the package environment, you can enter the Pkg REPL by pressing <code>&#93;</code> from the Julia REPL. To get back to the Julia REPL, press <code>Ctrl&#43;C</code> or backspace &#40;when the REPL cursor is at the beginning of the input&#41;.</p> <p>Upon entering the Pkg REPL, you should see the following prompt:</p> <pre><code class="julia hljs">(<span class=hljs-meta >@v1</span><span class=hljs-number >.10</span>) pkg&gt;</code></pre>
+<p>Now you can install Capse.jl</p>
+<pre><code class="julia hljs">(<span class=hljs-meta >@v1</span><span class=hljs-number >.10</span>) pkg&gt; add https://github.com/CosmologicalEmulators/Effort.jl</code></pre>
+<p>Now load the following packages</p>
+<pre><code class="julia hljs"><span class=hljs-keyword >using</span> Effort</code></pre>
+<p>Now you have to load the trained emulator. Assuming rhe trained emulator is in a specific folder,</p>
+<ol>
+<li><p>You can define a <code>SimpleChains.jl</code> emulator</p>
+
+</ol>
+<pre><code class="julia hljs">emu = Effort.load_multipole_emulator(<span class=hljs-string >&quot;/path/to/folder&quot;</span>)</code></pre>
+<p>Easy, isn&#39;t it?</p>
+<p>We can now use the loaded emulator to compute some <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mi mathvariant=normal >ℓ</mi></msub><mo stretchy=false >(</mo><mi>k</mi><mo stretchy=false >)</mo></mrow><annotation encoding="application/x-tex">P_\ell(k)</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:1em;vertical-align:-0.25em;"></span><span class=mord ><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">ℓ</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span><span class=mopen >(</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class=mclose >)</span></span></span></span>&#39;s&#33;</p>
+<pre><code class="julia hljs">Capse.get_Pk(input_test, emu)</code></pre>
+<p>That&#39;s it&#33; The mean execution time of <code>Effort.jl</code> is of <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>15</mn><mtext> </mtext><mi>μ</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">15\,\mu s</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.8389em;vertical-align:-0.1944em;"></span><span class=mord >15</span><span class=mspace  style="margin-right:0.1667em;"></span><span class="mord mathnormal">μ</span><span class="mord mathnormal">s</span></span></span></span>&#33;</p>
+<h2 id=precision_tests_residual_curves_chains ><a href="#precision_tests_residual_curves_chains" class=header-anchor >Precision tests: residual curves &amp; chains</a></h2>
+<p><code>Effort.jl</code> is the fastest EFTofLSS emulator available. But is it precise?</p>
+<p>Let us start plotting the distribution of the percentage residuals</p>
+<p><img src="https://github.com/user-attachments/assets/8c32f463-51bc-4da2-821c-64319ce52679" alt="Effort error distribution" /></p>
+<p>As can be seen, the impact of the preprocessing is more important than that of the training dataset size&#33;</p>
+<p>These are not the only tests we performed in order to assess the accuracy of our emulators. We analyzed the PT-challenge and BOSS datasets.</p>
+<p>Here comes one of the <code>Julia</code> strenghts: the high interoperability of its ecosystem. Given our <code>Turing.jl</code> likelihood, we can use different analysis algorithms:</p>
+<ul>
+<li><p>NUTS, the No-U-Turn-Sampler. This is the state-of-the-art gradient-based sampler</p>
+
+<li><p>MicroCanonical Hamiltonian MonteCarlo, MCHMC, a recently developed Hamiltonian MonteCarlo Sampler</p>
+
+<li><p>Pathfinder, a variational inference algorithm</p>
+
+</ul>
+<p>The <code>Julia</code> implementation of these algorithms is interfaced with <code>Turing.jl</code>, so we can easily test these algorithms with our likelihoods&#33; What is the result of this comparison?</p>
+<p><img src="https://github.com/marcobonici/marcobonici.github.io/assets/58727599/6ad77fa6-5df7-4edd-b629-35aef48f312b" alt="Contour Planck" /></p>
+<p>The chains are basically the same, with differences of about <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.1</mn><mi>σ</mi></mrow><annotation encoding="application/x-tex">0.1\sigma</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.6444em;"></span><span class=mord >0.1</span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span></span></span></span> for the MCMC methods, and <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.2</mn><mi>σ</mi></mrow><annotation encoding="application/x-tex">0.2\sigma</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.6444em;"></span><span class=mord >0.2</span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span></span></span></span> for Pathfinder. But what about the computational performance?</p>
+<ul>
+<li><p>CAMB analyzed Planck with <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>80</mn></mrow><annotation encoding="application/x-tex">80</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.6444em;"></span><span class=mord >80</span></span></span></span> CPUhours, with an Effective Sample Size per second &#40;ESS/s&#41; of <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.004</mn></mrow><annotation encoding="application/x-tex">0.004</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.6444em;"></span><span class=mord >0.004</span></span></span></span></p>
+
+<li><p><code>Capse.jl</code> &#43; NUTS employed 1 CPUhour, with an ESS/s of 1.6</p>
+
+<li><p><code>Capse.jl</code> &#43; MCHMC required less than 1 CPUhour, with an ESS/s of 3.7</p>
+
+<li><p>Pathfinder computes the posterior in ~ <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>15</mn></mrow><annotation encoding="application/x-tex">15</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.6444em;"></span><span class=mord >15</span></span></span></span> seconds</p>
+
+</ul>
+<p>Furthermore, with the updated version of our paper, we have added a <code>Julia</code> version of the SPT 3G likelihood<sup id="fnref:balkenhol"><a href="#fndef:balkenhol" class=fnref >[8]</a></sup>, that we checked against the original likelihood &#40;as described in <a href="https://arxiv.org/abs/2212.05642">Balkenhol et al 2023</a>&#41;. The main difference with the aforementioned Planck likelihood, is that this likelihood as 33 nuisance parameters, that we keep free while running our chains. Again, which is the result of this comparison?</p>
+<p><img src="https://github.com/user-attachments/assets/f7df018e-bd37-4e7b-99bd-bbd3e9e86584" alt=contour_comparison_Effort_BOSS  /></p>
+<p>Also in this case the results are excellent, with differences of marginalized parameters smaller than <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.1</mn><mtext> </mtext><mi>σ</mi></mrow><annotation encoding="application/x-tex">0.1\,\sigma</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.6444em;"></span><span class=mord >0.1</span><span class=mspace  style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span></span></span></span>.</p>
+<h2 id=ok_and_now ><a href="#ok_and_now" class=header-anchor >Ok, and now?</a></h2>
+<p>Please, feel free to use the comments-tab here or to drop to me, or any of my colleagues, an email for questions or comments.</p>
+<p><table class=fndef  id="fndef:classnet">
+    <tr>
+        <td class=fndef-backref ><a href="#fnref:classnet">[1]</a>
+        <td class=fndef-content ><a href="https://arxiv.org/abs/2207.05707">CosmicNet II: Emulating extended cosmologies with efficient and accurate neural networks &#40;2022&#41;</a>
+    
+</table>
+<table class=fndef  id="fndef:cosmopower">
+    <tr>
+        <td class=fndef-backref ><a href="#fnref:cosmopower">[2]</a>
+        <td class=fndef-content ><a href="https://arxiv.org/abs/2106.03846">COSMOPOWER: emulating cosmological power spectra for accelerated Bayesian inference from next-generation surveys</a>
+    
+</table>
+      <script src="https://utteranc.es/client.js" repo="marcobonici/marcobonici.github.io"
+              issue-term=url  label=comments  theme=github-light  crossorigin=anonymous 
+              async>
+      </script>
+</p>
+<!-- <div class=page-foot >
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> {{ fill author }}. {{isnotpage /tag/*}}Last modified: {{ fill fd_mtime }}.{{end}}
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div> -->
+</div>
+
+      </div> 
+    </div>   
+
+    <div class=page__footer >
+      <footer>
+        
+        
+        <div class=page__footer-follow >
+          <ul class=social-icons >
+            <li><strong>Follow:</strong>
+            <li><a href="https://twitter.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a>
+            <li><a href="https://mathstodon.xyz/@marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-mastodon" aria-hidden=true ></i> Mastodon</a>
+            <li><a href="https://github.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a>
+          </ul>
+        </div>
+        <div class=page__footer-copyright >&copy; Marco Bonici. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a>,  <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a>
+          and the <a href="https://julialang.org">Julia programming language</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script>
+
+    
+        
+
+
+
+    
+    
+        
+
+
+    
+  
+
+
+
+
+<script>
+  (function(){
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+
+            pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+
+    });
+
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+
+  })();
+  </script>
