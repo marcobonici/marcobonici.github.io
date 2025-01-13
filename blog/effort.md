@@ -85,8 +85,7 @@ Here comes one of the `Julia` strenghts: the high interoperability of its ecosys
 The `Julia` implementation of these algorithms is interfaced with `Turing.jl`, so we can easily test these algorithms with our likelihoods!
 What is the result of this comparison?
 
-![Contour Planck](https://github.com/marcobonici/marcobonici.github.io/assets/58727599/6ad77fa6-5df7-4edd-b629-35aef48f312b)
-
+![contour_comparison_Effort_BOSS](https://github.com/user-attachments/assets/f7df018e-bd37-4e7b-99bd-bbd3e9e86584)
 The chains are basically the same, with differences of about $0.1\sigma$ for the MCMC methods, and $0.2\sigma$ for Pathfinder. But what about the computational performance?
 
 - pybird analyzed the BOSS dataset with  ~ $1000$ CPUhours, even though it was using analytical marginalization
