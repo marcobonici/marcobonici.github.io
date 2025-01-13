@@ -1,4 +1,4 @@
-@def title = "EFfort.jl"
+@def title = "Effort.jl"
 
 # The Julia EFTofLSS emulator: here comes Effort!
 
