@@ -89,17 +89,9 @@ What is the result of this comparison?
 
 The chains are basically the same, with differences of about $0.1\sigma$ for the MCMC methods, and $0.2\sigma$ for Pathfinder. But what about the computational performance?
 
-- CAMB analyzed Planck with $80$ CPUhours, with an Effective Sample Size per second (ESS/s) of $0.004$
-- `Capse.jl` + NUTS employed 1 CPUhour, with an ESS/s of 1.6
-- `Capse.jl` + MCHMC required less than 1 CPUhour, with an ESS/s of 3.7
-- Pathfinder computes the posterior in ~ $15$ seconds
-
-Furthermore, with the updated version of our paper, we have added a `Julia` version of the SPT 3G likelihood[^balkenhol], that we checked against the original likelihood (as described in [Balkenhol et al 2023](https://arxiv.org/abs/2212.05642)). The main difference with the aforementioned Planck likelihood, is that this likelihood as 33 nuisance parameters, that we keep free while running our chains.
-Again, which is the result of this comparison?
-
-![contour_comparison_Effort_BOSS](https://github.com/user-attachments/assets/f7df018e-bd37-4e7b-99bd-bbd3e9e86584)
-
-Also in this case the results are excellent, with differences of marginalized parameters smaller than $0.1\,\sigma$.
+- pybird analyzed the BOSS dataset with  ~ $1000$ CPUhours, even though it was using analytical marginalization
+- `Effort.jl` + NUTS employed 1 hour of wall-time, with an ESS/s of 0.4
+- `Effort.jl` + MCHMC required less than 1 hour of wall-time, with an ESS/s of 2.4
 
 ## Ok, and now?
 
