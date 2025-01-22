@@ -38,6 +38,8 @@
 
 ### Pre-prints
 
+0. A. Baleato Lizancos, U. Seljak, M. Karamanis, **M. Bonici**, S. Ferraro [Selecting samples of galaxies with fewer Fingers-of-God](https://arxiv.org/abs/2501.10587)
+
 0. **M. Bonici**, G. D'Amico, J. Bel, C. Carbone, [Effort.jl: a fast and differentiable emulator for the Effective Field Theory of the Large Scale Structure of the Universe](https://arxiv.org/abs/2501.04639)
 
 0. S. Paradiso, **M. Bonici**, M. Chen, W. J. Percival, G. D'Amico, H. Zhang, G. McGee, [Reducing nuisance prior sensitivity via non-linear reparameterization, with application to EFT analyses of large-scale structure](https://arxiv.org/abs/2412.03503)
