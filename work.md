@@ -38,6 +38,10 @@
 
 ### Pre-prints
 
+0. H. Zhang, **M. Bonici**, A. Rocher, W. J. Percival, A. de Mattia, et al., [Enhancing DESI DR1 Full-Shape analyses using HOD-informed priors](https://arxiv.org/abs/2504.10407)
+
+0. DESI Collaboration, [Data Release 1 of the Dark Energy Spectroscopic Instrument](https://arxiv.org/abs/2503.14745)
+
 0. A. Baleato Lizancos, U. Seljak, M. Karamanis, **M. Bonici**, S. Ferraro [Selecting samples of galaxies with fewer Fingers-of-God](https://arxiv.org/abs/2501.10587)
 
 0. **M. Bonici**, G. D'Amico, J. Bel, C. Carbone, [Effort.jl: a fast and differentiable emulator for the Effective Field Theory of the Large Scale Structure of the Universe](https://arxiv.org/abs/2501.04639)
