@@ -38,6 +38,8 @@
 
 ### Pre-prints
 
+0. Euclid Collaboration, [Euclid preparation. The impact of redshift interlopers on the two-point correlation function analysis](https://arxiv.org/abs/2505.04688)
+
 0. H. Zhang, **M. Bonici**, A. Rocher, W. J. Percival, A. de Mattia, et al., [Enhancing DESI DR1 Full-Shape analyses using HOD-informed priors](https://arxiv.org/abs/2504.10407)
 
 0. DESI Collaboration, [Data Release 1 of the Dark Energy Spectroscopic Instrument](https://arxiv.org/abs/2503.14745)
