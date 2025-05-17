@@ -10,6 +10,8 @@
 
 0. S. Chiarenza,  **M. Bonici**, W. J. Percival, M. White, [BLAST: Beyond Limber Angular power Spectra Toolkit. A fast and efficient algorithm for 3x2 pt analysis, OJA (2024)](https://astro.theoj.org/article/127038-blast-beyond-limber-angular-power-spectra-toolkit-a-fast-and-efficient-algorithm-for-3x2-pt-analysis)
 
+0. H. Zhang, **M. Bonici**, G. D'Amico, S. Paradiso, W. J. Percival, [HOD-informed prior for EFT-based full-shape analyses of LSS, JCAP (2025)](https://iopscience.iop.org/article/10.1088/1475-7516/2025/04/041)
+
 0. M. Beltrame, **M. Bonici**, C. Carbone, [Cosmological forecasts from the combination of Stage-IV photometric galaxy surveys and the magnification from forthcoming GW observatories, JCAP (2024)](https://iopscience.iop.org/article/10.1088/1475-7516/2024/10/074)
 
 0. D. Sciotti, S. Gouyou Beauchamps, V. F. Cardone, S. Camera, I. Tutusaus, F. Lacasa, A. Barreira, A. Gorce, M. Aubert, P. Baratta, R. E. Upham, **M. Bonici**, et al., [Euclid preparation. TBD. Forecast impact of super-sample covariance on 3x2pt analysis with Euclid, A&A (2024)](https://www.aanda.org/component/article?access=doi&doi=10.1051/0004-6361/202348389)
@@ -53,5 +55,3 @@
 0. DESI Collaboration, [DESI 2024 VII: Cosmological Constraints from the Full-Shape Modeling of Clustering Measurements](https://arxiv.org/abs/2411.12022)
 
 0. L. Paganin, **M. Bonici**, C. Carbone, S. Camera, et al., [Euclid preparation: 6x2 pt analysis of Euclid's spectroscopic and photometric data sets](https://arxiv.org/abs/2409.18882)
-
-0. H. Zhang, **M. Bonici**, G. D'Amico, S. Paradiso, W. J. Percival, [HOD-informed prior for EFT-based full-shape analyses of LSS](https://arxiv.org/abs/2409.12937)
