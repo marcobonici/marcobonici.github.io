@@ -40,6 +40,8 @@
 
 ### Pre-prints
 
+0. Y. Zhu, E. Saraivanov, J. A. Kable, A. S. Giannakopoulou, A. Nijjar, V. Miranda, M. Bonici, T. Eifler, E. Krause, [Attention-based Neural Network Emulators for Multi-Probe Data Vectors Part III: Modeling The Next Generation Surveys](https://arxiv.org/abs/2505.22574)
+
 0. Euclid Collaboration, [Euclid preparation. The impact of redshift interlopers on the two-point correlation function analysis](https://arxiv.org/abs/2505.04688)
 
 0. H. Zhang, **M. Bonici**, A. Rocher, W. J. Percival, A. de Mattia, et al., [Enhancing DESI DR1 Full-Shape analyses using HOD-informed priors](https://arxiv.org/abs/2504.10407)
