@@ -6,6 +6,9 @@
 
 ### Peer reviewed
 
+
+0. A. Baleato Lizancos, U. Seljak, M. Karamanis, **M. Bonici**, S. Ferraro [Selecting samples of galaxies with fewer Fingers-of-God, JCAP (2025)](https://iopscience.iop.org/article/10.1088/1475-7516/2025/07/014)
+
 0. A. H. B. Nguyen,  **M. Bonici**, G. McGee, W. J. Percival, [LOO-PIT: A sensitive posterior test, JCAP (2025)](https://iopscience.iop.org/article/10.1088/1475-7516/2025/01/008)
 
 0. S. Chiarenza,  **M. Bonici**, W. J. Percival, M. White, [BLAST: Beyond Limber Angular power Spectra Toolkit. A fast and efficient algorithm for 3x2 pt analysis, OJA (2024)](https://astro.theoj.org/article/127038-blast-beyond-limber-angular-power-spectra-toolkit-a-fast-and-efficient-algorithm-for-3x2-pt-analysis)
@@ -47,8 +50,6 @@
 0. H. Zhang, **M. Bonici**, A. Rocher, W. J. Percival, A. de Mattia, et al., [Enhancing DESI DR1 Full-Shape analyses using HOD-informed priors](https://arxiv.org/abs/2504.10407)
 
 0. DESI Collaboration, [Data Release 1 of the Dark Energy Spectroscopic Instrument](https://arxiv.org/abs/2503.14745)
-
-0. A. Baleato Lizancos, U. Seljak, M. Karamanis, **M. Bonici**, S. Ferraro [Selecting samples of galaxies with fewer Fingers-of-God](https://arxiv.org/abs/2501.10587)
 
 0. **M. Bonici**, G. D'Amico, J. Bel, C. Carbone, [Effort.jl: a fast and differentiable emulator for the Effective Field Theory of the Large Scale Structure of the Universe](https://arxiv.org/abs/2501.04639)
 
