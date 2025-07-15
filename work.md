@@ -6,6 +6,7 @@
 
 ### Peer reviewed
 
+0. S. Paradiso, **M. Bonici**, M. Chen, W. J. Percival, G. D'Amico, H. Zhang, G. McGee, [Reducing nuisance prior sensitivity via non-linear reparameterization, with application to EFT analyses of large-scale structure, JCAP (2025)](https://iopscience.iop.org/article/10.1088/1475-7516/2025/07/005)
 
 0. A. Baleato Lizancos, U. Seljak, M. Karamanis, **M. Bonici**, S. Ferraro [Selecting samples of galaxies with fewer Fingers-of-God, JCAP (2025)](https://iopscience.iop.org/article/10.1088/1475-7516/2025/07/014)
 
@@ -52,8 +53,6 @@
 0. DESI Collaboration, [Data Release 1 of the Dark Energy Spectroscopic Instrument](https://arxiv.org/abs/2503.14745)
 
 0. **M. Bonici**, G. D'Amico, J. Bel, C. Carbone, [Effort.jl: a fast and differentiable emulator for the Effective Field Theory of the Large Scale Structure of the Universe](https://arxiv.org/abs/2501.04639)
-
-0. S. Paradiso, **M. Bonici**, M. Chen, W. J. Percival, G. D'Amico, H. Zhang, G. McGee, [Reducing nuisance prior sensitivity via non-linear reparameterization, with application to EFT analyses of large-scale structure](https://arxiv.org/abs/2412.03503)
 
 0. DESI Collaboration, [DESI 2024 VII: Cosmological Constraints from the Full-Shape Modeling of Clustering Measurements](https://arxiv.org/abs/2411.12022)
 
