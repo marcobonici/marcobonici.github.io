@@ -52,8 +52,8 @@
 
 0. DESI Collaboration, [Data Release 1 of the Dark Energy Spectroscopic Instrument](https://arxiv.org/abs/2503.14745)
 
-0. **M. Bonici**, G. D'Amico, J. Bel, C. Carbone, [Effort.jl: a fast and differentiable emulator for the Effective Field Theory of the Large Scale Structure of the Universe](https://arxiv.org/abs/2501.04639)
+0. **M. Bonici**, G. D'Amico, J. Bel, C. Carbone, [Effort.jl: a fast and differentiable emulator for the Effective Field Theory of the Large Scale Structure of the Universe](https://arxiv.org/abs/2501.04639) (Accepted for publication in JCAP)
 
 0. DESI Collaboration, [DESI 2024 VII: Cosmological Constraints from the Full-Shape Modeling of Clustering Measurements](https://arxiv.org/abs/2411.12022)
 
-0. L. Paganin, **M. Bonici**, C. Carbone, S. Camera, et al., [Euclid preparation: 6x2 pt analysis of Euclid's spectroscopic and photometric data sets](https://arxiv.org/abs/2409.18882)
+0. L. Paganin, **M. Bonici**, C. Carbone, S. Camera, et al., [Euclid preparation: 6x2 pt analysis of Euclid's spectroscopic and photometric data sets](https://arxiv.org/abs/2409.18882) (Accepted for publication in A&A)
