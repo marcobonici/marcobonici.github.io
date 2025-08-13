@@ -11,7 +11,7 @@ My research lines are tightly interconnected: in order to perform extensive cros
 
 - **Maximizing precision and accuracy in inference**. I work on extracting the most possible information from our data through field-level inference techniques, and I rigorously validate results using approaches such as Leave-One-Out and cross-validation to avoid bias and overfitting.
 
-Much of this work is implemented in the [Julia](https://docs.julialang.org/en/v1/) programming language**, leveraging its performance, composability, and differentiability to unify modeling, optimization, and validation in a single, coherent framework.
+Much of this work is implemented in the [Julia](https://docs.julialang.org/en/v1/) programming language, leveraging its performance, composability, and differentiability to unify modeling, optimization, and validation in a single, coherent framework.
 
 ## Selected posts from my blog
 
