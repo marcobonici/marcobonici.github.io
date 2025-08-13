@@ -13,6 +13,7 @@ My research lines are tightly interconnected: in order to perform extensive cros
 
 Much of this work is implemented in the [Julia](https://docs.julialang.org/en/v1/) programming language, leveraging its performance, composability, and differentiability to unify modeling, optimization, and validation in a single, coherent framework.
 
+
 ## Selected posts from my blog
 
 * [The Julia CMB emulator: here comes Capse!](/blog/capse)
