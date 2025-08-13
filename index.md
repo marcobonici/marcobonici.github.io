@@ -1,9 +1,9 @@
 @def title = "Marco Bonici"
 
-I am a Postdoctoral Researcher at the [Waterloo Centre for Astrophysics](https://uwaterloo.ca/astrophysics-centre/), University of Waterloo, where *the Universe is our laboratory*.
+I am a Postdoctoral Researcher at the [Waterloo Centre for Astrophysics](https://uwaterloo.ca/astrophysics-centre/), University of Waterloo.
 I am a cosmologist working at the intersection of theory, computation, and statistics to understand the large-scale structure of the Universe and to extract maximal information from current and upcoming cosmological surveys.
 
-My research lines are **tightly interconnected**: in order to perform extensive cross-validation and field-level analyses of cosmological datasets, *fast, differentiable codes* are an absolute necessity. This drives the development of the methods I work on:
+My research lines are tightly interconnected: in order to perform extensive cross-validation and field-level analyses of cosmological datasets, *fast, differentiable codes* are an absolute necessity. This drives the development of the methods I work on:
 
 - **Accelerating theoretical predictions**. I develop and apply numerical techniques to speed up calculations of cosmological observables — including surrogate models and novel algorithms — to reduce computation time without sacrificing scientific accuracy.
 
