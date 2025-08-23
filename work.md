@@ -44,6 +44,8 @@
 
 ### Pre-prints
 
+0. J. Morawetz, H. Zhang, **M. Bonici**, W. Percival, A. Crespi, [Frequentist Cosmological Constraints from Full-Shape Clustering Measurements in DESI DR](https://arxiv.org/abs/2508.11811)
+
 0. Y. Zhu, E. Saraivanov, J. A. Kable, A. S. Giannakopoulou, A. Nijjar, V. Miranda, **M. Bonici**, T. Eifler, E. Krause, [Attention-based Neural Network Emulators for Multi-Probe Data Vectors Part III: Modeling The Next Generation Surveys](https://arxiv.org/abs/2505.22574)
 
 0. Euclid Collaboration, [Euclid preparation. The impact of redshift interlopers on the two-point correlation function analysis](https://arxiv.org/abs/2505.04688)
