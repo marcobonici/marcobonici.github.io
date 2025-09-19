@@ -6,6 +6,8 @@
 
 ### Peer reviewed
 
+0. **M. Bonici**, G. D'Amico, J. Bel, C. Carbone, [Effort.jl: a fast and differentiable emulator for the Effective Field Theory of the Large Scale Structure of the Universe, JCAP (2025)](https://iopscience.iop.org/article/10.1088/1475-7516/2025/09/044)
+
 0. S. Paradiso, **M. Bonici**, M. Chen, W. J. Percival, G. D'Amico, H. Zhang, G. McGee, [Reducing nuisance prior sensitivity via non-linear reparameterization, with application to EFT analyses of large-scale structure, JCAP (2025)](https://iopscience.iop.org/article/10.1088/1475-7516/2025/07/005)
 
 0. A. Baleato Lizancos, U. Seljak, M. Karamanis, **M. Bonici**, S. Ferraro [Selecting samples of galaxies with fewer Fingers-of-God, JCAP (2025)](https://iopscience.iop.org/article/10.1088/1475-7516/2025/07/014)
@@ -44,6 +46,8 @@
 
 ### Pre-prints
 
+0. Euclid Collaboration, [Euclid preparation. Using mock Low Surface Brightness dwarf galaxies to probe Wide Survey detection capabilities](https://arxiv.org/abs/2509.13163)
+
 0. J. Morawetz, H. Zhang, **M. Bonici**, W. Percival, A. Crespi, [Frequentist Cosmological Constraints from Full-Shape Clustering Measurements in DESI DR](https://arxiv.org/abs/2508.11811)
 
 0. Y. Zhu, E. Saraivanov, J. A. Kable, A. S. Giannakopoulou, A. Nijjar, V. Miranda, **M. Bonici**, T. Eifler, E. Krause, [Attention-based Neural Network Emulators for Multi-Probe Data Vectors Part III: Modeling The Next Generation Surveys](https://arxiv.org/abs/2505.22574)
@@ -53,8 +57,6 @@
 0. H. Zhang, **M. Bonici**, A. Rocher, W. J. Percival, A. de Mattia, et al., [Enhancing DESI DR1 Full-Shape analyses using HOD-informed priors](https://arxiv.org/abs/2504.10407)
 
 0. DESI Collaboration, [Data Release 1 of the Dark Energy Spectroscopic Instrument](https://arxiv.org/abs/2503.14745)
-
-0. **M. Bonici**, G. D'Amico, J. Bel, C. Carbone, [Effort.jl: a fast and differentiable emulator for the Effective Field Theory of the Large Scale Structure of the Universe](https://arxiv.org/abs/2501.04639) (Accepted for publication in JCAP)
 
 0. DESI Collaboration, [DESI 2024 VII: Cosmological Constraints from the Full-Shape Modeling of Clustering Measurements](https://arxiv.org/abs/2411.12022)
 
