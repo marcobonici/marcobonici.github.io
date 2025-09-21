@@ -1,0 +1,7 @@
+MethodError: no method matching TikzPictures.TikzPicture(::SubString{String}; environment::String, preamble::SubString{String}, options::String)
+This error has been manually thrown, explicitly, so the method may exist but be intentionally marked as unimplemented.
+
+Closest candidates are:
+  TikzPictures.TikzPicture(::AbstractString; options, preamble, enableWrite18) got unsupported keyword argument "environment"
+   @ TikzPictures ~/.julia/packages/TikzPictures/1hS0x/src/TikzPictures.jl:66
+
