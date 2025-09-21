@@ -2,7 +2,7 @@
 
 # The Julia EFTofLSS emulator: here comes Effort!
 
-One of the recent hot topics in cosmology is the development of emulators—surrogate models designed to approximate computationally expensive functions with far more efficient alternatives. While many advancements have focused on emulating Cosmic Microwave Background (CMB) calculations, such as ClassNet[^classnet] and Cosmopower[^cosmopower], the spotlight has recently shifted to emulators for Large-Scale Structure (LSS) analyses, after the release of new datasets from the DESI collaboration.
+One of the recent hot topics in cosmology is the development of emulators, surrogate models designed to approximate computationally expensive functions with far more efficient alternatives. While many advancements have focused on emulating Cosmic Microwave Background (CMB) calculations, such as ClassNet[^classnet] and Cosmopower[^cosmopower], the spotlight has recently shifted to emulators for Large-Scale Structure (LSS) analyses, after the release of new analyses from the DESI collaboration.
 
 `Effort.jl` focuses on emulating the galaxy power spectrum in the context of the Effective Field Theory of Large-Scale Structure (EFTofLSS), a cornerstone framework for interpreting LSS surveys. But why yet another emulator? What makes `Effort.jl` stand out from the many existing tools?
 
@@ -16,7 +16,7 @@ While other frameworks such as EmulateLSS[^emulatelss], Matryoshka[^matryoshka],
 
 🎯 Gradient-Based Optimization: `Effort.jl` is fully differentiable, enabling seamless integration with gradient-based algorithms for Bayesian inference and parameter minimization. This opens up possibilities for faster and more accurate cosmological analyses.
 
-These characteristics make `Effort.jl` an appealing choice for cosmologists working on next-generation surveys, such as DESI and Euclid, where precision and computational efficiency are paramount; for this reason, `Effort.jl` has already been applied in a few works[^zhangone, ^paradiso, ^baleato, ^zhangtwo, ^morawetz], when where considered scenarios when standard pipelines whould have struggled.
+These characteristics make `Effort.jl` an appealing choice for cosmologists working on next-generation surveys, such as DESI and Euclid, where precision and computational efficiency are paramount; for this reason, `Effort.jl` has already been applied in a few works[^zhangone][^paradiso][^baleato][^zhangtwo][^morawetz], when where considered scenarios when standard pipelines whould have struggled.
 
 `Effort.jl` is part of a broader vision to improve cosmological emulators by combining speed, accessibility, and adaptability. Whether you’re exploring the intricacies of galaxy clustering or aiming for cutting-edge inference, `Effort.jl` promises to be a powerful tool in your arsenal.
 

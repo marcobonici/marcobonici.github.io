@@ -16,5 +16,6 @@ Much of this work is implemented in the [Julia](https://docs.julialang.org/en/v1
 
 ## Selected posts from my blog
 
+* [The Julia EFTofLSS emulator: here comes Effort!](/blog/effort)
 * [The Julia CMB emulator: here comes Capse!](/blog/capse)
 * [Fisher matrix posterior contour plot with FisherPlot.jl.](/blog/fisher-plot)
