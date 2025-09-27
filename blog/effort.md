@@ -79,7 +79,7 @@ We will gauge the impact of the size of the training dataset, using two datasets
 
 Here are the results!
 
-![Effort error distribution](https://private-user-images.githubusercontent.com/58727599/492058747-e0a6ecb5-8a02-4609-8ff6-3cac7cf648ff.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTg0ODgyNzgsIm5iZiI6MTc1ODQ4Nzk3OCwicGF0aCI6Ii81ODcyNzU5OS80OTIwNTg3NDctZTBhNmVjYjUtOGEwMi00NjA5LThmZjYtM2NhYzdjZjY0OGZmLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA5MjElMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwOTIxVDIwNTI1OFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTQ4NDBiYzUzMTNmNGVkNzIzNTg3NzU5NmI3ZjUwOTY3NDkyYTcxNDBiM2I1NzlhNGVmNTUyNDI5NzU5NWFiNzYmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.l3XLta0qSNL-66HXH2qqHXWnHdxvPBuGLoQdbGsffgs)
+![Effort error distribution](https://github.com/user-attachments/assets/e0a6ecb5-8a02-4609-8ff6-3cac7cf648ff)
 
 As can be seen, the impact of the preprocessing is more important than that of the training dataset size! This means that yes, having a larger dataset can help you getting a better emulator, but leveraging our domain knowledge as scientists is even better!
 
@@ -130,6 +130,6 @@ Please, feel free to use the comments-tab here or to drop to me, or any of my co
 [^morawetz]: [Frequentist Cosmological Constraints from Full-Shape Clustering Measurements in DESI DR1](https://arxiv.org/abs/2508.11811)
 [^pun]: Pun _totally_ intended.
 [^girlfriend]: When I told this to my girlfriend her honest reaction was "Are you trying to get single again?".
-[^effort-paper] [Effort.jl: a fast and differentiable emulator for the Effective Field Theory of the Large Scale Structure of the Universe](https://iopscience.iop.org/article/10.1088/1475-7516/2025/09/044)
-[^effort-press] [Cosmic simulations that once needed supercomputers now run on a laptop](https://www.sciencedaily.com/releases/2025/09/250918225001.html)
+[^effort-paper]: [Effort.jl: a fast and differentiable emulator for the Effective Field Theory of the Large Scale Structure of the Universe](https://iopscience.iop.org/article/10.1088/1475-7516/2025/09/044)
+[^effort-press]: [Cosmic simulations that once needed supercomputers now run on a laptop](https://www.sciencedaily.com/releases/2025/09/250918225001.html). And someone even posted that on [Hacker News](https://news.ycombinator.com/item?id=45346538)!
 {{ addcomments }}
