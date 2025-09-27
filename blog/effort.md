@@ -102,7 +102,7 @@ The chains are basically the same, with differences of about $0.1\sigma$. But wh
 
 ## Ok, and now?
 
-Although the `Effort.jl` release paper has just been accepted on JCAP[^effort-paper] (and there was even some media coverage about it[^effort-press]!) there are a few things we are working on about:
+Although the `Effort.jl` release paper has just been accepted on JCAP[^paper] (and there was even some media coverage about it[^press]!) there are a few things we are working on about:
 
 - A `jax` compatible version, `jaxeffort`. This is mostly done, and it is available on [GitHub](https://github.com/CosmologicalEmulators/jaxeffort).
 - Batteries included. I am including by default some emulators into the packages, such that they can be used out-of-the-box.
@@ -130,6 +130,6 @@ Please, feel free to use the comments-tab here or to drop to me, or any of my co
 [^morawetz]: [Frequentist Cosmological Constraints from Full-Shape Clustering Measurements in DESI DR1](https://arxiv.org/abs/2508.11811)
 [^pun]: Pun _totally_ intended.
 [^girlfriend]: When I told this to my girlfriend her honest reaction was "Are you trying to get single again?".
-[^effort-paper]: [Effort.jl: a fast and differentiable emulator for the Effective Field Theory of the Large Scale Structure of the Universe](https://iopscience.iop.org/article/10.1088/1475-7516/2025/09/044)
-[^effort-press]: [Cosmic simulations that once needed supercomputers now run on a laptop](https://www.sciencedaily.com/releases/2025/09/250918225001.html). And someone even posted that on [Hacker News](https://news.ycombinator.com/item?id=45346538)!
+[^paper]: [Effort.jl: a fast and differentiable emulator for the Effective Field Theory of the Large Scale Structure of the Universe](https://iopscience.iop.org/article/10.1088/1475-7516/2025/09/044)
+[^press]: [Cosmic simulations that once needed supercomputers now run on a laptop](https://www.sciencedaily.com/releases/2025/09/250918225001.html). And someone even posted that on [Hacker News](https://news.ycombinator.com/item?id=45346538)!
 {{ addcomments }}
