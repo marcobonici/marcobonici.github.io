@@ -38,7 +38,7 @@ Upon entering the Pkg REPL, you should see the following prompt:
 ```
 Now you can install `Effort.jl`
 ```
-(@v1.11) pkg> add https://github.com/CosmologicalEmulators/Effort.jl
+(@v1.11) pkg> add Effort
 ```
 
 Now load the following packages

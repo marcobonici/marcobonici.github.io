@@ -46,6 +46,8 @@
 
 ### Pre-prints
 
+0. A. Crespi, **M. Bonici**, A. Loureiro, J. Ruiz-Zapatero, I. Sladoljev, Z. Li, A. Bayer, M. Millea, U. Seljak, [Flinch: A Differentiable Framework for Field-Level Inference of Cosmological parameters from curved sky data](https://arxiv.org/abs/2510.26691)
+
 0. Euclid Collaboration, [Euclid preparation. Using mock Low Surface Brightness dwarf galaxies to probe Wide Survey detection capabilities](https://arxiv.org/abs/2509.13163)
 
 0. J. Morawetz, H. Zhang, **M. Bonici**, W. Percival, A. Crespi, [Frequentist Cosmological Constraints from Full-Shape Clustering Measurements in DESI DR](https://arxiv.org/abs/2508.11811)
