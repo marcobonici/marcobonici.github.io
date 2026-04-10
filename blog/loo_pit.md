@@ -319,11 +319,35 @@ The basic idea is to compare each observed value $y_i$ to its leave-one-out pred
 
 For each posterior draw $\theta^{(s)}$, generate a synthetic observation
 
-\[
+$$
 \tilde{y}_i^{(s)}.
-\]
+$$
 
-Conceptually, this is a draw from the predictive distribution associated with $\theta^{(s)}$. In non-factorizable models, the relevant quantity is the conditional predictive distribution given $y_{-i}$.
+This is a **stochastic realization** from the predictive distribution associated with $\theta^{(s)}$. In other words, once we fix the parameter draw $\theta^{(s)}$, we do not simply compute a deterministic summary such as the mean of the likelihood; instead, we actually draw a random value from the likelihood itself.
+
+This point is worth stressing because it is a common source of confusion in posterior predictive checks. People sometimes look at the collection of conditional means, for example the various $\mu^{(s)}$ values obtained from the posterior draws, and think that this collection already represents the posterior predictive distribution. That is not correct.
+
+The set of means $\mu^{(s)}$ only describes how the **center** of the predictive distribution changes across posterior draws. It does not include the intrinsic randomness of the likelihood around that center. The posterior predictive distribution must include both sources of uncertainty:
+
+1. uncertainty in the parameters, represented by the posterior draws $\theta^{(s)}$;
+2. randomness in the data-generating process, represented by a fresh random draw from the likelihood for each $\theta^{(s)}$.
+
+So the correct construction is:
+
+- first draw $\theta^{(s)}$ from the posterior;
+- then draw $\tilde{y}_i^{(s)}$ from the sampling distribution implied by that parameter draw.
+
+Symbolically, this means
+
+$$
+\tilde{y}_i^{(s)} \sim p(\tilde y_i \mid y_{-i}, \theta^{(s)})
+$$
+
+in the general leave-one-out setting.
+
+In non-factorizable models, this predictive distribution is again a conditional one, because the left-out observation must be generated given the remaining data $y_{-i}$. Thus, the relevant object is not just a mean vector or best-fit prediction, but a full conditional predictive distribution from which we generate random realizations.
+
+That is exactly what makes posterior predictive checks meaningful: we are comparing the observed data to what the model would actually generate, not merely to a smoothed average prediction.
 
 ### Step 4b: Compare synthetic data to the observed data
 
