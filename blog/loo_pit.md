@@ -179,7 +179,14 @@ println("Exact Semi-Analytic LOO-PIT (first 5): ", round.(pitvals_exact[1:5], di
 println("Manual Monte Carlo LOO-PIT (first 5): ", round.(pitvals_manual[1:5], digits=4))
 ```
 
-The difference between these two is typically small (~0.05) and scales with the number of predictive draws. The Monte Carlo method is the one to remember, as it works even when no closed-form CDF exists.
+Output:
+```
+Exact Semi-Analytic LOO-PIT (first 5): [0.6592, 0.0974, 0.5047, 0.5123, 0.0175]
+Manual Monte Carlo LOO-PIT (first 5): [0.6559, 0.0996, 0.5048, 0.5155, 0.0184]
+```
+
+In our run, the maximum difference between these two methods is approximately 0.0085. This small discrepancy is expected and scales with the number of predictive draws used in the Monte Carlo approximation. 
+ The Monte Carlo method is the one to remember, as it works even when no closed-form CDF exists.
 
 ![](https://github.com/user-attachments/assets/79fd5161-0623-4f16-8bfc-493c1b92b501)
 
@@ -229,13 +236,26 @@ The null hypothesis ($H_0$) is that the LOO-PIT values are drawn from a $\text{U
 ```julia
 using HypothesisTests
 
-# Perform the KS test against the Uniform(0, 1) distribution
-ks_test = ExactOneSampleKSTest(pitvals_manual, Uniform(0, 1))
+# Perform the KS test for the Monte Carlo version
+ks_test_mc = ExactOneSampleKSTest(pitvals_manual, Uniform(0, 1))
 
-println("LOO-PIT KS test p-value: ", pvalue(ks_test))
+# Perform the KS test for the Exact Analytic version
+ks_test_exact = ExactOneSampleKSTest(pitvals_exact, Uniform(0, 1))
+
+println("MC LOO-PIT KS test p-value:    ", pvalue(ks_test_mc))
+println("Exact LOO-PIT KS test p-value: ", pvalue(ks_test_exact))
 ```
 
-It is important to remember that a large p-value does not *prove* the model is perfectly calibrated—it only means we haven't found strong evidence of miscalibration at our current sample size. Conversely, with very large datasets, even tiny, practically irrelevant deviations from uniformity might trigger a small p-value. Therefore, the KS test should always be interpreted as a quantitative complement to the visual KDE diagnostic.
+Output:
+```
+MC LOO-PIT KS test p-value:    0.1919
+Exact LOO-PIT KS test p-value: 0.1860
+```
+
+In our case, both p-values are well above the common 0.05 threshold, and they are remarkably close to each other. This confirms that the Monte Carlo approximation is highly effective at capturing the calibration of the model.
+
+It is important to remember that a large p-value does not *prove* the model is perfectly calibrated—it only means we haven't found strong evidence of miscalibration at our current sample size. 
+ Conversely, with very large datasets, even tiny, practically irrelevant deviations from uniformity might trigger a small p-value. Therefore, the KS test should always be interpreted as a quantitative complement to the visual KDE diagnostic.
 
 ## 10. Validation with PosteriorStats.jl
 
@@ -249,5 +269,12 @@ pitvals_automated = loo_pit(y, y_pred_array, log_weights)
 max_diff = maximum(abs.(pitvals_manual .- pitvals_automated))
 println("Max difference (Automated vs Manual MC): ", max_diff)
 ```
+
+Output:
+```
+Max difference (Automated vs Manual MC): 0.0
+```
+
+As we can see, the manual Monte Carlo calculation and the production-ready implementation in `PosteriorStats.jl` match perfectly. This confirms that our step-by-step unpacking accurately reflects the underlying logic used in the field.
 
 In practice, the package implementation is the one you should trust for production work, while the manual steps we've explored provide the intuition for what is happening under the hood.
