@@ -103,7 +103,7 @@ log_weights = loo_res.psis_result.log_weights
 
 PSIS stabilizes these weights by fitting a generalized Pareto distribution to the upper tail. We can check the reliability of this approximation using the Pareto $k$ diagnostic.
 
-![](https://github.com/user-attachments/assets/3cb5db55-4ae6-458b-b849-5d728e019e3a)
+![](https://github.com/user-attachments/assets/d963f905-1680-4dca-8d79-835f576c9037)
 
 If $k < 0.7$, the importance weights are stable and our LOO approximation is trustworthy.
 
@@ -185,18 +185,59 @@ The difference between these two is typically small (~0.05) and scales with the 
 
 ## 8. Visualizing Calibration with KDEs
 
-If the model is well-calibrated, the LOO-PIT values should be uniformly distributed. We can visualize this by plotting the Kernel Density Estimate (KDE) of our values against an ensemble of KDEs generated from truly uniform data.
+If the model is well-calibrated, the LOO-PIT values should be uniformly distributed. We can visualize this by plotting the Kernel Density Estimate (KDE) of our values against an ensemble of KDEs generated from truly uniform data. To ensure a fair comparison and avoid plotting densities outside the valid $[0, 1]$ interval, we use a boundary-corrected KDE approach.
 
 ```julia
-# Create 100 reference KDEs from Uniform(0,1) samples
-# And plot our observed dark-blue KDE over them...
+kde_bw = 0.15 # Tuned bandwidth for smoothness on N=30 samples
+
+p = plot(title="LOO-PIT KDE vs uniform reference",
+         xlabel="LOO-PIT value", ylabel="Density",
+         xlims=(0, 1), ylims=(0, 2.5),
+         legend=:topright)
+
+# Helper function to compute bounded KDE over [0, 1]
+function get_bounded_kde(data, bw)
+    k = PosteriorStats.kde_reflected(data, bounds=(0, 1), bandwidth=bw)
+    # Only keep points inside [0, 1]
+    mask = 0.0 .<= k.x .<= 1.0
+    return k.x[mask], k.density[mask]
+end
+
+# Plot 100 uniform reference KDEs in the background
+for i in 1:100
+    ref_sample = rand(Uniform(0, 1), nobs)
+    rx, ry = get_bounded_kde(ref_sample, kde_bw)
+    plot!(p, rx, ry, color=:lightblue, alpha=0.3, linewidth=1, 
+          label=i==1 ? "Uniform reference" : "")
+end
+
+# Plot actual LOO-PIT KDE in the foreground
+ox, oy = get_bounded_kde(pitvals_manual, kde_bw)
+plot!(p, ox, oy, color=:darkblue, linewidth=3, label="Observed LOO-PIT")
 ```
 
 ![](https://github.com/user-attachments/assets/afbf3240-02d4-4b8a-a192-07f003c0ee35)
 
 If our solid dark-blue curve stays within the light-blue "cloud" of uniform reference samples, our model's uncertainty statements are broadly consistent with the data.
 
-## 9. Validation with PosteriorStats.jl
+## 9. Quantifying Uniformity: The Kolmogorov-Smirnov Test
+
+Visual inspection is often the most intuitive diagnostic, but we can also quantify the departure from uniformity using a statistical test. The **Kolmogorov-Smirnov (KS) test** is a standard choice for this purpose.
+
+The null hypothesis ($H_0$) is that the LOO-PIT values are drawn from a $\text{Uniform}(0, 1)$ distribution. A small p-value (typically $< 0.05$) suggests that the observed values are inconsistent with perfect calibration, indicating that the model may be over-confident or under-confident.
+
+```julia
+using HypothesisTests
+
+# Perform the KS test against the Uniform(0, 1) distribution
+ks_test = ExactOneSampleKSTest(pitvals_manual, Uniform(0, 1))
+
+println("LOO-PIT KS test p-value: ", pvalue(ks_test))
+```
+
+It is important to remember that a large p-value does not *prove* the model is perfectly calibrated—it only means we haven't found strong evidence of miscalibration at our current sample size. Conversely, with very large datasets, even tiny, practically irrelevant deviations from uniformity might trigger a small p-value. Therefore, the KS test should always be interpreted as a quantitative complement to the visual KDE diagnostic.
+
+## 10. Validation with PosteriorStats.jl
 
 While we built these diagnostics manually for educational purposes, `PosteriorStats.jl` provides a robust, optimized implementation that handles these steps automatically.
 
