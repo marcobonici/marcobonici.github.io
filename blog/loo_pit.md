@@ -404,3 +404,239 @@ PSIS-LOO works well only when the importance weights are sufficiently stable. In
 - Large $k$: PSIS-LOO may be unstable, and exact refitting or $K$-fold cross-validation may be safer.
 
 This is why tools such as ArviZ or the `loo` package report Pareto $k$ values alongside the LOO estimates.
+
+## Part II: LOO-PIT in practice
+
+### 1. From theory to computation
+In the first part, we saw that LOO-PIT is based on leave-one-out posterior predictive distributions. For each observation, we want to assess where the observed value falls relative to what the model would have predicted if it had never seen that specific observation during training. Because refitting the model for every single data point is too computationally expensive, we approximate this by using the draws from our full posterior and reweighting them using Pareto-Smoothed Importance Sampling (PSIS).
+
+Let's see how this works in Julia. We will start by importing the necessary packages, setting a random seed for reproducibility, defining a simple Bayesian model using Turing.jl, and generating some synthetic data.
+
+```julia
+using Random
+using LinearAlgebra
+using Turing
+using PosteriorStats
+using Distributions
+using PDMats
+using LogExpFunctions
+using Plots
+
+# Define the Turing model
+@model function myfoo(SL, x)
+    a ~ Uniform(-10, 10)
+    b ~ Uniform(-10, 10)
+    μ = a .* x .+ b
+    S = Symmetric(SL * SL')
+    # Multivariate Normal observation
+    y ~ MvNormal(μ, PDMat(Cholesky(SL)))
+    return y
+end
+
+# Setup synthetic data
+Random.seed!(1234)
+n = 30
+R = rand(LKJCholesky(n, 1))
+s = rand(filldist(truncated(TDist(7); lower=0), n))
+SL = LowerTriangular(Diagonal(s) * R.L) + 0.2I
+S = Symmetric(SL * SL')
+
+x = Array(LinRange(-7, 7, n))
+a_true = 1.0
+b_true = -3.0
+y = rand(MvNormal(a_true .* x .+ b_true, S))
+```
+In this snippet, we have defined a model with a multivariate normal likelihood. The parameters `a` and `b` dictate the mean of the distribution, while the covariance `S` is constructed from a lower-triangular matrix `SL`.
+
+### 2. Fitting the model
+Before we can perform any leave-one-out approximations, we need to fit the model to the full dataset. We use Turing to sample from the posterior and then generate full-posterior predictive draws.
+
+```julia
+# Sample from the model using 4 parallel chains
+chns = sample(myfoo(SL, x) | (; y), NUTS(), MCMCThreads(), 200, 4)
+
+# Generate posterior predictions
+y_pred = predict(myfoo(SL, x), chns)
+```
+Here, we use the No-U-Turn Sampler (NUTS) to obtain 200 draws across 4 chains. We also generate the predictive draws `y_pred` which simulate new data from the fitted model.
+
+### 3. Pointwise log-likelihood
+To reweight our posterior draws, we need to know how much each draw "liked" each observation. This is captured by the pointwise log-likelihood.
+
+```julia
+# Extract parameter samples to build the pointwise log-likelihood representation
+a_samples = chns[:a].data
+b_samples = chns[:b].data
+
+# Compute the deterministic mean array for all draws and chains
+# shape: (draws, chains, n)
+μ_array = a_samples .* reshape(x, 1, 1, n) .+ b_samples
+S_pd = PDMat(Cholesky(SL))
+
+# Construct pointwise conditional log-likelihoods
+# We instantiate the MvNormal objects for each slice (each posterior draw)
+dists = map(μ -> MvNormal(μ, S_pd), eachslice(μ_array; dims=(1, 2)))
+
+# Calculate log-likelihood array of shape (draws, chains, n) 
+log_like = PosteriorStats.pointwise_conditional_loglikelihoods(y, dists)
+```
+This code manually calculates the pointwise conditional log-likelihood for every posterior draw and every data point. The resulting `log_like` array tells us the log-probability of each observed data point $y_i$ under each posterior sample.
+
+### 4. PSIS-based leave-one-out reweighting
+Exact refitting for every left-out point would be incredibly slow. Instead, we approximate the leave-one-out posterior using PSIS. We will treat the PSIS smoothing algorithm itself as a black box and simply extract the smoothed log-weights it produces.
+
+```julia
+# Compute LOO using PosteriorStats.jl to get the PSIS weights
+loo_res = loo(log_like)
+
+# Extract the smoothed log-weights
+log_weights = loo_res.psis_result.log_weights
+```
+The `log_weights` array now contains the importance weights for each draw and each observation. Draws that fit an observation $y_i$ too well will be down-weighted for that observation, simulating what the posterior would look like if $y_i$ had been left out.
+
+![](https://github.com/user-attachments/assets/3cb5db55-4ae6-458b-b849-5d728e019e3a)
+
+### 5. Building leave-one-out posterior predictive draws
+With our PSIS log-weights in hand, we can transform our full-posterior predictive draws into leave-one-out predictive draws. First, let's extract our simulated predictive draws into a clean array format.
+
+```julia
+# Extract predictions for y into an array of shape (draws, chains, n)
+y_pred_data = y_pred[[Symbol("y[$i]") for i in 1:n]].value.data
+y_pred_array = permutedims(y_pred_data, (1, 3, 2))
+
+ndraws, nchains, nobs = size(y_pred_array)
+```
+For any observation $i$, `y_pred_array[:, :, i]` gives us the Monte Carlo draws of the prediction for $y_i$ under the full posterior, and `log_weights[:, :, i]` gives the corresponding PSIS weights needed to shift those predictions to the leave-one-out distribution.
+
+### 6. Two ways to evaluate the predictive CDF
+To compute the LOO-PIT values, we need to evaluate the Cumulative Distribution Function (CDF) of the leave-one-out predictive distribution at the observed value $y_i$. We can do this in two ways:
+
+1. **Analytically:** For this specific model, the observation model is a Gaussian. This means the predictive distribution conditional on the parameters is tractable, and we can evaluate the CDF exactly.
+2. **By Monte Carlo:** We can approximate the CDF by counting the proportion of predictive draws that fall below the observed value. This method is much more general and works for any model, even when the CDF is not analytically tractable.
+
+Let's look at both approaches.
+
+#### 6a. Analytical CDF for this example
+Because our likelihood is a multivariate normal, the marginal distribution for observation $y_i$ under a specific parameter draw is simply a univariate normal $\mathcal{N}(\mu_i^{(s)}, \sigma_i)$. We can calculate the exact Gaussian CDF for each draw, and then take the weighted average using our PSIS weights.
+
+```julia
+# The standard deviations are on the diagonal of the covariance matrix S
+σ_array = sqrt.(diag(S))
+pitvals_exact = zeros(nobs)
+
+for i in 1:nobs
+    log_w_i = log_weights[:, :, i]
+    
+    # Extract μ and σ for observation i
+    μ_i = μ_array[:, :, i]
+    σ_i = σ_array[i]
+    
+    # Evaluate the exact Gaussian CDF at the observed value y[i] for each draw
+    cdf_draws = cdf.(Normal.(μ_i, σ_i), y[i])
+    
+    # The exact LOO-PIT is the weighted sum of these exact CDFs
+    # Because weights are logged, we use logsumexp
+    exact_cdf = exp(logsumexp(log_w_i .+ log.(cdf_draws)))
+    
+    pitvals_exact[i] = exact_cdf
+end
+```
+By evaluating the exact CDF, we eliminate the sampling noise that comes from drawing random predictive variables. This "semi-analytic" method provides a very smooth and accurate estimate.
+
+#### 6b. Monte Carlo approximation to the CDF
+What if our likelihood wasn't so nicely tractable? Instead of using a closed-form formula, we can estimate the CDF empirically. We simply look at our generated predictive draws $\tilde{y}_i$ and check which ones satisfy the condition $\tilde{y}_i \leq y_i$. We then sum the PSIS weights of only those matching draws.
+
+```julia
+pitvals_manual = zeros(nobs)
+
+for i in 1:nobs
+    # 1. Grab the full-posterior predictive draws for this observation
+    y_pred_i = y_pred_array[:, :, i] 
+    
+    # 2. Grab the PSIS log-weights for this observation
+    log_w_i = log_weights[:, :, i]
+    
+    # 3. Find which predictive draws are less than or equal to the actual observed value
+    indicator_mask = y_pred_i .<= y[i]
+    
+    if any(indicator_mask)
+        # Sum the log-weights of the matching draws using logsumexp
+        cdf_estimate = exp(logsumexp(log_w_i[indicator_mask]))
+    else
+        cdf_estimate = 0.0
+    end
+    
+    pitvals_manual[i] = cdf_estimate
+end
+```
+Because the total PSIS weights for a given observation sum to 1, summing the weights of the draws that fall below $y_i$ directly yields the estimated empirical CDF fraction. This is the broadly applicable Monte Carlo route you should remember.
+
+![](https://github.com/user-attachments/assets/b766befa-ece2-4550-98ba-0eb25fba6f6c)
+
+### 7. Analytical versus Monte Carlo
+Let's compare the results of the two methods for the first few observations:
+
+![](https://github.com/user-attachments/assets/79fd5161-0623-4f16-8bfc-493c1b92b501)
+
+The exact analytical CDF is mathematically superior, but the Monte Carlo method closely approximates it. The small differences (around ~0.05 to ~0.10) are entirely normal and are due to the finite number of posterior predictive draws (200 draws per chain). In practice, the Monte Carlo approximation is accurate enough for diagnostic purposes and is far easier to generalize to complex models where the analytical CDF is unknown.
+
+
+
+### 8. Visualizing calibration with KDEs
+By running the loop above, we have collected a LOO-PIT value for every single observation in our dataset. If the model is well-calibrated, the distribution of these values should look roughly uniform between 0 and 1. 
+
+A powerful way to visualize this is by comparing the Kernel Density Estimate (KDE) of our actual `pitvals_manual` against an ensemble of KDEs generated from perfectly uniform simulated data of the same sample size. To ensure a fair comparison and avoid plotting densities outside the valid $[0, 1]$ interval, we use a boundary-corrected KDE approach.
+
+```julia
+kde_bw = 0.15 # Tuned bandwidth for smoothness on N=30 samples
+
+p = plot(title="LOO-PIT KDE vs Uniform Reference",
+         xlabel="LOO-PIT value", ylabel="Density",
+         xlims=(0, 1), ylims=(0, 2.5),
+         legend=:topright)
+
+# Helper function to compute bounded KDE over [0, 1]
+function get_bounded_kde(data, bw)
+    k = PosteriorStats.kde_reflected(data, bounds=(0, 1), bandwidth=bw)
+    # Only keep points inside [0, 1]
+    mask = 0.0 .<= k.x .<= 1.0
+    return k.x[mask], k.density[mask]
+end
+
+# Plot 100 uniform reference KDEs in the background
+for i in 1:100
+    ref_sample = rand(Uniform(0, 1), nobs)
+    rx, ry = get_bounded_kde(ref_sample, kde_bw)
+    plot!(p, rx, ry, color=:lightblue, alpha=0.3, linewidth=1, 
+          label=i==1 ? "Uniform Reference" : "")
+end
+
+# Plot actual LOO-PIT KDE in the foreground
+ox, oy = get_bounded_kde(pitvals_manual, kde_bw)
+plot!(p, ox, oy, color=:darkblue, linewidth=3, label="Observed LOO-PIT")
+```
+
+![](https://github.com/user-attachments/assets/afbf3240-02d4-4b8a-a192-07f003c0ee35)
+
+In this plot, the thin light-blue lines represent the expected sampling variance for a truly uniform distribution at our finite sample size. If our highlighted dark-blue curve stays broadly within that background envelope, we can be confident the model is well-calibrated. Deviations outside that reference envelope would indicate a lack of calibration (e.g., under-dispersion or over-dispersion). 
+
+### 9. Comparing with PosteriorStats.jl
+Finally, we can compare our pedagogical manual implementation with the robust, production-quality implementation provided by `PosteriorStats.jl`. The package automates the Monte Carlo workflow we just built.
+
+```julia
+# Use the automated PosteriorStats.jl function
+pitvals_automated = loo_pit(y, y_pred_array, log_weights)
+
+println("Automated LOO-PIT values:           ", round.(pitvals_automated[1:5], digits=4))
+
+max_diff_mc = maximum(abs.(pitvals_manual .- pitvals_automated))
+println("Max difference (Automated vs MC):   ", round(max_diff_mc, digits=8))
+```
+Output:
+```
+Automated LOO-PIT values:           [0.6800, 0.1002, 0.5069, 0.5040, 0.0262]
+Max difference (Automated vs MC):   0.0
+```
+The maximum difference is exactly zero! Our manual Monte Carlo implementation perfectly matches the package. 
+
+While our manual code unpacks the underlying logic for educational purposes, `PosteriorStats.jl` handles edge cases, shape checks, and optimizations under the hood. In your real Bayesian analyses, the package implementation is the one you should trust and use.
