@@ -72,7 +72,8 @@ pitvals_exact = zeros(n)
     cdf_draws = cdf.(Normal.(μ_i, σ_i), y[i])
     pitvals_exact[i] = exp(logsumexp(log_w_i .+ log.(cdf_draws)))
 <span class=hljs-keyword >end</span></code></pre> <h2 id=ol_start7_comparing_the_methods ><a href="#ol_start7_comparing_the_methods" class=header-anchor ><ol start=7 > <li><p>Comparing the Methods</p> </ol> </a></h2> <p>Let&#39;s see how our Monte Carlo approximation holds up against the exact analytic benchmark.</p> <pre><code class="julia hljs">println(<span class=hljs-string >&quot;Exact Semi-Analytic LOO-PIT (first 5): &quot;</span>, round.(pitvals_exact[<span class=hljs-number >1</span>:<span class=hljs-number >5</span>], digits=<span class=hljs-number >4</span>))
-println(<span class=hljs-string >&quot;Manual Monte Carlo LOO-PIT (first 5): &quot;</span>, round.(pitvals_manual[<span class=hljs-number >1</span>:<span class=hljs-number >5</span>], digits=<span class=hljs-number >4</span>))</code></pre> <p>The difference between these two is typically small &#40;~0.05&#41; and scales with the number of predictive draws. The Monte Carlo method is the one to remember, as it works even when no closed-form CDF exists.</p> <p><img src="https://github.com/user-attachments/assets/79fd5161-0623-4f16-8bfc-493c1b92b501" alt="" /></p> <h2 id=ol_start8_visualizing_calibration_with_kdes ><a href="#ol_start8_visualizing_calibration_with_kdes" class=header-anchor ><ol start=8 > <li><p>Visualizing Calibration with KDEs</p> </ol> </a></h2> <p>If the model is well-calibrated, the LOO-PIT values should be uniformly distributed. We can visualize this by plotting the Kernel Density Estimate &#40;KDE&#41; of our values against an ensemble of KDEs generated from truly uniform data. To ensure a fair comparison and avoid plotting densities outside the valid <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy=false >[</mo><mn>0</mn><mo separator=true >,</mo><mn>1</mn><mo stretchy=false >]</mo></mrow><annotation encoding="application/x-tex">[0, 1]</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:1em;vertical-align:-0.25em;"></span><span class=mopen >[</span><span class=mord >0</span><span class=mpunct >,</span><span class=mspace  style="margin-right:0.1667em;"></span><span class=mord >1</span><span class=mclose >]</span></span></span></span> interval, we use a boundary-corrected KDE approach.</p> <pre><code class="julia hljs">kde_bw = <span class=hljs-number >0.15</span> <span class=hljs-comment ># Tuned bandwidth for smoothness on N=30 samples</span>
+println(<span class=hljs-string >&quot;Manual Monte Carlo LOO-PIT (first 5): &quot;</span>, round.(pitvals_manual[<span class=hljs-number >1</span>:<span class=hljs-number >5</span>], digits=<span class=hljs-number >4</span>))</code></pre> <p>Output:</p> <pre><code class="julia hljs">Exact Semi-Analytic LOO-PIT (first <span class=hljs-number >5</span>): [<span class=hljs-number >0.6592</span>, <span class=hljs-number >0.0974</span>, <span class=hljs-number >0.5047</span>, <span class=hljs-number >0.5123</span>, <span class=hljs-number >0.0175</span>]
+Manual Monte Carlo LOO-PIT (first <span class=hljs-number >5</span>): [<span class=hljs-number >0.6559</span>, <span class=hljs-number >0.0996</span>, <span class=hljs-number >0.5048</span>, <span class=hljs-number >0.5155</span>, <span class=hljs-number >0.0184</span>]</code></pre> <p>In our run, the maximum difference between these two methods is approximately 0.0085. This small discrepancy is expected and scales with the number of predictive draws used in the Monte Carlo approximation. The Monte Carlo method is the one to remember, as it works even when no closed-form CDF exists.</p> <p><img src="https://github.com/user-attachments/assets/79fd5161-0623-4f16-8bfc-493c1b92b501" alt="" /></p> <h2 id=ol_start8_visualizing_calibration_with_kdes ><a href="#ol_start8_visualizing_calibration_with_kdes" class=header-anchor ><ol start=8 > <li><p>Visualizing Calibration with KDEs</p> </ol> </a></h2> <p>If the model is well-calibrated, the LOO-PIT values should be uniformly distributed. We can visualize this by plotting the Kernel Density Estimate &#40;KDE&#41; of our values against an ensemble of KDEs generated from truly uniform data. To ensure a fair comparison and avoid plotting densities outside the valid <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy=false >[</mo><mn>0</mn><mo separator=true >,</mo><mn>1</mn><mo stretchy=false >]</mo></mrow><annotation encoding="application/x-tex">[0, 1]</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:1em;vertical-align:-0.25em;"></span><span class=mopen >[</span><span class=mord >0</span><span class=mpunct >,</span><span class=mspace  style="margin-right:0.1667em;"></span><span class=mord >1</span><span class=mclose >]</span></span></span></span> interval, we use a boundary-corrected KDE approach.</p> <pre><code class="julia hljs">kde_bw = <span class=hljs-number >0.15</span> <span class=hljs-comment ># Tuned bandwidth for smoothness on N=30 samples</span>
 
 p = plot(title=<span class=hljs-string >&quot;LOO-PIT KDE vs uniform reference&quot;</span>,
          xlabel=<span class=hljs-string >&quot;LOO-PIT value&quot;</span>, ylabel=<span class=hljs-string >&quot;Density&quot;</span>,
@@ -99,12 +100,123 @@ p = plot(title=<span class=hljs-string >&quot;LOO-PIT KDE vs uniform reference&q
 ox, oy = get_bounded_kde(pitvals_manual, kde_bw)
 plot!(p, ox, oy, color=:darkblue, linewidth=<span class=hljs-number >3</span>, label=<span class=hljs-string >&quot;Observed LOO-PIT&quot;</span>)</code></pre> <p><img src="https://github.com/user-attachments/assets/afbf3240-02d4-4b8a-a192-07f003c0ee35" alt="" /></p> <p>If our solid dark-blue curve stays within the light-blue &quot;cloud&quot; of uniform reference samples, our model&#39;s uncertainty statements are broadly consistent with the data.</p> <h2 id=ol_start9_quantifying_uniformity_the_kolmogorov-smirnov_test ><a href="#ol_start9_quantifying_uniformity_the_kolmogorov-smirnov_test" class=header-anchor ><ol start=9 > <li><p>Quantifying Uniformity: The Kolmogorov-Smirnov Test</p> </ol> </a></h2> <p>Visual inspection is often the most intuitive diagnostic, but we can also quantify the departure from uniformity using a statistical test. The <strong>Kolmogorov-Smirnov &#40;KS&#41; test</strong> is a standard choice for this purpose.</p> <p>The null hypothesis &#40;<span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">H_0</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.8333em;vertical-align:-0.15em;"></span><span class=mord ><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class=msupsub ><span class="vlist-t vlist-t2"><span class=vlist-r ><span class=vlist  style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class=pstrut  style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class=vlist-s >​</span></span><span class=vlist-r ><span class=vlist  style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>&#41; is that the LOO-PIT values are drawn from a <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Uniform</mtext><mo stretchy=false >(</mo><mn>0</mn><mo separator=true >,</mo><mn>1</mn><mo stretchy=false >)</mo></mrow><annotation encoding="application/x-tex">\text{Uniform}(0, 1)</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class=mord >Uniform</span></span><span class=mopen >(</span><span class=mord >0</span><span class=mpunct >,</span><span class=mspace  style="margin-right:0.1667em;"></span><span class=mord >1</span><span class=mclose >)</span></span></span></span> distribution. A small p-value &#40;typically <span class=katex ><span class=katex-mathml ><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><mn>0.05</mn></mrow><annotation encoding="application/x-tex">&lt; 0.05</annotation></semantics></math></span><span class=katex-html  aria-hidden=true ><span class=base ><span class=strut  style="height:0.5782em;vertical-align:-0.0391em;"></span><span class=mrel >&lt;</span><span class=mspace  style="margin-right:0.2778em;"></span></span><span class=base ><span class=strut  style="height:0.6444em;"></span><span class=mord >0.05</span></span></span></span>&#41; suggests that the observed values are inconsistent with perfect calibration, indicating that the model may be over-confident or under-confident.</p> <pre><code class="julia hljs"><span class=hljs-keyword >using</span> HypothesisTests
 
-<span class=hljs-comment ># Perform the KS test against the Uniform(0, 1) distribution</span>
-ks_test = ExactOneSampleKSTest(pitvals_manual, Uniform(<span class=hljs-number >0</span>, <span class=hljs-number >1</span>))
+<span class=hljs-comment ># Perform the KS test for the Monte Carlo version</span>
+ks_test_mc = ExactOneSampleKSTest(pitvals_manual, Uniform(<span class=hljs-number >0</span>, <span class=hljs-number >1</span>))
 
-println(<span class=hljs-string >&quot;LOO-PIT KS test p-value: &quot;</span>, pvalue(ks_test))</code></pre> <p>It is important to remember that a large p-value does not <em>prove</em> the model is perfectly calibrated—it only means we haven&#39;t found strong evidence of miscalibration at our current sample size. Conversely, with very large datasets, even tiny, practically irrelevant deviations from uniformity might trigger a small p-value. Therefore, the KS test should always be interpreted as a quantitative complement to the visual KDE diagnostic.</p> <h2 id=ol_start10_validation_with_posteriorstatsjl ><a href="#ol_start10_validation_with_posteriorstatsjl" class=header-anchor ><ol start=10 > <li><p>Validation with PosteriorStats.jl</p> </ol> </a></h2> <p>While we built these diagnostics manually for educational purposes, <code>PosteriorStats.jl</code> provides a robust, optimized implementation that handles these steps automatically.</p> <pre><code class="julia hljs"><span class=hljs-comment ># Automated package call</span>
+<span class=hljs-comment ># Perform the KS test for the Exact Analytic version</span>
+ks_test_exact = ExactOneSampleKSTest(pitvals_exact, Uniform(<span class=hljs-number >0</span>, <span class=hljs-number >1</span>))
+
+println(<span class=hljs-string >&quot;MC LOO-PIT KS test p-value:    &quot;</span>, pvalue(ks_test_mc))
+println(<span class=hljs-string >&quot;Exact LOO-PIT KS test p-value: &quot;</span>, pvalue(ks_test_exact))</code></pre> <p>Output:</p> <pre><code class="julia hljs">MC LOO-PIT KS test p-value:    <span class=hljs-number >0.1919</span>
+Exact LOO-PIT KS test p-value: <span class=hljs-number >0.1860</span></code></pre> <p>In our case, both p-values are well above the common 0.05 threshold, and they are remarkably close to each other. This confirms that the Monte Carlo approximation is highly effective at capturing the calibration of the model.</p> <p>It is important to remember that a large p-value does not <em>prove</em> the model is perfectly calibrated—it only means we haven&#39;t found strong evidence of miscalibration at our current sample size. Conversely, with very large datasets, even tiny, practically irrelevant deviations from uniformity might trigger a small p-value. Therefore, the KS test should always be interpreted as a quantitative complement to the visual KDE diagnostic.</p> <h2 id=ol_start10_validation_with_posteriorstatsjl ><a href="#ol_start10_validation_with_posteriorstatsjl" class=header-anchor ><ol start=10 > <li><p>Validation with PosteriorStats.jl</p> </ol> </a></h2> <p>While we built these diagnostics manually for educational purposes, <code>PosteriorStats.jl</code> provides a robust, optimized implementation that handles these steps automatically.</p> <pre><code class="julia hljs"><span class=hljs-comment ># Automated package call</span>
 pitvals_automated = loo_pit(y, y_pred_array, log_weights)
 
 <span class=hljs-comment ># Validation: our manual MC implementation matches perfectly!</span>
 max_diff = maximum(abs.(pitvals_manual .- pitvals_automated))
-println(<span class=hljs-string >&quot;Max difference (Automated vs Manual MC): &quot;</span>, max_diff)</code></pre> <p>In practice, the package implementation is the one you should trust for production work, while the manual steps we&#39;ve explored provide the intuition for what is happening under the hood.</p> <!-- <div class=page-foot > <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> {{ fill author }}. {{isnotpage /tag/*}}Last modified: {{ fill fd_mtime }}.{{end}} Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>. </div> --> </div> </div> </div> <div class=page__footer > <footer> <div class=page__footer-follow > <ul class=social-icons > <li><strong>Follow:</strong> <li><a href="https://twitter.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a> <li><a href="https://mathstodon.xyz/@marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-mastodon" aria-hidden=true ></i> Mastodon</a> <li><a href="https://github.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a> </ul> </div> <div class=page__footer-copyright >&copy; Marco Bonici. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a>, <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a> and the <a href="https://julialang.org">Julia programming language</a>.</div> </footer> </div> <script src="/libs/minimal-mistakes/main.min.js"></script> <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script> <script> (function(){ // Get the elements. // - the 'pre' element. // - the 'div' with the 'paste-content' id. var pre = document.getElementsByTagName('pre'); // Add a copy button in the 'pre' element. // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render). for (var i = 0; i < pre.length; i++) { var tag_name = pre[i].children[0].className var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs'); if ( isLanguage ) { var button = document.createElement('button'); button.className = 'copy-button'; button.textContent = 'Copy'; pre[i].appendChild(button); } }; // Run Clipboard var copyCode = new Clipboard('.copy-button', { target: function(trigger) { return trigger.previousElementSibling; } }); // On success: // - Change the "Copy" text to "Copied". // - Swap it to "Copy" in 2s. // - Lead user to the "contenteditable" area with Velocity scroll. copyCode.on('success', function(event) { event.clearSelection(); event.trigger.textContent = 'Copied'; window.setTimeout(function() { event.trigger.textContent = 'Copy'; }, 2000); }); // On error (Safari): // - Change the "Press Ctrl+C to copy" // - Swap it to "Copy" in 2s. copyCode.on('error', function(event) { event.trigger.textContent = 'Press "Ctrl + C" to copy'; window.setTimeout(function() { event.trigger.textContent = 'Copy'; }, 5000); }); })(); </script>
+println(<span class=hljs-string >&quot;Max difference (Automated vs Manual MC): &quot;</span>, max_diff)</code></pre> <p>Output:</p> <pre><code class="julia hljs">Max difference (Automated vs Manual MC): <span class=hljs-number >0.0</span></code></pre>
+<p>As we can see, the manual Monte Carlo calculation and the production-ready implementation in <code>PosteriorStats.jl</code> match perfectly. This confirms that our step-by-step unpacking accurately reflects the underlying logic used in the field.</p>
+<p>In practice, the package implementation is the one you should trust for production work, while the manual steps we&#39;ve explored provide the intuition for what is happening under the hood.</p>
+<!-- <div class=page-foot >
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> {{ fill author }}. {{isnotpage /tag/*}}Last modified: {{ fill fd_mtime }}.{{end}}
+    Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+</div> -->
+</div>
+
+      </div> 
+    </div>   
+
+    <div class=page__footer >
+      <footer>
+        
+        
+        <div class=page__footer-follow >
+          <ul class=social-icons >
+            <li><strong>Follow:</strong>
+            <li><a href="https://twitter.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden=true ></i> Twitter</a>
+            <li><a href="https://mathstodon.xyz/@marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-mastodon" aria-hidden=true ></i> Mastodon</a>
+            <li><a href="https://github.com/marcobonici" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden=true ></i> GitHub</a>
+          </ul>
+        </div>
+        <div class=page__footer-copyright >&copy; Marco Bonici. Powered by <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a>,  <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel=nofollow >Minimal Mistakes</a>
+          and the <a href="https://julialang.org">Julia programming language</a>.</div>
+      </footer>
+    </div>
+
+    <script src="/libs/minimal-mistakes/main.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin=anonymous ></script>
+
+    
+        
+
+
+
+    
+    
+        
+
+
+    
+  
+
+
+
+
+<script>
+  (function(){
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element.
+    // which only has the className of 'language-' or ' hljs'(if enable highlight.js pre-render).
+
+    for (var i = 0; i < pre.length; i++) {
+      var tag_name = pre[i].children[0].className
+                var isLanguage = tag_name.startsWith('language-') || tag_name.endsWith(' hljs');
+      if ( isLanguage ) {
+        var button           = document.createElement('button');
+            button.className = 'copy-button';
+            button.textContent = 'Copy';
+
+            pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new Clipboard('.copy-button', {
+      target: function(trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    // On success:
+    // - Change the "Copy" text to "Copied".
+    // - Swap it to "Copy" in 2s.
+    // - Lead user to the "contenteditable" area with Velocity scroll.
+
+    copyCode.on('success', function(event) {
+      event.clearSelection();
+      event.trigger.textContent = 'Copied';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 2000);
+
+    });
+
+    // On error (Safari):
+    // - Change the  "Press Ctrl+C to copy"
+    // - Swap it to "Copy" in 2s.
+
+    copyCode.on('error', function(event) {
+      event.trigger.textContent = 'Press "Ctrl + C" to copy';
+      window.setTimeout(function() {
+        event.trigger.textContent = 'Copy';
+      }, 5000);
+    });
+
+  })();
+  </script>
