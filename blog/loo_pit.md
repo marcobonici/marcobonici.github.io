@@ -4,18 +4,51 @@
 
 # From MCMC Draws to PSIS-LOO and LOO-PIT
 
-This note provides a guided walkthrough from a fitted Bayesian model to its production-quality diagnostics. We will interleave the mathematical theory with a concrete Julia implementation using `Turing.jl` and `PosteriorStats.jl`, exploring exactly how we go from raw MCMC draws to:
+After fitting a Bayesian model, we usually want to answer two different questions.
 
-- **PSIS-LOO**, which estimates out-of-sample predictive performance without refitting the model $N$ times.
-- **LOO-PIT**, which checks whether the model is well calibrated.
+- How well does the model predict unseen data?
+- Does the model assign uncertainty in a realistic way?
 
-The central idea is simple: after fitting the model once to the full dataset, we reuse the posterior draws in a clever way to approximate what would have happened if we had left each observation out.
+These are related, but they are not the same. A model can have reasonable predictive accuracy and still be poorly calibrated, for example by being too confident or too conservative. This is why it is useful to study both **PSIS-LOO**, which focuses on predictive performance, and **LOO-PIT**, which focuses on calibration.
 
-## 1. The Setup: Model and Data
+The conceptual starting point is leave-one-out cross-validation. For each observation $y_i$, we imagine removing it from the dataset, fitting the model on the remaining data $y_{-i}$, and then asking how well the model predicts the held-out point. In principle this is straightforward, but in practice it is computationally expensive because it would require refitting the model $N$ times.
 
-In many scientific applications, such as cosmology, we have one dataset in hand and no stream of "future" observations to test against. We want to know if the model has learned something general or merely overfitted the noise.
+The purpose of **Pareto Smoothed Importance Sampling Leave-One-Out**, or **PSIS-LOO**, is to avoid those repeated refits. Instead of sampling separately from each leave-one-out posterior, we reuse the posterior draws from the model fitted to the full dataset and reweight them so they behave approximately like draws from the corresponding leave-one-out posterior.
 
-Let's define a non-trivial multivariate normal model in `Turing.jl` and generate some synthetic data to work with.
+This note is written with two goals in mind. First, I want to explain the main ideas at a level that is accessible to students seeing these diagnostics for the first time. Second, I want to connect those ideas directly to a concrete Julia implementation using `Turing.jl` and `PosteriorStats.jl`.
+
+## 1. The general picture
+
+Suppose we observe data
+
+$$
+y = (y_1, y_2, \dots, y_N),
+$$
+
+and after fitting a Bayesian model we obtain posterior draws
+
+$$
+\theta^{(1)}, \theta^{(2)}, \dots, \theta^{(S)} \sim p(\theta \mid y).
+$$
+
+These posterior draws tell us which parameter values are plausible after seeing the full dataset. But they do not by themselves answer the question of how well the model predicts unseen data. For that, we need a leave-one-out point of view.
+
+For each observation $y_i$, leave-one-out asks us to consider the posterior
+
+$$
+p(\theta \mid y_{-i}),
+$$
+
+where $y_{-i}$ denotes all observations except the $i$th one. Using that leave-one-out posterior, we can ask two kinds of questions:
+
+- **Predictive accuracy:** how much probability mass does the model assign to the held-out observation?
+- **Calibration:** where does the held-out observation fall inside its leave-one-out predictive distribution?
+
+The first question leads to **ELPD**, the expected log predictive density. The second leads to **LOO-PIT**, the leave-one-out probability integral transform.
+
+## 2. The model and the data
+
+To make the discussion concrete, let us work with a multivariate normal model in `Turing.jl`. This is a useful example because it is not factorizable into independent likelihood contributions: the observations are modeled jointly through a dense covariance structure. That makes it a good setting for understanding the more general leave-one-out logic.
 
 ```julia
 using Random
@@ -52,9 +85,11 @@ b_true = -3.0
 y = rand(MvNormal(a_true .* x .+ b_true, S))
 ```
 
-## 2. Fitting the Model
+At this stage we have only specified a model and generated one synthetic dataset from it. Nothing leave-one-out has happened yet. But we now have the ingredients we need: a model, data, and a joint covariance structure that makes the observations dependent.
 
-First, we obtain a posterior distribution for the model parameters. MCMC gives us $S$ draws summarizing what values are plausible under our assumptions.
+## 3. Fitting the model once
+
+The next step is to fit the model to the full dataset. This gives us posterior draws for the parameters, and it also allows us to generate posterior predictive draws.
 
 ```julia
 # Sample from the model using 8 parallel chains
@@ -64,16 +99,32 @@ chns = sample(myfoo(SL, x) | (; y), NUTS(), MCMCThreads(), 2000, 8)
 y_pred = predict(myfoo(SL, x), chns)
 ```
 
-We stress that `y_pred` contains **stochastic realizations**. It is not enough to look at the conditional means $\mu^{(s)}$; we must actually draw random values from the likelihood to account for the intrinsic randomness of the data-generating process.
+This distinction is important:
 
-## 3. Pointwise Likelihood
+- `chns` contains posterior draws for the parameters;
+- `y_pred` contains posterior predictive draws for the data.
 
-Leave-one-out (LOO) cross-validation requires us to evaluate how well each individual data point $y_i$ is predicted when it is excluded from the training. To approximate this, we first need the **pointwise log-likelihood**: the probability of each observed datum $y_i$ under each posterior draw $\theta^{(s)}$.
+Students often confuse these two objects, so it is worth stating this explicitly. The posterior tells us which parameter values are plausible. The posterior predictive distribution tells us what new data the model would generate after accounting for both parameter uncertainty and the intrinsic randomness of the likelihood.
 
-In non-factorizable models (like those with a dense covariance matrix), the relevant quantity is the conditional density:
-\[
+That is why `y_pred` must contain **stochastic realizations**. It is not enough to look only at the conditional means $\mu^{(s)}$. A predictive check must compare the observed data to actual draws from the predictive distribution, not just to its center.
+
+## 4. What we need for leave-one-out
+
+To approximate leave-one-out behavior, we need to know how each posterior draw relates to each observation. In practice, this means computing a **pointwise log-likelihood** object.
+
+In factorized models, one often writes something like
+
+$$
+\log p(y_i \mid \theta^{(s)}).
+$$
+
+In our non-factorizable multivariate setting, the relevant quantity is instead the conditional log-density
+
+$$
 \ell_i^{(s)} = \log p(y_i \mid y_{-i}, \theta^{(s)}).
-\]
+$$
+
+This is the basic building block for everything that follows: PSIS reweighting, ELPD, and LOO-PIT.
 
 ```julia
 # Extract parameter samples
@@ -91,9 +142,15 @@ dists = map(μ -> MvNormal(μ, S_pd), eachslice(μ_array; dims=(1, 2)))
 log_like = PosteriorStats.pointwise_conditional_loglikelihoods(y, dists)
 ```
 
-## 4. PSIS Reweighting instead of Refitting
+At this point, the heavy conceptual lifting has already happened. Once we have `log_like`, we have a quantitative measure of how compatible each observation is with each posterior draw.
 
-The leave-one-out posterior for observation $i$ is $p(\theta \mid y_{-i})$. Instead of refitting $N$ times, we use **Pareto Smoothed Importance Sampling (PSIS)** to reweight our existing draws. Draws that made $y_i$ extremely likely receive less relative weight in the LOO approximation, because they were "too influenced" by $y_i$ during the full fit.
+## 5. PSIS reweighting instead of refitting
+
+Exact leave-one-out would require sampling from each posterior $p(\theta \mid y_{-i})$ separately. PSIS avoids that by reweighting the draws from the full posterior $p(\theta \mid y)$.
+
+The intuition is simple. If a particular posterior draw makes $y_i$ extremely likely, then that draw may have been strongly influenced by having seen $y_i$ during fitting. If we want to mimic the posterior that would have arisen without $y_i$, such a draw should receive less relative weight.
+
+This is what importance sampling does, and **PSIS** stabilizes those raw weights by smoothing the upper tail.
 
 ```julia
 # Compute LOO to obtain smoothed importance weights
@@ -101,34 +158,61 @@ loo_res = loo(log_like)
 log_weights = loo_res.psis_result.log_weights
 ```
 
-PSIS stabilizes these weights by fitting a generalized Pareto distribution to the upper tail. We can check the reliability of this approximation using the Pareto $k$ diagnostic.
+The object `log_weights` is the key output of this step. For each observation, it tells us how to reweight the full-posterior draws so that they approximate the leave-one-out posterior.
+
+PSIS also comes with an internal reliability diagnostic, the **Pareto $k$** value. Large values mean the reweighting is unstable; small values mean the approximation is much more trustworthy.
 
 ![](https://github.com/user-attachments/assets/d963f905-1680-4dca-8d79-835f576c9037)
 
-If $k < 0.7$, the importance weights are stable and our LOO approximation is trustworthy.
+A useful rule of thumb is that values below about $0.7$ are usually acceptable. When the Pareto $k$ values are too large, one should be more cautious and consider alternatives such as exact leave-one-out refits or $K$-fold cross-validation.
 
-## 5. From Weights to Predictive Accuracy (ELPD)
+## 6. Predictive accuracy: ELPD
 
-The **Expected Log Predictive Density (ELPD)** quantifies out-of-sample performance. For each point $y_i$, we average the conditional likelihoods using our smoothed weights:
-\[
+Once we have leave-one-out weights, we can quantify predictive performance.
+
+For each held-out observation $y_i$, the leave-one-out predictive density is approximated by a weighted average over posterior draws:
+
+$$
 \widehat{p}(y_i \mid y_{-i}) = \sum_{s=1}^S \tilde{w}_i^{(s)} \, p(y_i \mid y_{-i}, \theta^{(s)}).
-\]
-Summing these log-probabilities across all observations gives the total $\widehat{\mathrm{ELPD}}_{\mathrm{LOO}}$. This is calculated automatically inside the `loo_res` object we just created.
+$$
 
-## 6. Calibration and the LOO-PIT
+Taking the log of this quantity gives the pointwise leave-one-out contribution. Summing over all observations gives the total leave-one-out expected log predictive density:
 
-While ELPD tells us about accuracy, **LOO-PIT (Probability Integral Transform)** tells us about **calibration**: does the model assign realistic uncertainty?
+$$
+\widehat{\mathrm{ELPD}}_{\mathrm{LOO}}.
+$$
 
-We compare each observed value $y_i$ to its leave-one-out predictive distribution $p(\tilde{y}_i \mid y_{-i})$. We want to evaluate the Cumulative Distribution Function (CDF) at the observed point:
-\[
+This is the quantity used for model comparison and predictive scoring. A larger ELPD means better expected out-of-sample predictive performance.
+
+In our code, we do not manually reconstruct this calculation term by term, because `PosteriorStats.jl` already performs it inside the `loo_res` object. But conceptually it is important to see that the same PSIS weights we just computed are now being used to approximate predictive performance without repeated refits.
+
+## 7. Calibration: the idea behind LOO-PIT
+
+Predictive accuracy is not the whole story. A model can predict reasonably well on average and still misrepresent uncertainty. For example, it may produce predictive distributions that are systematically too narrow or too wide.
+
+This is what **LOO-PIT** is designed to diagnose.
+
+For each observation $y_i$, we compare the actual observed value to its leave-one-out predictive distribution. More precisely, we compute the leave-one-out predictive CDF at the observed point:
+
+$$
 \widehat{\mathrm{PIT}}_i = P(\tilde{y}_i \le y_i \mid y_{-i}).
-\]
+$$
 
-There are two ways to compute this CDF in practice.
+If the model is well calibrated, then across many observations these PIT values should look approximately like draws from a $\mathrm{Uniform}(0,1)$ distribution.
 
-### 6a. The Monte Carlo Approach (General)
+That statement is the central interpretation rule for LOO-PIT:
 
-The most general method is to count what fraction of our simulated predictive draws fall below the observed value, reweighted by our PSIS weights.
+- values near $0$ mean the observation lies far in the left tail of its predictive distribution;
+- values near $1$ mean it lies far in the right tail;
+- if the model is calibrated, the collection of these values should not systematically bunch up at one end or in the middle.
+
+There are two ways to compute this CDF in our example.
+
+## 8. The Monte Carlo route
+
+The most general way to compute LOO-PIT is by Monte Carlo.
+
+We already have posterior predictive draws in `y_pred`. For each observation $i$, we check which simulated draws satisfy $\tilde{y}_i \le y_i$, and then sum the corresponding PSIS weights. In other words, we estimate the predictive CDF by a weighted empirical fraction.
 
 ```julia
 # Clean predictions into (draws, chains, n)
@@ -147,13 +231,17 @@ for i in 1:n
 end
 ```
 
-This counts the "mass" of the predictive distribution to the left of our observation.
+This is the method students should remember, because it is the most general one. It does not rely on a closed-form CDF. As long as we can generate predictive draws and compute PSIS weights, we can approximate the leave-one-out predictive CDF in this way.
 
 ![](https://github.com/user-attachments/assets/b766befa-ece2-4550-98ba-0eb25fba6f6c)
 
-### 6b. The Analytical Approach (Exact)
+This figure is useful for building intuition. It shows how the observed value is located relative to a leave-one-out predictive distribution for one observation. The LOO-PIT value is precisely the amount of predictive mass lying to the left of that observed point.
 
-If the likelihood is tractable (like our Gaussian model), we can evaluate the exact CDF for each draw instead of drawing random $\tilde{y}_i$ values. This "semi-analytic" approach is more precise as it removes sampling noise.
+## 9. The analytical route
+
+In our Gaussian example, we can also compute the CDF more directly. Since the predictive distribution is normal, we can evaluate the exact Gaussian CDF for each posterior draw and then average those CDF values with the PSIS weights.
+
+That gives a cleaner, less noisy estimate of LOO-PIT.
 
 ```julia
 σ_array = sqrt.(diag(S))
@@ -170,9 +258,13 @@ for i in 1:n
 end
 ```
 
-## 7. Comparing the Methods
+This route is valuable pedagogically because it provides a benchmark. It shows that when the predictive CDF is tractable, we can bypass the extra Monte Carlo noise from drawing $\tilde y_i$ values explicitly.
 
-Let's see how our Monte Carlo approximation holds up against the exact analytic benchmark.
+But it is also important not to overlearn this special case. In many realistic models, there will be no convenient closed-form CDF. In those cases, the Monte Carlo route is the one that survives.
+
+## 10. Comparing the two approaches
+
+Now that we have both versions, we can compare them directly.
 
 ```julia
 println("Exact Semi-Analytic LOO-PIT (first 5): ", round.(pitvals_exact[1:5], digits=4))
@@ -180,19 +272,28 @@ println("Manual Monte Carlo LOO-PIT (first 5): ", round.(pitvals_manual[1:5], di
 ```
 
 Output:
-```
+```julia
 Exact Semi-Analytic LOO-PIT (first 5): [0.6592, 0.0974, 0.5047, 0.5123, 0.0175]
 Manual Monte Carlo LOO-PIT (first 5): [0.6559, 0.0996, 0.5048, 0.5155, 0.0184]
 ```
 
-In our run, the maximum difference between these two methods is approximately 0.0085. This small discrepancy is expected and scales with the number of predictive draws used in the Monte Carlo approximation. 
- The Monte Carlo method is the one to remember, as it works even when no closed-form CDF exists.
+In this run, the two answers are extremely close. The remaining difference comes from Monte Carlo error, which decreases as the number of predictive draws increases.
 
 ![](https://github.com/user-attachments/assets/79fd5161-0623-4f16-8bfc-493c1b92b501)
 
-## 8. Visualizing Calibration with KDEs
+This comparison matters because it reassures us that the general Monte Carlo method is not just a vague approximation. In a case where the exact answer is available, it tracks it very well.
 
-If the model is well-calibrated, the LOO-PIT values should be uniformly distributed. We can visualize this by plotting the Kernel Density Estimate (KDE) of our values against an ensemble of KDEs generated from truly uniform data. To ensure a fair comparison and avoid plotting densities outside the valid $[0, 1]$ interval, we use a boundary-corrected KDE approach.
+## 11. Looking at the full collection of PIT values
+
+A single PIT value is not very informative. The real diagnostic appears only after we compute one for every observation and look at their distribution.
+
+If the model is well calibrated, the LOO-PIT values should be approximately uniform on the interval $[0,1]$. Different patterns of deviation from uniformity have different interpretations:
+
+- a **U-shape** suggests under-dispersion or overconfidence;
+- a **hump in the center** suggests over-dispersion;
+- a **left or right skew** suggests systematic bias.
+
+A convenient way to visualize this is to compare the KDE of the observed LOO-PIT values with KDEs obtained from truly uniform samples of the same size.
 
 ```julia
 kde_bw = 0.15 # Tuned bandwidth for smoothness on N=30 samples
@@ -202,10 +303,10 @@ p = plot(title="LOO-PIT KDE vs uniform reference",
          xlims=(0, 1), ylims=(0, 2.5),
          legend=:topright)
 
-# Helper function to compute bounded KDE over [0, 1]
+# Helper function to compute bounded KDE over[2]
 function get_bounded_kde(data, bw)
     k = PosteriorStats.kde_reflected(data, bounds=(0, 1), bandwidth=bw)
-    # Only keep points inside [0, 1]
+    # Only keep points inside[2]
     mask = 0.0 .<= k.x .<= 1.0
     return k.x[mask], k.density[mask]
 end
@@ -225,13 +326,13 @@ plot!(p, ox, oy, color=:darkblue, linewidth=3, label="Observed LOO-PIT")
 
 ![](https://github.com/user-attachments/assets/afbf3240-02d4-4b8a-a192-07f003c0ee35)
 
-If our solid dark-blue curve stays within the light-blue "cloud" of uniform reference samples, our model's uncertainty statements are broadly consistent with the data.
+I find this plot especially useful for students because it emphasizes that “uniform” does not mean “perfectly flat” at finite sample size. Even truly uniform samples fluctuate. So the real question is not whether our curve is perfectly flat, but whether it behaves like something plausibly produced by a uniform sample of the same size.
 
-## 9. Quantifying Uniformity: The Kolmogorov-Smirnov Test
+## 12. A numerical complement: the KS test
 
-Visual inspection is often the most intuitive diagnostic, but we can also quantify the departure from uniformity using a statistical test. The **Kolmogorov-Smirnov (KS) test** is a standard choice for this purpose.
+Visual diagnostics are often the most informative, but it is also natural to ask for a numerical summary of departure from uniformity.
 
-The null hypothesis ($H_0$) is that the LOO-PIT values are drawn from a $\text{Uniform}(0, 1)$ distribution. A small p-value (typically $< 0.05$) suggests that the observed values are inconsistent with perfect calibration, indicating that the model may be over-confident or under-confident.
+A standard choice is the **Kolmogorov-Smirnov test**. Its null hypothesis is that the LOO-PIT values are drawn from a $\mathrm{Uniform}(0,1)$ distribution.
 
 ```julia
 using HypothesisTests
@@ -247,19 +348,20 @@ println("Exact LOO-PIT KS test p-value: ", pvalue(ks_test_exact))
 ```
 
 Output:
-```
+```julia
 MC LOO-PIT KS test p-value:    0.1919
 Exact LOO-PIT KS test p-value: 0.1860
 ```
 
-In our case, both p-values are well above the common 0.05 threshold, and they are remarkably close to each other. This confirms that the Monte Carlo approximation is highly effective at capturing the calibration of the model.
+In this example, both p-values are comfortably above the common threshold of $0.05$, and they are also very close to each other. That is consistent with the picture we already saw visually: there is no strong evidence here against uniformity.
 
-It is important to remember that a large p-value does not *prove* the model is perfectly calibrated—it only means we haven't found strong evidence of miscalibration at our current sample size. 
- Conversely, with very large datasets, even tiny, practically irrelevant deviations from uniformity might trigger a small p-value. Therefore, the KS test should always be interpreted as a quantitative complement to the visual KDE diagnostic.
+Still, this test should be interpreted with care. A large p-value does not prove perfect calibration; it only means that we have not found strong evidence against it at the current sample size. Conversely, with very large datasets, even very small deviations from uniformity can produce a small p-value. For that reason, I would treat the KS test as a useful complement to the plots rather than as a replacement for them.
 
-## 10. Validation with PosteriorStats.jl
+## 13. Validation with PosteriorStats.jl
 
-While we built these diagnostics manually for educational purposes, `PosteriorStats.jl` provides a robust, optimized implementation that handles these steps automatically.
+So far I have unpacked the logic manually to make the ideas transparent. But in real work we usually want the robust package implementation.
+
+This is where `PosteriorStats.jl` comes back in. The package provides a direct `loo_pit` function, and we can compare its result to the manual Monte Carlo calculation.
 
 ```julia
 # Automated package call
@@ -271,10 +373,23 @@ println("Max difference (Automated vs Manual MC): ", max_diff)
 ```
 
 Output:
-```
+```julia
 Max difference (Automated vs Manual MC): 0.0
 ```
 
-As we can see, the manual Monte Carlo calculation and the production-ready implementation in `PosteriorStats.jl` match perfectly. This confirms that our step-by-step unpacking accurately reflects the underlying logic used in the field.
+This exact agreement is reassuring. It tells us that the manual construction we walked through step by step is not merely illustrative: it really reproduces the same quantity that `PosteriorStats.jl` computes automatically.
 
-In practice, the package implementation is the one you should trust for production work, while the manual steps we've explored provide the intuition for what is happening under the hood.
+## 14. Final takeaway
+
+The main lesson of this note is that a single set of posterior draws can be reused in a surprisingly rich way.
+
+Starting from a model fit to the full dataset, we:
+
+1. compute the pointwise conditional log-likelihood;
+2. use PSIS to approximate the leave-one-out posterior through importance reweighting;
+3. use those same weights to study predictive performance through ELPD;
+4. and use them again to study calibration through LOO-PIT.
+
+That is the conceptual thread linking all the pieces together.
+
+In practice, the package implementation is the one you should rely on in production. But for students, I think it is extremely valuable to work through the manual construction at least once. Once you see how posterior draws, predictive draws, pointwise log-likelihoods, and PSIS weights fit together, the high-level diagnostics become much less mysterious.
